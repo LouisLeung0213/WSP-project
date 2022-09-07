@@ -3,7 +3,7 @@ body {
 }
 
 .container {
-  margin: 0px 15vw;
+    margin: 0px 15vw;
 }
 
 .navBar {
@@ -190,4 +190,12 @@ html {
   background-color: #e06c74;
 }
 
+<<<<<<< HEAD
 /* Calendar css end: */
+=======
+/* .date p {
+  background-color: black;
+} */
+
+/* Calendar css end: */
+>>>>>>> eb68c8136976c37560bf30600464ecd3d79a9092

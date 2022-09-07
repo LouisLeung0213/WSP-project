@@ -1,6 +1,7 @@
 const date = new Date();
 
 const renderCalendar = () => {
+  console.log(date);
   date.setDate(1);
 
   const monthDays = document.querySelector(".days");
@@ -42,7 +43,8 @@ const renderCalendar = () => {
     "December",
   ];
 
-  document.querySelector(".date h1").innerHTML = months[date.getMonth()];
+  document.querySelector(".date h1").textContent =
+    months[date.getMonth()] + ", " + date.getFullYear();
 
   document.querySelector(".date p").innerHTML = new Date().toDateString();
 
@@ -55,7 +57,8 @@ const renderCalendar = () => {
   for (let i = 1; i <= lastDay; i++) {
     if (
       i === new Date().getDate() &&
-      date.getMonth() === new Date().getMonth()
+      date.getMonth() === new Date().getMonth() &&
+      date.getFullYear() === new Date().getFullYear()
     ) {
       days += `<div class="today">${i}</div>`;
     } else {
@@ -65,8 +68,8 @@ const renderCalendar = () => {
 
   for (let j = 1; j <= nextDays; j++) {
     days += `<div class="next-date">${j}</div>`;
-    monthDays.innerHTML = days;
   }
+  monthDays.innerHTML = days;
 };
 
 document.querySelector(".prev").addEventListener("click", () => {
@@ -76,6 +79,12 @@ document.querySelector(".prev").addEventListener("click", () => {
 
 document.querySelector(".next").addEventListener("click", () => {
   date.setMonth(date.getMonth() + 1);
+  renderCalendar();
+});
+
+document.querySelector(".date p").addEventListener("click", () => {
+  date.setMonth((new Date).getMonth());
+  date.setFullYear((new Date).getFullYear());
   renderCalendar();
 });
 
