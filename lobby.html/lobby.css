@@ -93,7 +93,7 @@ body {
 
 #main {
   background-color: #f7b0bb71;
-  width: 50vw;
+  width: 40vw;
   height: 200vh;
 }
 /* calendar CSS */
@@ -107,11 +107,13 @@ body {
 html {
   font-size: 62.5%;
 }
+
 .calendar {
-  width: 38rem;
+  width: 40rem;
   height: 58rem;
   background-color: #f4d9d5;
   box-shadow: 0 0.5rem 3rem rgba(0, 0, 0, 0.4);
+  margin-left: 40px;
 }
 
 .month {
