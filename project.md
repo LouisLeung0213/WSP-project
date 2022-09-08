@@ -1,3 +1,5 @@
+version 1.0.0
+
 化妝師 APP
 
 IDEA:
