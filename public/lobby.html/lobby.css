@@ -1,0 +1,106 @@
+body {
+  margin: 0px;
+  background-color: #f2c6cd60;
+}
+/* nav-bar */
+.logoContainer {
+  display: flex;
+  justify-content: center;
+  width: 23rem;
+}
+
+.logo {
+  font-size: 50px;
+}
+
+.navBar {
+  height: 100px;
+  width: 100%;
+  background-color: #f7b0bb;
+  position: sticky;
+  top: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.searchProfile {
+  width: 30rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+#searchIcon {
+  color: #b3394b;
+  border-color: #b3394b;
+}
+
+#searchIcon:hover {
+  background-color: #b3394b;
+}
+#searchInput {
+  background-color: #f78fb0;
+}
+
+#searchBar {
+  display: flex;
+  width: 10rem;
+}
+
+#profileIcon {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+}
+
+/* filter */
+.filterDiv {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+#filter {
+  background-color: rgba(209, 108, 204, 0.336);
+  width: 95vw;
+  height: 20vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.dropdown-toggle {
+  background-color: rgba(209, 108, 204, 0.336);
+  color: #b3394b;
+  width: 8rem;
+  height: 3rem;
+}
+
+.dropdown-toggle:hover {
+  background-color: rgba(209, 108, 204, 0.336);
+}
+
+.dropdown-menu {
+  background-color: rgba(209, 108, 204, 0.8);
+}
+
+/* main body CSS */
+#mainBody {
+  display: flex;
+  justify-content: space-around;
+}
+
+#main {
+  background-color: #f7b0bb71;
+  width: 800px;
+  height: 200vh;
+}
+
+
+
+@media only screen and (max-width: 768px) {
+  .logo {
+    font-size: 50px;
+  }
+}

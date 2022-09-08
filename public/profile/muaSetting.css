@@ -1,0 +1,82 @@
+
+body {
+  margin: 0px;
+}
+
+.container {
+    margin: 0px 15vw;
+}
+
+.navBar {
+  height: 100px;
+  width: 100vw;
+  background-color: #f7b0bb;
+  position: sticky;
+  top: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.homepageBtn {
+  font-size: 50px;
+}
+
+.about {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 50px 0px;
+}
+
+.icon {
+  height: 300px;
+  width: 300px;
+  border-radius: 100px;
+  border: 1px solid black;
+}
+
+.name {
+  font-size: 30px;
+  text-align: center;
+}
+
+.detail {
+  margin: 0px 0px 0px 100px;
+  text-align: center;
+  font-size: 20px;
+}
+
+.approach {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 50px 0px;
+}
+
+.tags {
+  height: 100%;
+  width: 100%;
+  margin: 0px 100px;
+  text-align: center;
+  font-size: 20px;
+}
+
+.photo {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.work {
+  width: 27%;
+  outline: 2px solid black;
+  margin: 20px;
+}
+
+.section {
+  text-align: center;
+  font-size: 40px;
+  margin: 20px 0px;
+}
+
+
