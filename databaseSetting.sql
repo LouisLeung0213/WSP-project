@@ -29,7 +29,7 @@ create table categories (
 create table offers (
     id serial primary key
     , categories_id integer
-    , mua_id integer
+    , muas_id integer
     , foreign key(categories_id) references categories(id)
     , foreign key (muas_id) references muas(muas_id)
 );
