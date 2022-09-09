@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MUA</title>
+    <link rel="stylesheet" href="./signUp.css" />
+  </head>
+  <body>
+    <div class="signUp-logo">MUA</div>
+    <div class="signUpContainer">
+      <form action="./signUp" method="post" enctype="multipart/form-data">
+        <div class="nameInput">
+          <h2>Last-name :</h2>
+          <input
+            type="text"
+            id="signUp-username"
+            name="username"
+            placeholder="Enter your last name here"
+          />
+          <h2>first-name :</h2>
+          <input
+            type="text"
+            id="signUp-username"
+            name="username"
+            placeholder="Enter your first name here"
+          />
+        </div>
+        <div id="signUpPassword">
+          <h2>Password :</h2>
+          <input
+            class="signUp-password"
+            type="password"
+            id="first-password"
+            name="password"
+            placeholder="Enter your password here"
+          />
+        </div>
+        <div id="signUpPassword">
+          <h2>Enter your password again:</h2>
+          <input
+            class="signUp-password"
+            type="password"
+            id="re-password"
+            name="password"
+            placeholder="Enter your password here"
+          />
+        </div>
+
+        <div class="ageInput">
+          <h2 for="birthday">Birthday:</h2>
+          <input class="ageGender" type="date" id="birthday" name="birthday" />
+        </div>
+
+        <div id="emailDiv">
+          <h2>Email :</h2>
+          <input
+            class="email"
+            type="text"
+            id="email"
+            name="email"
+            placeholder="Enter your email here"
+          />
+        </div>
+        <div class="profilePic">
+          <h2>Profile Picture :</h2>
+          <input id="profilePic" type="file" name="image" value="choose File" />
+        </div>
+        <div class="btnContainer">
+          <input type="submit" value="Submit" />
+        </div>
+      </form>
+    </div>
+
+    <script src="./signUp.js"></script>
+  </body>
+</html>

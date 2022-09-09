@@ -10,13 +10,13 @@
   <body>
     <div class="login-logo">MUA</div>
     <div class="loginContainer">
-      <form>
+      <form action="./login" method="post">
         <h1>Account</h1>
         <input
-          type="usernames"
-          id="login-usernames"
-          name="usernames"
-          placeholder="Enter your account here"
+          type="text"
+          id="login-username"
+          name="username"
+          placeholder="Enter your username here"
         />
         <br />
         <h1>Password</h1>
@@ -29,9 +29,11 @@
         <br />
         <div class="btnContainer">
           <input type="submit" value="Login" />
-          <button class="signBtn">New Users</button>
+          <button class="signUp">Sign Up</button>
         </div>
       </form>
     </div>
+
+    <script src="./index.js"></script>
   </body>
 </html>

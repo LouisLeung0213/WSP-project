@@ -1,0 +1,85 @@
+.signUp-logo {
+  background-color: #f7b0bb;
+  width: 100%;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 5px 3px 8px 5px #000000;
+}
+
+body {
+  background-color: #f2c6cd60;
+}
+
+.signUpContainer {
+  width: 100%;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 60px;
+}
+
+/* sign up name input */
+.nameInput {
+  display: flex;
+  align-items: center;
+}
+
+#signUp-username {
+  margin: 0 15px 0 15px;
+  height: 30px;
+}
+
+/* sign up password */
+#signUpPassword {
+  display: flex;
+  align-items: center;
+}
+
+.signUp-password {
+  margin: 0 15px 0 25px;
+  height: 30px;
+}
+
+/* age & gender */
+
+.ageInput {
+  display: flex;
+  align-items: center;
+}
+
+.ageGender {
+  margin: 0 15px 0 15px;
+  height: 30px;
+}
+
+/* email */
+#emailDiv {
+  display: flex;
+  align-items: center;
+}
+
+.email {
+  margin: 0 15px 0 25px;
+  height: 30px;
+}
+
+.profilePic {
+  display: flex;
+  align-items: center;
+}
+
+#profilePic {
+  margin: 0 15px 0 25px;
+}
+
+.signBtn {
+  margin-left: 18px;
+}
+
+.btnContainer {
+  margin-top: 10px;
+}
