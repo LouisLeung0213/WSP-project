@@ -1,19 +1,25 @@
 import express from "express";
-import http from "http";
-import { Server as SocketIO } from "socket.io";
-import dotenv from "dotenv";
+import { userRoutes } from "./user";
+import { sessionMiddleware } from "./session";
+import { client } from "./database";
 import { env } from "./env";
 import { print } from "listening-on";
-dotenv.config();
 
 let app = express();
-const server = new http.Server(app);
-const io = new SocketIO(server);
+//logger
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+});
 
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 app.use(express.static("public"));
+app.use(sessionMiddleware);
 
-server.listen(env.PORT, () => {
+//use UserRoute for access user.ts
+app.use(userRoutes);
+
+app.listen(env.PORT, () => {
   print(env.PORT);
 });
