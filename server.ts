@@ -14,11 +14,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static("public"));
 
-// TODO Login
-// TODO Signup
-// TODO Logout
-// TODO Profile
-
 server.listen(env.PORT, () => {
   print(env.PORT);
 });
