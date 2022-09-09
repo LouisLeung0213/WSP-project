@@ -5,28 +5,33 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MUA</title>
+    <link rel="stylesheet" href="./index.css" />
   </head>
   <body>
     <div class="login-logo">MUA</div>
-    <form>
-      <h1>Account</h1>
-      <input
-        type="usernames"
-        id="login-usernames"
-        name="usernames"
-        placeholder="Enter your account here"
-      />
-      <br />
-      <h1>Password</h1>
-      <input
-        type="password"
-        id="login-password"
-        name="password"
-        placeholder="Enter your password here"
-      />
-      <br />
-      <input type="submit" value="Login" />
-      <input type="submit" value="New User" />
-    </form>
+    <div class="loginContainer">
+      <form>
+        <h1>Account</h1>
+        <input
+          type="usernames"
+          id="login-usernames"
+          name="usernames"
+          placeholder="Enter your account here"
+        />
+        <br />
+        <h1>Password</h1>
+        <input
+          type="password"
+          id="login-password"
+          name="password"
+          placeholder="Enter your password here"
+        />
+        <br />
+        <div class="btnContainer">
+          <input type="submit" value="Login" />
+          <button class="signBtn">New Users</button>
+        </div>
+      </form>
+    </div>
   </body>
 </html>
