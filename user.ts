@@ -4,6 +4,8 @@ import formidable from "formidable";
 import { appendFile } from "fs";
 import { client } from "./database";
 
+// let path = require("path");
+
 export const userRoutes = Router();
 
 let uploadDir = "uploads"; //folder name
@@ -14,7 +16,7 @@ const form = formidable({
   uploadDir,
   keepExtensions: true,
   maxFiles: 1,
-  maxFileSize: 5 * 1024 ** 3,
+  maxFileSize: 10 * 1024 ** 2,
   filter: (part) => part.mimetype?.startsWith("image/") || false,
   filename: (originalName, originalExt, part, form) => {
     counter++;
@@ -30,11 +32,12 @@ type User = {
 };
 
 // TODO Login
+// userRoutes.post("/login", (req, res) => {});
 
 // TODO up data profile
 
 // TODO Logout
-userRoutes.post("./logout", (req, res) => {
+userRoutes.post("/logout", (req, res) => {
   req.session.destroy((err) => {
     if (err) {
       res.status(500);
@@ -44,7 +47,12 @@ userRoutes.post("./logout", (req, res) => {
 });
 
 // TODO sign up Profile (formitable from)
-userRoutes.post("./signUp", (req, res) => {
+
+userRoutes.use("/signUpLink", (req, res) => {
+  res.redirect("/signUp/signUp.html");
+});
+
+userRoutes.post("/signUp", (req, res) => {
   form.parse(req, async (err, fields, files) => {
     console.log({ err, fields, files });
     let image = files.image;
@@ -54,5 +62,6 @@ userRoutes.post("./signUp", (req, res) => {
       throw new Error("invalid format");
     }
     //TODO insert data to database
+    // client.query(/*sql*/ "insert into users");
   });
 });

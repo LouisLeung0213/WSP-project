@@ -28,7 +28,7 @@ body {
   align-items: center;
 }
 
-#signUp-username {
+.signUp-username {
   margin: 0 15px 0 15px;
   height: 30px;
 }

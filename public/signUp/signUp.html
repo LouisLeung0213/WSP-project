@@ -9,19 +9,24 @@
   <body>
     <div class="signUp-logo">MUA</div>
     <div class="signUpContainer">
-      <form action="./signUp" method="post" enctype="multipart/form-data">
+      <form
+        id="signUpForm"
+        action="/signUp"
+        method="POST"
+        enctype="multipart/form-data"
+      >
         <div class="nameInput">
           <h2>Last-name :</h2>
           <input
             type="text"
-            id="signUp-username"
+            class="signUp-username"
             name="lastName"
             placeholder="Enter your last name here"
           />
           <h2>first-name :</h2>
           <input
             type="text"
-            id="signUp-username"
+            class="signUp-username"
             name="firstName"
             placeholder="Enter your first name here"
           />
@@ -49,7 +54,7 @@
 
         <div class="ageInput">
           <h2 for="birthday">Birthday:</h2>
-          <input class="ageGender" type="date" id="birthday" name="birthday" />
+          <input class="age" type="date" id="birthday" name="birthday" />
         </div>
 
         <div id="emailDiv">

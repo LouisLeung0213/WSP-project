@@ -1,4 +1,4 @@
-import { Request } from "express";
+import { Request, Response } from "express";
 
 export class HTTPError extends Error {
   constructor(public status: number, message: string) {
@@ -19,4 +19,14 @@ export function getString(
     throw new HTTPError(400, `Invalid ${field}, expect string value`);
   }
   return value;
+}
+
+export function handleError(res: Response, error: unknown) {
+  if (error instanceof HTTPError) {
+    res.status(error.status);
+    res.end(error.message);
+    return;
+  }
+  res.status(500);
+  res.end(String(error));
 }
