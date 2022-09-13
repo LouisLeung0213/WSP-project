@@ -1,7 +1,5 @@
 import { Router } from "express";
-import { sessionMiddleware } from "./session";
 import formidable from "formidable";
-import { appendFile } from "fs";
 import { client } from "./database";
 import { hashPassword, checkPassword } from "./hash";
 import "./session";
@@ -92,30 +90,51 @@ userRoutes.post("/signUp", (req, res) => {
     let imageFile = Array.isArray(image) ? image[0] : image;
     let image_filename = imageFile?.newFilename;
     if (Array.isArray(fields.data)) {
-      throw new Error("invalid format");
-    }
-    let dbUser = await client.query(
-      `select * from users where username= $1 or email= $2 or nickname= $3`,
-      [fields.username, fields.email, fields.nickName]
-    );
-    if (dbUser.rows.length == 0) {
-      client.query(
-        /*sql*/ "insert into users (username,email,profilepic, nickname, password_hash, date_of_birth) values ($1,$2,$3,$4,$5,$6)",
-        [
-          fields.username,
-          fields.email,
-          image_filename,
-          fields.nickName,
-          hashedPassword,
-          fields.birthday as string,
-        ]
-      );
-    } else {
       res.status(402);
       res.json({
-        error: "username already exist, please use other name",
+        error: "Invalid format",
       });
+      return;
     }
+
+    let dbUserName = await client.query(
+      `select * from users where username = ($1)`,
+      [fields.username]
+    );
+    let dbEmail = await client.query(`select * from users where email = ($1)`, [
+      fields.email,
+    ]);
+    let dbNickName = await client.query(
+      `select * from users where nickname = ($1)`,
+      [fields.nickname]
+    );
+    if (dbUserName.rows.length != 0) {
+      res.status(400);
+      res.json({ error: "Username already exist, please use other name" });
+      return;
+    }
+    if (dbEmail.rows.length != 0) {
+      res.status(403);
+      res.json({ error: "Email already been used, please use another email" });
+      return;
+    }
+    if (dbNickName.rows.length != 0) {
+      res.status(406);
+      res.json({ error: "Nickname already exist, please use other name" });
+      return;
+    }
+
+    await client.query(
+      /*sql*/ "insert into users (username,email,profilepic, nickname, password_hash, date_of_birth) values ($1,$2,$3,$4,$5,$6)",
+      [
+        fields.username,
+        fields.email,
+        image_filename,
+        fields.nickName,
+        hashedPassword,
+        fields.birthday as string,
+      ]
+    );
+    res.json({});
   });
-  res.json({});
 });
