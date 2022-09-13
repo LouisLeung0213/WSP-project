@@ -3,6 +3,7 @@ import "./session";
 import formidable from "formidable";
 import { appendFile } from "fs";
 import { client } from "./database";
+import { hashPassword } from "./hash";
 
 // let path = require("path");
 
@@ -54,14 +55,25 @@ userRoutes.use("/signUpLink", (req, res) => {
 
 userRoutes.post("/signUp", (req, res) => {
   form.parse(req, async (err, fields, files) => {
+    let hashedPassword = await hashPassword(fields.password as string);
     console.log({ err, fields, files });
+    console.log(hashedPassword);
     let image = files.image;
     let imageFile = Array.isArray(image) ? image[0] : image;
     let image_filename = imageFile?.newFilename;
     if (Array.isArray(fields.data)) {
       throw new Error("invalid format");
     }
-    //TODO insert data to database
-    // client.query(/*sql*/ "insert into users");
+    client.query(
+      /*sql*/ "insert into users (username,email,profilepic, nickname, password_hash, date_of_birth) values ($1,$2,$3,$4,$5,$6)",
+      [
+        fields.name,
+        fields.email,
+        image_filename,
+        fields.nickName,
+        hashedPassword,
+        fields.birthday as string,
+      ]
+    );
   });
 });

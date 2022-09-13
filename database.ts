@@ -17,3 +17,10 @@ client.connect().catch((err) => {
   process.exit(1);
 });
 
+
+// async function showUsers() {
+//   let users = await client.query(`select * from users`);
+//   console.log(users);
+// }
+
+// showUsers();
