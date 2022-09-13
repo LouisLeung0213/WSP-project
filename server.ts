@@ -17,6 +17,11 @@ app.use(express.json());
 app.use(express.static("public"));
 app.use(sessionMiddleware);
 
+app.get("/sorchu", async (req, res) => {
+  let result = await client.query("SELECT * from categories");
+  let categories = result.rows;
+  res.json(123);  
+});
 //use UserRoute for access user.ts
 app.use(userRoutes);
 
