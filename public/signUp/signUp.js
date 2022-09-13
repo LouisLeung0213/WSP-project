@@ -1,5 +1,5 @@
 let signUpForm = document.querySelector(".signUpSubmit");
-let fullName = document.querySelector("[name=fullName]");
+let userName = document.querySelector("[name=userName]");
 let nickName = document.querySelector("[name=nickName]");
 let password = document.querySelector("[name=password]");
 let birthday = document.querySelector("[name=birthday]");
@@ -13,16 +13,16 @@ signUpForm.addEventListener("click", async (event) => {
 
   let formData = new FormData();
 
-  formData.append("name", fullName.value);
+  formData.append("username", userName.value);
   formData.append("nickName", nickName.value);
   formData.append("password", password.value); //not hash yet
   formData.append("birthday", birthday.value);
   formData.append("email", email.value);
   formData.append("image", image.files[0]);
 
-  console.log(birthday.value);
-  console.log(formData);
-  console.log(image.files);
+  // console.log(birthday.value);
+  // console.log(formData);
+  // console.log(image.files);
   await fetch("/signUp", {
     method: "POST",
     body: formData,
@@ -32,6 +32,7 @@ signUpForm.addEventListener("click", async (event) => {
     })
     .then((data) => {
       console.log(data);
+      window.location = "/lobby/lobby.html";
     })
     .catch((err) => {
       console.log(err);

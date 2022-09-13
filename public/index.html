@@ -10,7 +10,7 @@
   <body>
     <div class="login-logo">MUA</div>
     <div class="loginContainer">
-      <form action="/login" method="post">
+      <form id="loginForm" action="/login" method="post">
         <h1>Account</h1>
         <input
           type="text"
@@ -28,14 +28,14 @@
         />
         <br />
         <div class="btnContainer">
-          <input type="submit" value="Login" />
+          <input id="loginSubmit" type="submit" value="Login" />
       </form>
       <form action="signUpLink" method="post">
         <button class="signUpLink" class="signUp">Sign Up</button>
       </form> 
     </div>
     </div>
-
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="./index.js"></script>
   </body>
 </html>
