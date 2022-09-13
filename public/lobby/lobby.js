@@ -21,28 +21,20 @@ fetch("/filter")
     }
     console.dir(catsTree, { depth: 20 });
 
-    let catList = document.querySelector(".cat-list")
-    let catTemplate = catList.querySelector(".cat")
+    let catList = document.querySelector(".cat-list");
+    let catTemplate = catList.querySelector(".cat");
 
+    function showCats(catsTree, catList) {
+      catList.textContent = "";
+      for (const cat of catsTree) {
+        console.log(cat.name);
+        let node = catTemplate.cloneNode(true);
+        node.textContent = cat.name;
+        catList.appendChild(node);
 
-    function showCats(catsTree, catList){
-        catList.textContent = ''
-        for (const cat of catsTree) {
-            console.log(cat.name)
-            let node = catTemplate.cloneNode(true)
-            node.querySelector(".cat-name").textContent = cat.name
-            catList.appendChild(node)
-            let subCatList = node.querySelector(".cat-list")
-            showCats(cat.children, subCatList)
-            // console.log(cat.children);
-            // console.log(subCatList);
-
- 
-        }
+        showCats(cat.children, catList);
+      }
     }
 
-    showCats(catsTree, catList)
-
-
+    showCats(catsTree, catList);
   });
-

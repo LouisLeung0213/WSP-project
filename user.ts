@@ -1,9 +1,10 @@
 import { Router } from "express";
-import "./session";
+import { sessionMiddleware } from "./session";
 import formidable from "formidable";
 import { appendFile } from "fs";
 import { client } from "./database";
 import { hashPassword, checkPassword } from "./hash";
+import "./session";
 
 // let path = require("path");
 
@@ -58,6 +59,7 @@ userRoutes.post("/login", async (req, res) => {
   }
 
   //AJAX
+  req.session["user"] = { id: user.id, username: user.username };
   res.status(200);
   res.json({ success: true });
 });

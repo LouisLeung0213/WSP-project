@@ -6,6 +6,9 @@ let birthday = document.querySelector("[name=birthday]");
 let email = document.querySelector("[name=email]");
 let image = document.querySelector("[name=image]");
 
+//eventlistener ADD 係submit制到,
+//拎form.value querySelector 個FORM 既ID
+
 signUpForm.addEventListener("click", async (event) => {
   event.preventDefault();
 
