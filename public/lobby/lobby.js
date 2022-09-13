@@ -30,10 +30,13 @@ fetch("/filter")
         for (const cat of catsTree) {
             console.log(cat.name)
             let node = catTemplate.cloneNode(true)
-            node.textContent = cat.name
+            node.querySelector(".cat-name").textContent = cat.name
             catList.appendChild(node)
-            
-            showCats(node.children, catList)
+            let subCatList = node.querySelector(".cat-list")
+            showCats(cat.children, subCatList)
+            // console.log(cat.children);
+            // console.log(subCatList);
+
  
         }
     }
