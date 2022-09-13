@@ -33,7 +33,7 @@ type User = {
   username: string;
 };
 
-// TODO Login
+// Login
 userRoutes.post("/login", async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
@@ -76,8 +76,7 @@ userRoutes.post("/logout", (req, res) => {
   });
 });
 
-// TODO sign up Profile (formitable from)
-
+// sign up Profile (Formitable from)
 //redirect to sign up page from login page
 userRoutes.use("/signUpLink", (req, res) => {
   res.redirect("/signUp/signUp.html");
@@ -95,17 +94,28 @@ userRoutes.post("/signUp", (req, res) => {
     if (Array.isArray(fields.data)) {
       throw new Error("invalid format");
     }
-    client.query(
-      /*sql*/ "insert into users (username,email,profilepic, nickname, password_hash, date_of_birth) values ($1,$2,$3,$4,$5,$6)",
-      [
-        fields.username,
-        fields.email,
-        image_filename,
-        fields.nickName,
-        hashedPassword,
-        fields.birthday as string,
-      ]
+    let dbUser = await client.query(
+      `select * from users where username= $1 or email= $2 or nickname= $3`,
+      [fields.username, fields.email, fields.nickName]
     );
+    if (dbUser.rows.length == 0) {
+      client.query(
+        /*sql*/ "insert into users (username,email,profilepic, nickname, password_hash, date_of_birth) values ($1,$2,$3,$4,$5,$6)",
+        [
+          fields.username,
+          fields.email,
+          image_filename,
+          fields.nickName,
+          hashedPassword,
+          fields.birthday as string,
+        ]
+      );
+    } else {
+      res.status(402);
+      res.json({
+        error: "username already exist, please use other name",
+      });
+    }
   });
   res.json({});
 });

@@ -17,10 +17,9 @@ client.connect().catch((err) => {
   process.exit(1);
 });
 
-
 // async function showUsers() {
-//   let users = await client.query(`select * from users`);
-//   console.log(users);
+//   let users = await client.query(`select * from users where username = ${}`);
+//   console.log(users.rows[0]);
 // }
 
 // showUsers();
