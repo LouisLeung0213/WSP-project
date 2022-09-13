@@ -15,3 +15,10 @@ client.connect().catch((err) => {
   console.error("Failed to connect to database", err);
   process.exit(1);
 });
+
+// async function showUsers() {
+//   let users = await client.query(`select * from users`);
+//   console.log(users);
+// }
+
+// showUsers();
