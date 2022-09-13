@@ -9,10 +9,12 @@ export let sessionMiddleware = expressSession({
 });
 
 declare module "express-session" {
-  interface SessionDate {
-    user?: {
-      id: number;
-      username: string;
-    };
+  interface SessionData {
+    user?: SessionUser;
   }
 }
+
+export type SessionUser = {
+  id: string;
+  username: string;
+};

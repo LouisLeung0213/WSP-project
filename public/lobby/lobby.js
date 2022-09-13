@@ -1,22 +1,3 @@
-<<<<<<< HEAD
-// let loginForm = document.querySelector("loginForm");
-
-// loginForm.addEventListener("click", async (event) => {
-//   event.preventDefault();
-//   const res = await fetch("/login", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json; charset=utf-8",
-//     },
-//     body: JSON.stringify({
-//       username: loginForm.username.value,
-//       password: loginForm.password.value,
-//     }),
-//   });
-//   let json = await res.json();
-//   console.log(json);
-// });
-=======
 fetch("/sorchu")
   .then((res) => res.json())
   .then((categories) => {
@@ -40,22 +21,18 @@ fetch("/sorchu")
     }
     console.dir(catsTree, { depth: 20 });
 
-    let catList = document.querySelector(".cat-list")
-    let catTemplate = catList.querySelector(".cat")
+    let catList = document.querySelector(".cat-list");
+    let catTemplate = catList.querySelector(".cat");
 
-
-    function showCats(categories, catList){
-        catList.textContent = ''
-        for (const cat of categories) {
-            let node = catTemplate.cloneNode(true)
-            node.textContent = cat
-            catList.appendChild(node)
-            break
-        }
+    function showCats(categories, catList) {
+      catList.textContent = "";
+      for (const cat of categories) {
+        let node = catTemplate.cloneNode(true);
+        node.textContent = cat;
+        catList.appendChild(node);
+        break;
+      }
     }
 
-    showCats(categories, catList)
-
-
+    showCats(categories, catList);
   });
->>>>>>> f5d42b75900033fc25aaa452dd033054733e638e
