@@ -25,7 +25,7 @@
       crossorigin="anonymous"
     ></script>
     <link rel="stylesheet" href="./lobby.css" />
-    <link rel="stylesheet" href="../calendar.css">
+    <link rel="stylesheet" href="../calendar.css" />
 
     <title>Lobby</title>
   </head>
@@ -58,82 +58,14 @@
       <!-- condition filter -->
       <div class="row filterDiv">
         <div id="filter">
-          <!-- 婚禮 -->
-          <div class="select" id="wedding">
-            <button
-              class="btn dropdown-toggle"
-              type="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              婚禮
-            </button>
-            <ul class="dropdown-menu">
-              <li>
-                <button class="dropdown-item" type="button">西式</button>
-              </li>
-              <li>
-                <button class="dropdown-item" type="button">中式</button>
-              </li>
-              <li>
-                <button class="dropdown-item" type="button">長輩</button>
-              </li>
-              <li>
-                <button class="dropdown-item" type="button">兄弟</button>
-              </li>
-              <li>
-                <button class="dropdown-item" type="button">姐妹</button>
-              </li>
-            </ul>
-          </div>
-
-          <!-- 媒體 -->
-          <div class="select" id="media">
-            <button
-              class="btn dropdown-toggle"
-              type="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              媒體
-            </button>
-            <ul class="dropdown-menu">
-              <li>
-                <button class="dropdown-item" type="button">模特兒化妝</button>
-              </li>
-              <li>
-                <button class="dropdown-item" type="button">廣告化妝</button>
-              </li>
-              <li>
-                <button class="dropdown-item" type="button">特技化妝</button>
-              </li>
-              <li>
-                <button class="dropdown-item" type="button">舞台化妝</button>
-              </li>
-            </ul>
-          </div>
-
-          <!-- 攝影 -->
-          <div class="select" id="photography">
-            <button
-              class="btn dropdown-toggle"
-              type="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              休閒
-            </button>
-            <ul class="dropdown-menu">
-              <li>
-                <button class="dropdown-item" type="button">時尚化妝</button>
-              </li>
-              <li>
-                <button class="dropdown-item" type="button">夜場化妝</button>
-              </li>
-              <li>
-                <button class="dropdown-item" type="button">舞會化妝</button>
-              </li>
-            </ul>
+          <div class="cat-list">
+            <div class="cat">
+              <label>
+                <input type="checkbox" name="cat_id">
+                <span class="cat-name">{cat}</span>
+              </label>
+              <div class="cat-list"></div>
+            </div>
           </div>
         </div>
       </div>
