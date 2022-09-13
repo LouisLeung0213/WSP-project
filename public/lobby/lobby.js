@@ -1,4 +1,4 @@
-fetch("/sorchu")
+fetch("/filter")
   .then((res) => res.json())
   .then((categories) => {
     console.log(categories);
@@ -24,15 +24,17 @@ fetch("/sorchu")
     let catList = document.querySelector(".cat-list");
     let catTemplate = catList.querySelector(".cat");
 
-    function showCats(categories, catList) {
+    function showCats(catsTree, catList) {
       catList.textContent = "";
-      for (const cat of categories) {
+      for (const cat of catsTree) {
+        console.log(cat.name);
         let node = catTemplate.cloneNode(true);
-        node.textContent = cat;
+        node.textContent = cat.name;
         catList.appendChild(node);
-        break;
+
+        showCats(node.children, catList);
       }
     }
 
-    showCats(categories, catList);
+    showCats(catsTree, catList);
   });
