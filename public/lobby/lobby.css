@@ -70,20 +70,13 @@ body {
   align-items: center;
   justify-content: space-around;
 }
-.dropdown-toggle {
-  background-color: rgba(209, 108, 204, 0.336);
-  color: #b3394b;
-  width: 8rem;
-  height: 3rem;
+
+.cat-list {
+  display: flex;
+  flex-wrap: wrap;
 }
 
-.dropdown-toggle:hover {
-  background-color: rgba(209, 108, 204, 0.336);
-}
 
-.dropdown-menu {
-  background-color: rgba(209, 108, 204, 0.8);
-}
 
 /* main body CSS */
 #mainBody {

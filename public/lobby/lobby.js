@@ -1,7 +1,7 @@
 fetch("/filter")
   .then((res) => res.json())
   .then((categories) => {
-    console.log(categories);
+    // console.log(categories);
     let catMap = new Map();
     let catsTree = [];
 
@@ -19,7 +19,7 @@ fetch("/filter")
         parent.children.push(catNode);
       }
     }
-    console.dir(catsTree, { depth: 20 });
+    // console.dir(catsTree, { depth: 20 });
 
     let catList = document.querySelector(".cat-list");
     let catTemplate = catList.querySelector(".cat");
@@ -27,14 +27,31 @@ fetch("/filter")
     function showCats(catsTree, catList) {
       catList.textContent = "";
       for (const cat of catsTree) {
-        console.log(cat.name);
+        // console.log(cat.name);
         let node = catTemplate.cloneNode(true);
-        node.textContent = cat.name;
+        let checkbox = node.querySelector("input");
+        if (cat.children.length > 0) {
+          checkbox.hidden = true;
+        }
+        checkbox.value = cat.id;
         catList.appendChild(node);
+        node.querySelector(".cat-name").textContent = cat.name;
+        let subCatList = node.querySelector(".cat-list");
+        // console.log(subCatList);
 
-        showCats(cat.children, catList);
+        showCats(cat.children, subCatList);
       }
     }
 
     showCats(catsTree, catList);
+
+
+    let checkboxes = document.querySelectorAll("#filter input");
+    
+    for (let checkbox of checkboxes) {
+        checkbox.addEventListener("click", ()=>{
+            console.log(checkbox.value);
+        });
+    }
   });
+
