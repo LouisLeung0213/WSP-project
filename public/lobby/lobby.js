@@ -1,3 +1,5 @@
+let checkboxes = document.querySelectorAll("#filter input");
+
 fetch("/filter")
   .then((res) => res.json())
   .then((categories) => {
@@ -53,5 +55,5 @@ fetch("/filter")
             console.log(checkbox.value);
         });
     }
-  });
+});
 

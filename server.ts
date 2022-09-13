@@ -22,6 +22,14 @@ app.get("/filter", async (req, res) => {
   let categories = result.rows;
   res.json(categories);  
 });
+
+app.get("/searchFilter", (req,res) => {
+  let cat_id = req.query.cat_id
+  res.end(console.log(cat_id));
+  
+
+})
+
 //use UserRoute for access user.ts
 app.use(userRoutes);
 
