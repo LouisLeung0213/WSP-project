@@ -97,7 +97,7 @@ userRoutes.post("/signUp", (req, res) => {
       return;
     }
 
-    let dbUserName = await await client.query(
+    let dbUserName = await client.query(
       `select * from users where username = ($1)`,
       [fields.username]
     );
@@ -111,14 +111,17 @@ userRoutes.post("/signUp", (req, res) => {
     if (dbUserName.rows.length != 0) {
       res.status(400);
       res.json({ error: "Username already exist, please use other name" });
+      return;
     }
     if (dbEmail.rows.length != 0) {
       res.status(403);
       res.json({ error: "Email already been used, please use another email" });
+      return;
     }
     if (dbNickName.rows.length != 0) {
       res.status(406);
       res.json({ error: "Nickname already exist, please use other name" });
+      return;
     }
 
     await client.query(
