@@ -76,8 +76,6 @@ body {
   flex-wrap: wrap;
 }
 
-
-
 /* main body CSS */
 #mainBody {
   display: flex;
@@ -86,14 +84,23 @@ body {
 
 #main {
   background-color: #f7b0bb71;
-  width: 800px;
+  width: 780px;
   height: 200vh;
 }
-
-
 
 @media only screen and (max-width: 768px) {
   .logo {
     font-size: 50px;
+  }
+}
+
+@media only screen and (max-width: 968px) {
+  .logo {
+    font-size: 50px;
+  }
+  #main {
+    background-color: #f7b0bb71;
+    width: 750px;
+    height: 200vh;
   }
 }
