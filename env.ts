@@ -9,7 +9,7 @@ export let env = {
   DB_PASSWORD: "",
   // DB_HOST: "",
   PORT: +"",
-  // SESSION_SECET: "",
+  // SESSION_SECRET: "",
   // ORIGIN: "",
   // GOOGLE_CLIENT_ID: "",
   // GOOGLE_CLIENT_SECRET: "",
