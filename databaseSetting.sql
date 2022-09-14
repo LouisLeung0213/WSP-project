@@ -8,7 +8,8 @@ create table users (
     , email varchar(255) not null
     , profilePic varchar(255) 
     , nickname varchar(255)
-    , password_hash varchar(255) not null
+    , password_hash varchar(255) not null set default 'mua_1234'
+    , date_of_birth date not null set default '01-01-2000'
 );
 
 create table muas (
