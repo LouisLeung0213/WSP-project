@@ -1,5 +1,3 @@
-let checkboxes = document.querySelectorAll("#filter input");
-
 fetch("/filter")
   .then((res) => res.json())
   .then((categories) => {
@@ -47,7 +45,7 @@ fetch("/filter")
 
     showCats(catsTree, catList);
 
-    let checkboxes = document.querySelectorAll("#filter input");
+    let checkboxes = document.querySelectorAll("#filterCheckbox");
 
     for (let checkbox of checkboxes) {
       checkbox.addEventListener("click", () => {
@@ -55,3 +53,36 @@ fetch("/filter")
       });
     }
   });
+
+let searchFilter = document.querySelector("#searchFilter");
+
+searchFilter.addEventListener("submit", (event) => {
+  event.preventDefault();
+  let form = event.target;
+  let params = [];
+  for (let param of form) {
+    if (param.checked) {
+      params.push(+param.value);
+      // param.checked = 0
+    }
+  }
+  console.log(params);
+
+  // fetch(`/searchFilter?${params.join('&')}`, {
+  //   method: "get",
+  // }).then((res) => {
+  //   console.log(res)
+  // });
+  fetch(`/searchFilter`, {
+    method: "post",
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify(params),
+  }).then((res) => {
+    console.log(res)
+    return res.json()
+  }).then((data)=>(
+    console.log(data)
+  ))
+});
