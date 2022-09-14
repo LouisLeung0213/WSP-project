@@ -7,6 +7,7 @@ import { print } from "listening-on";
 import cookieParser from "cookie-parser";
 import "./session";
 import path from "path";
+import { profileRoutes } from "./profile";
 
 let app = express();
 //logger
@@ -38,6 +39,7 @@ app.get("/searchFilter", (req, res) => {
 
 //use UserRoute for access user.ts
 app.use(userRoutes);
+app.use(profileRoutes);
 
 app.listen(env.PORT, () => {
   print(env.PORT);

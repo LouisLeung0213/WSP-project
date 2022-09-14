@@ -106,3 +106,4 @@ create table profilo(
     ,mua_profilo varchar(255) not null
 )
 
+alter table users add column date_of_birth date;
