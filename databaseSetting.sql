@@ -107,13 +107,9 @@ create table portfolio(
     ,mua_portfolio varchar(255) not null
 )
 
-<<<<<<< HEAD
-alter table users add column date_of_birth date;
-=======
 ``````````````````````````````````````````````````````````````````````````````````````````````````
 insert into users (username, email, password_hash) values ('Peter', '111', '111'), ('John', '222', '222');
 insert into muas (muas_id) values (2), (3);
 
 
 insert into offers (categories_id, muas_id) values (3, 2),(5, 3);
->>>>>>> origin/main
