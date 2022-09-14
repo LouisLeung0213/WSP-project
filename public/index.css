@@ -27,7 +27,27 @@ body {
 }
 
 .btnContainer {
-  margin-top: 10px;
+  margin-top: 15px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.signUpLink {
+  margin: 0px 0px 15px 0px;
+  width: 150px;
+  height: 30px;
+  background-color: #f7b0bb;
+}
+
+#googleIn {
+  width: 150px;
+  height: 30px;
+  background-color: #f7b0bb;
+}
+
+#loginSubmit {
+  width: 150px;
+  height: 30px;
+  background-color: #f7b0bb;
 }

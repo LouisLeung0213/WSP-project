@@ -11,6 +11,7 @@ import { env } from "./env";
 
 export const userRoutes = Router();
 
+//oAuth login in
 const grantExpress = grant.express({
   defaults: {
     origin: "http://127.0.0.1:8080",
@@ -122,8 +123,6 @@ userRoutes.post("/login", async (req, res) => {
   res.json({ success: true });
 });
 
-//oAuth login in
-
 // TODO update profile
 
 // TODO Logout
@@ -134,6 +133,7 @@ userRoutes.post("/logout", (req, res) => {
       res.end("Failed to logout");
     }
   });
+  res.json({});
 });
 
 //redirect to sign up page from login page
