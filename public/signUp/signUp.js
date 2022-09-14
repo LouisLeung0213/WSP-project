@@ -23,23 +23,9 @@ signUpForm.addEventListener("click", async (event) => {
   formData.append("email", email.value);
   formData.append("image", image.files[0]);
 
-  // console.log(birthday.value);
   // console.log(formData);
   // console.log(image.files);
-  // await fetch("/signUp", {
-  //   method: "POST",
-  //   body: formData,
-  // })
-  //   .then((res) => {
-  //     return res.json();
-  //   })
-  //   .then((data) => {
-  //     console.log(data);
-  //     window.location = "/lobby/lobby.html";
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //   });
+
   const res = await fetch("/signUp", {
     method: "POST",
     body: formData,

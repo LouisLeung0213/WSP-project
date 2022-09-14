@@ -45,13 +45,11 @@ fetch("/filter")
 
     showCats(catsTree, catList);
 
-
     let checkboxes = document.querySelectorAll("#filter input");
-    
+
     for (let checkbox of checkboxes) {
-        checkbox.addEventListener("click", ()=>{
-            console.log(checkbox.value);
-        });
+      checkbox.addEventListener("click", () => {
+        console.log(checkbox.value);
+      });
     }
   });
-
