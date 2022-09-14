@@ -100,10 +100,20 @@ insert into categories (categories_name,parent_id) values ('new_ter','33');
 
 
 ``````````````````````````````````````````````````````````````````````````````````````````````````
-create table profilo(
+create table portfolio(
     id serial primary key
     ,muas_id integer not null
     , foreign key (muas_id) references muas(muas_id)
-    ,mua_profilo varchar(255) not null
+    ,mua_portfolio varchar(255) not null
 )
 
+<<<<<<< HEAD
+alter table users add column date_of_birth date;
+=======
+``````````````````````````````````````````````````````````````````````````````````````````````````
+insert into users (username, email, password_hash) values ('Peter', '111', '111'), ('John', '222', '222');
+insert into muas (muas_id) values (2), (3);
+
+
+insert into offers (categories_id, muas_id) values (3, 2),(5, 3);
+>>>>>>> origin/main

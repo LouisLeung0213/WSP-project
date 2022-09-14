@@ -62,7 +62,7 @@ searchFilter.addEventListener("submit", (event) => {
   let params = [];
   for (let param of form) {
     if (param.checked) {
-      params.push(+param.value);
+      params.push(`categories_id = ${param.value}`);
       // param.checked = 0
     }
   }
@@ -80,7 +80,6 @@ searchFilter.addEventListener("submit", (event) => {
     },
     body: JSON.stringify(params),
   }).then((res) => {
-    console.log(res)
     return res.json()
   }).then((data)=>(
     console.log(data)

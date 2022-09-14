@@ -7,6 +7,7 @@ import { print } from "listening-on";
 import cookieParser from "cookie-parser";
 import "./session";
 import path from "path";
+import { profileRoutes } from "./profile";
 
 let app = express();
 //logger
@@ -34,10 +35,19 @@ app.get("/filter", async (req, res) => {
 //   console.log(cat_ids)
 //   res.json(cat_ids); 
 // })
-app.post("/searchFilter", (req,res) => {
-  let cat_ids = req.body
-  console.log(cat_ids)
-  res.json(cat_ids); 
+app.post("/searchFilter", async (req,res) => {
+  let params = req.body
+  console.log(params.join(' or '))
+  let sql = `
+  select users.id, username, categories_id from offers join users on 
+  muas_id = users.id
+  where ${params.join(' or ')};
+  ` 
+
+  let result = await client.query(sql)
+  console.log(result.rows);
+  
+  res.json(sql); 
 })
 
 app.get("/currentUser", (req, res) => {
@@ -47,6 +57,7 @@ app.get("/currentUser", (req, res) => {
 
 //use UserRoute for access user.ts
 app.use(userRoutes);
+app.use(profileRoutes);
 
 app.listen(env.PORT, () => {
   print(env.PORT);

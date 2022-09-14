@@ -77,16 +77,18 @@
       </div>
       <div class="section">~~~~~ My work ~~~~~</div>
       <div class="photo">
-        <img src="/image/pikachu.png" alt="" class="work" />
-        <img src="/image/pikachu.png" alt="" class="work" />
-        <img src="/image/pikachu.png" alt="" class="work" />
-        <img src="/image/pikachu.png" alt="" class="work" />
-        <img src="/image/pikachu.png" alt="" class="work" />
-        <img src="/image/pikachu.png" alt="" class="work" />
-        <img src="/image/pikachu.png" alt="" class="work" />
-        <img src="/image/pikachu.png" alt="" class="work" />
-        <img src="/image/pikachu.png" alt="" class="work" />
-        <img src="/image/pikachu.png" alt="" class="work" />
+        <form
+          action="/addWork"
+          method="POST"
+          id="contact-form"
+          enctype="multipart/form-data"
+        >
+          <label>
+            Upload your work
+            <input type="file" name="mua_profilo" />
+            <input type="submit" value="Submit" class="submitBtn"
+          /></label>
+        </form>
       </div>
     </div>
     <script src="../calendar.js"></script>
