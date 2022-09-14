@@ -17,11 +17,19 @@ app.use(express.json());
 app.use(express.static("public"));
 app.use(sessionMiddleware);
 
-app.get("/sorchu", async (req, res) => {
+app.get("/filter", async (req, res) => {
   let result = await client.query("SELECT * from categories");
   let categories = result.rows;
-  res.json(123);  
+  res.json(categories);  
 });
+
+app.get("/searchFilter", (req,res) => {
+  let cat_id = req.query.cat_id
+  res.end(console.log(cat_id));
+  
+
+})
+
 //use UserRoute for access user.ts
 app.use(userRoutes);
 

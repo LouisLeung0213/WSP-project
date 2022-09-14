@@ -62,7 +62,7 @@ body {
   margin-bottom: 2rem;
 }
 
-#filter {
+#searchFilter {
   background-color: rgba(209, 108, 204, 0.336);
   width: 95vw;
   height: 20vh;
@@ -70,19 +70,10 @@ body {
   align-items: center;
   justify-content: space-around;
 }
-.dropdown-toggle {
-  background-color: rgba(209, 108, 204, 0.336);
-  color: #b3394b;
-  width: 8rem;
-  height: 3rem;
-}
 
-.dropdown-toggle:hover {
-  background-color: rgba(209, 108, 204, 0.336);
-}
-
-.dropdown-menu {
-  background-color: rgba(209, 108, 204, 0.8);
+.cat-list {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 /* main body CSS */
@@ -93,14 +84,23 @@ body {
 
 #main {
   background-color: #f7b0bb71;
-  width: 800px;
+  width: 780px;
   height: 200vh;
 }
-
-
 
 @media only screen and (max-width: 768px) {
   .logo {
     font-size: 50px;
+  }
+}
+
+@media only screen and (max-width: 968px) {
+  .logo {
+    font-size: 50px;
+  }
+  #main {
+    background-color: #f7b0bb71;
+    width: 750px;
+    height: 200vh;
   }
 }
