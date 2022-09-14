@@ -31,6 +31,10 @@ app.get("/filter", async (req, res) => {
 app.get("/currentUser", (req, res) => {
   res.json(req.session.user);
 });
+app.get("/searchFilter", (req, res) => {
+  let cat_id = req.query.cat_id;
+  res.end(console.log(cat_id));
+});
 
 //use UserRoute for access user.ts
 app.use(userRoutes);

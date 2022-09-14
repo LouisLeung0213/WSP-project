@@ -31,7 +31,7 @@ create table offers (
     , categories_id integer
     , mua_id integer
     , foreign key(categories_id) references categories(id)
-    , foreign key (muas_id) references muas(muas_id)
+    , foreign key (mua_id) references muas(muas_id)
 );
 
 
