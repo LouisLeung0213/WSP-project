@@ -11,8 +11,8 @@ export let env = {
   PORT: +"",
   // SESSION_SECRET: "",
   // ORIGIN: "",
-  // GOOGLE_CLIENT_ID: "",
-  // GOOGLE_CLIENT_SECRET: "",
+  GOOGLE_CLIENT_ID: "",
+  GOOGLE_CLIENT_SECRET: "",
 };
 
 populateEnv(env, { mode: "halt" });
