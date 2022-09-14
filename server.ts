@@ -23,10 +23,17 @@ app.get("/filter", async (req, res) => {
   res.json(categories);  
 });
 
-app.get("/searchFilter", (req,res) => {
-  let cat_id = req.query.cat_id
-  res.end(console.log(cat_id));
-  
+// app.get("/searchFilter", (req,res) => {
+//   let cat_id = req.query.cat_id
+//   let cat_ids = Array.isArray(cat_id) ? cat_id : cat_id ? [cat_id] : []
+//   console.log(cat_ids)
+//   res.json(cat_ids); 
+// })
+app.post("/searchFilter", (req,res) => {
+  let cat_ids = req.body
+
+  console.log(cat_ids)
+  res.json(cat_ids); 
 
 })
 

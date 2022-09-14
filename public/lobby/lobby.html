@@ -65,12 +65,12 @@
     <div class="container">
       <!-- condition filter -->
       <div class="row filterDiv">
-        <form id="searchFilter">
-          <input type="submit" value="Search">
+        <form id="searchFilter" method="get" action="/searchFilter">
+          <input id="searchFilterSubmit" type="submit" value="Search">
           <div class="cat-list">
             <div class="cat">
               <label>
-                <input type="checkbox" name="cat_id" />
+                <input id="filterCheckbox" type="checkbox" name="cat_id" />
                 <span class="cat-name">{cat}</span>
               </label>
               <div class="cat-list"></div>
