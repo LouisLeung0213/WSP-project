@@ -55,6 +55,7 @@ fetch("/filter")
   });
 
 let searchFilter = document.querySelector("#searchFilter");
+let logout = document.querySelector("#logoutBtn");
 
 searchFilter.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -79,9 +80,19 @@ searchFilter.addEventListener("submit", (event) => {
       "Content-type": "application/json",
     },
     body: JSON.stringify(params),
-  }).then((res) => {
-    return res.json()
-  }).then((data)=>(
-    console.log(data)
-  ))
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => console.log(data));
+});
+
+logout.addEventListener("click", async (event) => {
+  event.preventDefault();
+  let res = await fetch("/logout", {
+    method: "post",
+  });
+  if (res.ok) {
+    window.location = "/index.html";
+  }
 });

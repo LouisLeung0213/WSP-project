@@ -40,6 +40,10 @@
   <body>
     <!-- logo, search && profile icon -->
     <div class="navBar">
+      <div class="logoutDiv">
+        <button id="logoutBtn">Logout</button>
+      </div>
+
       <div class="logoContainer">
         <a href="/" class="logo"><p>MUA</p></a>
       </div>
@@ -66,11 +70,11 @@
       <!-- condition filter -->
       <div class="row filterDiv">
         <form id="searchFilter" method="get" action="/searchFilter">
-          <input id="searchFilterSubmit" type="submit" value="Search">
+          <input id="searchFilterSubmit" type="submit" value="Search" />
           <div class="cat-list">
             <div class="cat">
-                <input id="filterCheckbox" type="checkbox" name="cat_id" />
-                <span class="cat-name">{cat}</span>
+              <input id="filterCheckbox" type="checkbox" name="cat_id" />
+              <span class="cat-name">{cat}</span>
               <div class="cat-list"></div>
             </div>
           </div>
