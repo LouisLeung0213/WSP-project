@@ -29,9 +29,9 @@ create table categories (
 create table offers (
     id serial primary key
     , categories_id integer
-    , mua_id integer
+    , muas_id integer
     , foreign key(categories_id) references categories(id)
-    , foreign key (mua_id) references muas(muas_id)
+    , foreign key (muas_id) references muas(muas_id)
 );
 
 
@@ -98,6 +98,11 @@ insert into categories (categories_name,parent_id) values ('kowloon','33');
 insert into categories (categories_name,parent_id) values ('new_ter','33');
 
 
-
-
+``````````````````````````````````````````````````````````````````````````````````````````````````
+create table profilo(
+    id serial primary key
+    ,muas_id integer not null
+    , foreign key (muas_id) references muas(muas_id)
+    ,mua_profilo varchar(255) not null
+)
 

@@ -16,7 +16,7 @@ const form = formidable({
   uploadDir,
   keepExtensions: true,
   maxFiles: 1,
-  maxFileSize: 10 * 1024 ** 2,
+  maxFileSize: 500 * 1024 ** 2,
   filter: (part) => part.mimetype?.startsWith("image/") || false,
   filename: (originalName, originalExt, part, form) => {
     counter++;
@@ -68,7 +68,7 @@ userRoutes.post("/login", async (req, res) => {
   res.json({ success: true });
 });
 
-// TODO up data profile
+// TODO update profile
 
 // TODO Logout
 userRoutes.post("/logout", (req, res) => {
