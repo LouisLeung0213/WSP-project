@@ -42,3 +42,12 @@ loginSubmit.addEventListener("click", async (event) => {
     });
   }
 });
+
+//redirect to lobby if user already login
+window.onload = async () => {
+  const res = await fetch("/currentUser");
+  const user = await res.json();
+  if (user) {
+    window.location.href = "/lobby/lobby.html";
+  }
+};

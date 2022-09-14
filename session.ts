@@ -6,6 +6,7 @@ export let sessionMiddleware = expressSession({
   secret: sessionSecret,
   saveUninitialized: true,
   resave: true,
+  //cookie: { secure: true },
 });
 
 declare module "express-session" {

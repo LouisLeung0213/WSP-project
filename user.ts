@@ -16,7 +16,7 @@ const form = formidable({
   uploadDir,
   keepExtensions: true,
   maxFiles: 1,
-  maxFileSize: 10 * 1024 ** 2,
+  maxFileSize: 500 * 1024 ** 2,
   filter: (part) => part.mimetype?.startsWith("image/") || false,
   filename: (originalName, originalExt, part, form) => {
     counter++;
@@ -35,10 +35,9 @@ type User = {
 userRoutes.post("/login", async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
-  const users = await client.query(
-    `select password_hash from users where username= $1`,
-    [username]
-  );
+  const users = await client.query(`select * from users where username= $1`, [
+    username,
+  ]);
   if (users.rows.length == 0) {
     res.status(404);
     res.json({
@@ -47,6 +46,8 @@ userRoutes.post("/login", async (req, res) => {
     return;
   }
   const user = users.rows[0];
+  console.log(user);
+
   const check = await checkPassword(password, user.password_hash);
   if (!check) {
     res.status(402);
@@ -58,11 +59,16 @@ userRoutes.post("/login", async (req, res) => {
 
   //AJAX
   req.session["user"] = { id: user.id, username: user.username };
+  req.session.save();
+  console.log("logging in...");
+
+  console.log(req.session);
+
   res.status(200);
   res.json({ success: true });
 });
 
-// TODO up data profile
+// TODO update profile
 
 // TODO Logout
 userRoutes.post("/logout", (req, res) => {
