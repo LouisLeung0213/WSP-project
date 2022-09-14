@@ -1,5 +1,6 @@
 import express from "express";
 import { userRoutes } from "./user";
+import { filterRoutes } from "./filter";
 import { sessionMiddleware } from "./session";
 import { client } from "./database";
 import { env } from "./env";
@@ -24,38 +25,12 @@ app.use((req: express.Request, res, next) => {
 
 app.use(express.static("public"));
 
-app.get("/filter", async (req, res) => {
-  let result = await client.query("SELECT * from categories");
-  let categories = result.rows;
-  res.json(categories);
-});
-
-// app.get("/searchFilter", (req,res) => {
-//   let cat_id = req.query.cat_id
-//   let cat_ids = Array.isArray(cat_id) ? cat_id : cat_id ? [cat_id] : []
-//   console.log(cat_ids)
-//   res.json(cat_ids);
-// })
-app.post("/searchFilter", async (req, res) => {
-  let params = req.body;
-  console.log(params.join(" or "));
-  let sql = `
-  select users.id, username, categories_id from offers join users on 
-  muas_id = users.id
-  where ${params.join(" or ")};
-  `;
-
-  let result = await client.query(sql);
-  console.log(result.rows);
-
-  res.json(sql);
-});
-
 app.get("/currentUser", (req, res) => {
   res.json(req.session.user);
 });
 
-//use Router for access different ts
+//use UserRoute for access user.ts
+app.use(filterRoutes);
 app.use(userRoutes);
 app.use(profileRoutes);
 app.use(muaRoutes);
