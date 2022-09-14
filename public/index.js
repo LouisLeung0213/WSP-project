@@ -1,8 +1,7 @@
-let loginSubmit = document.querySelector("#loginSubmit");
-
 let loginForm = document.querySelector("#loginForm");
+let googleLogin = document.querySelector(".google");
 
-loginSubmit.addEventListener("click", async (event) => {
+loginForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   let name = loginForm.username.value;
   const res = await fetch("/login", {
@@ -42,6 +41,11 @@ loginSubmit.addEventListener("click", async (event) => {
     });
   }
 });
+
+// googleLogin.addEventListener("click", async (event) => {
+//   let res = await fetch("/login/google");
+//   console.log(res);
+// });
 
 //redirect to lobby if user already login
 window.onload = async () => {

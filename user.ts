@@ -1,12 +1,69 @@
-import { Router } from "express";
+import { Router, RequestHandler, Request, Response } from "express";
 import formidable from "formidable";
 import { client } from "./database";
 import { hashPassword, checkPassword } from "./hash";
 import "./session";
+import fetch from "cross-fetch";
+import grant from "grant";
+import { env } from "./env";
 
 // let path = require("path");
 
 export const userRoutes = Router();
+
+const grantExpress = grant.express({
+  defaults: {
+    origin: "http://127.0.0.1:8080",
+    transport: "session",
+    state: true,
+  },
+  google: {
+    key: env.GOOGLE_CLIENT_ID,
+    secret: env.GOOGLE_CLIENT_SECRET,
+    scope: ["profile", "email"],
+    callback: "/login/google",
+  },
+});
+
+userRoutes.use(grantExpress as RequestHandler);
+
+userRoutes.get("/login/google", loginGoogle);
+
+async function loginGoogle(req: Request, res: Response) {
+  // console.log("#loginGoogle", req.session?.["grant"]);
+  const accessToken = req.session?.["grant"]?.response.access_token;
+  const fetchRes = await fetch(
+    "https://www.googleapis.com/oauth2/v2/userinfo",
+    {
+      method: "get",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+  const result = await fetchRes.json();
+  const users = (
+    await client.query(`SELECT * FROM users WHERE email = $1`, [result.email])
+  ).rows;
+  let user = users[0];
+  if (!user) {
+    // Create the user when the user does not exist
+    user = (
+      await client.query(
+        `INSERT INTO users (username,email)
+                VALUES ($1,$2) RETURNING *`,
+        [result.email, result.email]
+      )
+    ).rows[0];
+  }
+  if (req.session) {
+    req.session["user"] = {
+      id: user.id,
+      username: user.username,
+    };
+  }
+  return res.redirect("/");
+}
 
 let uploadDir = "uploads"; //folder name
 
@@ -60,13 +117,12 @@ userRoutes.post("/login", async (req, res) => {
   //AJAX
   req.session["user"] = { id: user.id, username: user.username };
   req.session.save();
-  console.log("logging in...");
-
-  console.log(req.session);
 
   res.status(200);
   res.json({ success: true });
 });
+
+//oAuth login in
 
 // TODO update profile
 
@@ -80,12 +136,11 @@ userRoutes.post("/logout", (req, res) => {
   });
 });
 
-// sign up Profile (Formitable from)
 //redirect to sign up page from login page
 userRoutes.use("/signUpLink", (req, res) => {
   res.redirect("/signUp/signUp.html");
 });
-
+// sign up Profile (Formitable from)
 //handle sign up form
 userRoutes.post("/signUp", (req, res) => {
   form.parse(req, async (err, fields, files) => {
