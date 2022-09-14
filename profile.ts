@@ -1,6 +1,8 @@
-import { Router } from "express";
+import { profile } from "console";
+import { Request, Response, NextFunction, Router } from "express";
 import formidable from "formidable";
 import fs from "fs";
+import { resourceLimits } from "worker_threads";
 import { client } from "./database";
 import "./session";
 
@@ -40,6 +42,17 @@ profileRoutes.post("/addWork", (req, res) => {
 
     res.json({});
   });
+});
+
+// let req = Request
+
+profileRoutes.get("/showWork", async (req, res) => {
+  let muas_id = req.query.id;
+  let result = await client.query(
+    `select * from profilo where id = ${muas_id}`
+  );
+  let work = result.rows;
+  res.json(work);
 });
 
 profileRoutes.get("/currentUser", (req, res) => {

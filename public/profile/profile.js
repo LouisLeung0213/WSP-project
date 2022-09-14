@@ -19,3 +19,7 @@ submitBtn.addEventListener("click", async (event) => {
   let json = await res.json();
   console.log(json);
 });
+
+fetch("/showWork")
+  .then((res) => res.json())
+  .then((work) => {});
