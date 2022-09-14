@@ -1,7 +1,14 @@
 fetch("/filter")
   .then((res) => res.json())
   .then((categories) => {
-    // console.log(categories);
+    // let main = document.querySelector('#main')
+    // let content = main.querySelector('.content')
+    // let node = content.cloneNode(true)
+    // content.hidden = true
+    // node.textContent = JSON.stringify(categories)
+    // main.appendChild(node)
+
+    console.log(categories);
     let catMap = new Map();
     let catsTree = [];
 
@@ -19,7 +26,7 @@ fetch("/filter")
         parent.children.push(catNode);
       }
     }
-    // console.dir(catsTree, { depth: 20 });
+    console.dir(catsTree, { depth: 20 });
 
     let catList = document.querySelector(".cat-list");
     let catTemplate = catList.querySelector(".cat");
@@ -68,11 +75,6 @@ searchFilter.addEventListener("submit", (event) => {
   }
   console.log(params);
 
-  // fetch(`/searchFilter?${params.join('&')}`, {
-  //   method: "get",
-  // }).then((res) => {
-  //   console.log(res)
-  // });
   fetch(`/searchFilter`, {
     method: "post",
     headers: {
