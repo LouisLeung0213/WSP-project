@@ -125,7 +125,7 @@ userRoutes.post("/login", async (req, res) => {
 
 // TODO update profile
 
-// TODO Logout
+// Logout
 userRoutes.post("/logout", (req, res) => {
   req.session.destroy((err) => {
     if (err) {

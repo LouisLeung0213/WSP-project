@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 import "./session";
 import path from "path";
 import { profileRoutes } from "./profile";
+import { muaRoutes } from "./Muas";
 
 let app = express();
 //logger
@@ -33,31 +34,31 @@ app.get("/filter", async (req, res) => {
 //   let cat_id = req.query.cat_id
 //   let cat_ids = Array.isArray(cat_id) ? cat_id : cat_id ? [cat_id] : []
 //   console.log(cat_ids)
-//   res.json(cat_ids); 
+//   res.json(cat_ids);
 // })
-app.post("/searchFilter", async (req,res) => {
-  let params = req.body
-  console.log(params.join(' or '))
+app.post("/searchFilter", async (req, res) => {
+  let params = req.body;
+  console.log(params.join(" or "));
   let sql = `
   select users.id, username, categories_id from offers join users on 
   muas_id = users.id
-  where ${params.join(' or ')};
-  ` 
+  where ${params.join(" or ")};
+  `;
 
-  let result = await client.query(sql)
+  let result = await client.query(sql);
   console.log(result.rows);
-  
-  res.json(sql); 
-})
+
+  res.json(sql);
+});
 
 app.get("/currentUser", (req, res) => {
   res.json(req.session.user);
 });
 
-
-//use UserRoute for access user.ts
+//use Router for access different ts
 app.use(userRoutes);
 app.use(profileRoutes);
+app.use(muaRoutes);
 
 app.listen(env.PORT, () => {
   print(env.PORT);

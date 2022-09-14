@@ -32,11 +32,20 @@ body {
 }
 
 #logoutBtn {
-  width: 120px;
+  width: 80px;
   height: 30px;
   border-radius: 40%;
   background-color: #f7b0bb;
   border: dashed;
+}
+
+#becomeMua {
+  width: 100px;
+  height: 30px;
+  border-radius: 40%;
+  background-color: #f7b0bb;
+  border: dashed;
+  margin-left: 10px;
 }
 
 .searchProfile {

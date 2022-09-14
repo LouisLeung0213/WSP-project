@@ -56,6 +56,7 @@ fetch("/filter")
 
 let searchFilter = document.querySelector("#searchFilter");
 let logout = document.querySelector("#logoutBtn");
+let becomeMua = document.querySelector("#becomeMua");
 
 searchFilter.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -95,4 +96,9 @@ logout.addEventListener("click", async (event) => {
   if (res.ok) {
     window.location = "/index.html";
   }
+});
+
+becomeMua.addEventListener("click", async (event) => {
+  event.preventDefault();
+  let res = await fetch("/logout", {});
 });

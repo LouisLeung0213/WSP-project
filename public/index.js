@@ -42,11 +42,6 @@ loginForm.addEventListener("submit", async (event) => {
   }
 });
 
-// googleLogin.addEventListener("click", async (event) => {
-//   let res = await fetch("/login/google");
-//   console.log(res);
-// });
-
 //redirect to lobby if user already login
 window.onload = async () => {
   const res = await fetch("/currentUser");
