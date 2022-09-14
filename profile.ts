@@ -51,8 +51,8 @@ profileRoutes.get("/showWork", async (req, res) => {
   let result = await client.query(
     `select * from profilo where id = ${muas_id}`
   );
-  let work = result.rows;
-  res.json(work);
+  let works = result.rows;
+  res.json(works);
 });
 
 profileRoutes.get("/currentUser", (req, res) => {
