@@ -1,17 +1,11 @@
 fetch("/filter")
   .then((res) => res.json())
   .then((categories) => {
-    // let main = document.querySelector('#main')
-    // let content = main.querySelector('.content')
-    // let node = content.cloneNode(true)
-    // content.hidden = true
-    // node.textContent = JSON.stringify(categories)
-    // main.appendChild(node)
-
-    console.log(categories);
+    
+    // console.log(categories);
     let catMap = new Map();
     let catsTree = [];
-
+    
     for (const catRow of categories) {
       let catNode = {
         id: catRow.id,
@@ -26,7 +20,7 @@ fetch("/filter")
         parent.children.push(catNode);
       }
     }
-    console.dir(catsTree, { depth: 20 });
+    // console.dir(catsTree, { depth: 20 });
 
     let catList = document.querySelector(".cat-list");
     let catTemplate = catList.querySelector(".cat");
@@ -45,21 +39,32 @@ fetch("/filter")
         node.querySelector(".cat-name").textContent = cat.name;
         let subCatList = node.querySelector(".cat-list");
         // console.log(subCatList);
-
+        
         showCats(cat.children, subCatList);
       }
     }
-
+    
     showCats(catsTree, catList);
-
-    let checkboxes = document.querySelectorAll("#filterCheckbox");
-
-    for (let checkbox of checkboxes) {
-      checkbox.addEventListener("click", () => {
-        console.log(checkbox.value);
-      });
-    }
+    
   });
+
+fetch("/showMua")
+.then((res) => res.json())
+.then((muas) => {
+  console.log(muas);
+  let main = document.querySelector('#main')
+  let content = main.querySelector('.muaAbstract')
+  for (const mua of muas) {
+    content.hidden = false
+    let node = content.cloneNode(true)
+    content.hidden = true
+    node.textContent = JSON.stringify(mua)
+    main.appendChild(node)
+  }
+})
+
+
+
 
 let searchFilter = document.querySelector("#searchFilter");
 let logout = document.querySelector("#logoutBtn");
@@ -75,8 +80,9 @@ searchFilter.addEventListener("submit", (event) => {
       // param.checked = 0
     }
   }
-  console.log(params);
-
+  // console.log(params);
+  let main = document.querySelector('#main')
+  main.textContent = ''
   fetch(`/searchFilter`, {
     method: "post",
     headers: {
