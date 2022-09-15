@@ -16,14 +16,14 @@ filterRoutes.get("/showMua", async (req, res) => {
     "SELECT username from muas join users on muas_id = users.id"
   );
   let muas = result.rows;
-  console.log("All the muas: ", muas);
+  // console.log("All the muas: ", muas);
 
   res.json(muas);
 });
 
 filterRoutes.post("/searchFilter", async (req, res) => {
   let params = req.body;
-  console.log("Params: ", params);
+  // console.log("Params: ", params);
   
   if (params.length == 0) {
     res.json("Err: empty filter");
@@ -36,7 +36,7 @@ filterRoutes.post("/searchFilter", async (req, res) => {
   order by users.id;
   `;
     let result = await client.query(sql);
-    console.log("Filtered muas: ", result.rows);
+    // console.log("Filtered muas: ", result.rows);
     let muas = new Set();
     let i = 0;
     let muasUnique = [];
@@ -46,7 +46,7 @@ filterRoutes.post("/searchFilter", async (req, res) => {
         muasUnique.push(mua);
       }
     }
-    console.log("Unique muas: ", muasUnique);
+    // console.log("Unique muas: ", muasUnique);
 
     res.json(muasUnique);
   }

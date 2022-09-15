@@ -46,13 +46,13 @@ fetch("/filter")
     showCats(catsTree, catList);
   });
 
-fetch("/showMua")
+  fetch("/showMua")
   .then((res) => res.json())
   .then((muas) => {
-    console.log(muas);
     let main = document.querySelector("#main");
     let subMain = document.querySelector("#subMain")
     let content = main.querySelector(".muaAbstract");
+    // console.log(muas);
     for (const mua of muas) {
       content.hidden = false;
       let node = content.cloneNode(true);
@@ -75,7 +75,7 @@ fetch("/showMua")
     }
   }
   // console.log(params);
-  let main = document.querySelector("#main");
+  // let main = document.querySelector("#main");
   fetch(`/searchFilter`, {
     method: "post",
     headers: {
@@ -88,13 +88,13 @@ fetch("/showMua")
   })
   .then((muas) => {
     if (muas == "Err: empty filter"){
-      console.log(muas);
+      // console.log(muas);
       return
     }
     let subMain = document.querySelector("#subMain")
     subMain.textContent = "";
-      console.log(muas);
-      // let main = document.querySelector("#main");
+      // console.log(muas);
+      let main = document.querySelector("#main");
       let content = main.querySelector(".muaAbstract");
       for (const mua of muas) {
         content.hidden = false;
