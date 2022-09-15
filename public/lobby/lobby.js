@@ -149,7 +149,11 @@ window.onload = async () => {
     let alink = document.createElement("a");
     alink.href = `/profile/profile.html?id=${json.id}`;
     let image = document.createElement("img");
-    image.src = `/uploads/${json.pic}`;
+    if (json.pic) {
+      image.src = `/uploads/${json.pic}`;
+    } else {
+      image.src = `/uploads/default_profile_pic.jpg`;
+    }
     image.alt = "icon";
     image.id = "profileIcon";
     profileShowDiv.appendChild(alink);

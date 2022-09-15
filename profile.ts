@@ -7,17 +7,23 @@ import { client } from "./database";
 import "./session";
 export let profileRoutes = Router();
 
-// profileRoutes.use("/profile", checkIsYourOwn, express.static("protected"));
-
-const uploadDir = "./public/uploads";
+const uploadDir = "./uploads";
 fs.mkdirSync(uploadDir, { recursive: true });
 
+let counter = 0;
 const form = formidable({
   uploadDir,
   keepExtensions: true,
   maxFiles: 1,
   maxFileSize: 200 * 1024 ** 2, // the default limit is 200KB
   filter: (part) => part.mimetype?.startsWith("image/") || false,
+  filename: (originalName, originalExt, part, form) => {
+    counter++;
+    let fieldName = part.name;
+    let timestamp = Date.now();
+    let ext = part.mimetype?.split("/").pop();
+    return `${fieldName}-${timestamp}-${counter}.${ext}`;
+  },
 });
 
 profileRoutes.post("/addWork", (req, res) => {
@@ -75,79 +81,45 @@ where muas_id = $1
   res.json({ user, works, currentUser });
 });
 
-profileRoutes.get("/currentUser", (req, res) => {
-  res.json(req.session.user);
-});
+// profileRoutes.get("/showWork", async (req, res) => {
+//   let muas_id = req.query.id;
+//   console.log(muas_id);
+//   let result = await client.query(
+//     `select * from portfolio where muas_id = ${muas_id}`
+//   );
+//   console.log(result.rows);
+//   let works = result.rows;
+//   res.json(works);
+// });
 
-profileRoutes.get("/profile", async (req, res) => {
-  let muas_id = req.query.id;
-  console.log(muas_id);
-  let result = await client.query(
-    `
-select 
-  introduction 
-, nickname
-, icon
-from muas
-inner join users on users.id = muas_id 
-where muas_id = $1
-`,
-    [muas_id]
-  );
-  let user = result.rows[0];
-  let result2 = await client.query(
-    `
-select * from portfolio where muas_id = $1
-`,
-    [muas_id]
-  );
-  console.log("result.Rows!!!!" + result2.rows[0]);
-  let works = result.rows;
-  // console.log(result.rows);
-  // let intros = result.rows;
-  let currentUser = req.session.user?.id;
-  res.json({ user, works, currentUser });
-});
+// profileRoutes.get("/showDetails", async (req, res) => {
+//   let muas_id = req.query.id;
+//   console.log(muas_id);
+//   let result = await client.query(
+//     `select introduction from muas where muas_id = ${muas_id}`
+//   );
+//   // console.log(result.rows);
+//   let intros = result.rows;
+//   res.json(intros);
+// });
 
-profileRoutes.get("/showWork", async (req, res) => {
-  let muas_id = req.query.id;
-  console.log(muas_id);
-  let result = await client.query(
-    `select * from portfolio where muas_id = ${muas_id}`
-  );
-  console.log(result.rows);
-  let works = result.rows;
-  res.json(works);
-});
+// profileRoutes.get("/showNickname", async (req, res) => {
+//   let muas_id = req.query.id;
+//   let result = await client.query(
+//     `select nickname from users where id = ${muas_id}`
+//   );
+//   let nicknames = result.rows;
+//   res.json(nicknames);
+// });
 
-profileRoutes.get("/showDetails", async (req, res) => {
-  let muas_id = req.query.id;
-  console.log(muas_id);
-  let result = await client.query(
-    `select introduction from muas where muas_id = ${muas_id}`
-  );
-  // console.log(result.rows);
-  let intros = result.rows;
-  res.json(intros);
-});
-
-profileRoutes.get("/showNickname", async (req, res) => {
-  let muas_id = req.query.id;
-  let result = await client.query(
-    `select nickname from users where id = ${muas_id}`
-  );
-  let nicknames = result.rows;
-  res.json(nicknames);
-});
-
-profileRoutes.get("/showIcon", async (req, res) => {
-  let muas_id = req.query.id;
-  let result = await client.query(
-    `select icon from muas where muas_id = ${muas_id}`
-  );
-  let icons = result.rows;
-  res.json(icons);
-});
+// profileRoutes.get("/showIcon", async (req, res) => {
+//   let muas_id = req.query.id;
+//   let result = await client.query(
+//     `select icon from muas where muas_id = ${muas_id}`
+//   );
+//   let icons = result.rows;
+//   res.json(icons);
+// });
 
 profileRoutes.patch("/editIntro", async (req, res) => {
   console.log(req.body);
@@ -160,16 +132,4 @@ profileRoutes.patch("/editIntro", async (req, res) => {
   res.json(result);
 });
 
-function checkIsYourOwn(req: Request, res: Response, next: NextFunction) {
-  console.log("fk");
-  // if (req.session.user) {
-  // console.log(req.session.user.id);
-  let selfID = req.session.user!.id;
-  let otherID = req.query.id;
-  if (selfID == otherID) {
-    next();
-  } else {
-    res.end("This is not your page");
-  }
-}
 // }
