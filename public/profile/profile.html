@@ -7,7 +7,6 @@
     <title>MUA Person Profile</title>
     <link rel="stylesheet" href="profile.css" />
     <link rel="stylesheet" href="../calendar.css" />
-    <link rel="stylesheet" href="../../protected/show.css" />
 
     <link
       rel="stylesheet"
@@ -25,11 +24,7 @@
     <div class="container">
       <div class="about">
         <div class="introContainer">
-          <div class="profileTemplate">
-            <!-- <a href="/profile/profile.html?id=2"> -->
-            <!-- <img src="" alt="icon" id="profileIcon"
-            /></a> -->
-          </div>
+          <img src="" alt="icon" id="profileIcon" />
           <div class="profileShowDiv"></div>
           <div class="username">Pikachu</div>
         </div>
@@ -89,28 +84,27 @@
       </div>
       <div class="section">~~~~~ My work ~~~~~</div>
       <!-- <div class="photo"> -->
-        <form
-          action="/addWork"
-          method="POST"
-          id="contact-form"
-          enctype="multipart/form-data"
-        >
-          <div class="portfolioContainer">
-            <!-- <div class="portfolio">123123</div> -->
-            <image
-              class="portfolio"
-              src="./uploads/4c89ca464617a4db3f5cfb800.jpeg"
-              alt="test"
-            ></image>
-          <!-- </div> -->
-          <label>
-            Upload your work
-            <input type="file" name="mua_portfolio" id="choosePhoto"/>
-            <input type="submit" value="Submit" id="submitBtn" />
-          </label>
-        </form>
-      </div>
+      <form
+        action="/addWork"
+        method="POST"
+        id="contact-form"
+        enctype="multipart/form-data"
+      >
+        <div class="portfolioContainer">
+          <image
+            class="portfolio"
+            src="./uploads/4c89ca464617a4db3f5cfb800.jpeg"
+            alt="test"
+          ></image>
+        </div>
+        <label>
+          Upload your work
+          <input type="file" name="mua_portfolio" id="choosePhoto" />
+          <input type="submit" value="Submit" id="submitBtn" />
+        </label>
+      </form>
     </div>
+
     <script src="./profile.js"></script>
     <script src="../calendar.js"></script>
   </body>
