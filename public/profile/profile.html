@@ -7,6 +7,8 @@
     <title>MUA Person Profile</title>
     <link rel="stylesheet" href="profile.css" />
     <link rel="stylesheet" href="../calendar.css" />
+    <link rel="stylesheet" href="../../protected/show.css" />
+
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
@@ -81,7 +83,7 @@
         </div>
       </div>
       <div class="section">~~~~~ My work ~~~~~</div>
-      <div class="photo">
+      <!-- <div class="photo"> -->
         <form
           action="/addWork"
           method="POST"
@@ -95,10 +97,10 @@
               src="./uploads/4c89ca464617a4db3f5cfb800.jpeg"
               alt="test"
             ></image>
-          </div>
+          <!-- </div> -->
           <label>
             Upload your work
-            <input type="file" name="mua_portfolio" />
+            <input type="file" name="mua_portfolio" id="choosePhoto"/>
             <input type="submit" value="Submit" id="submitBtn" />
           </label>
         </form>
