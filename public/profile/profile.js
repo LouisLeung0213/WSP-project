@@ -7,6 +7,11 @@ let detail = detailContainer.querySelector(".detail");
 let introContainer = document.querySelector(".introContainer");
 // let icon = introContainer.querySelector(".icon");
 let username = introContainer.querySelector(".username");
+// let paragraph = document.querySelecto("edit");
+let editBtn = document.getElementById("edit-button");
+let endBtn = document.getElementById("end-editing");
+let params = new URL(document.location).searchParams;
+let userId = params.get("id");
 
 submitBtn.addEventListener("click", async (event) => {
   event.preventDefault();
@@ -26,7 +31,7 @@ submitBtn.addEventListener("click", async (event) => {
   location.reload();
 });
 
-fetch("/showWork?id=1")
+fetch(`/showWork?id=${currentPageUserId}`)
   .then((res) => {
     return res.json();
     // console.log(res.json());
@@ -56,7 +61,7 @@ fetch("/showDetails?id=1")
     for (let intro of intros) {
       let node = detail.cloneNode(true);
       node.textContent = intro.introduction;
-      detail.hidden = true;
+      // detail.hidden = true;
       console.log(node.textContent);
       detailContainer.appendChild(node);
     }
@@ -74,3 +79,11 @@ fetch("/showNickname?id=1")
       introContainer.appendChild(node);
     }
   });
+
+editBtn.addEventListener("click", function () {
+  detail.contentEditable = true;
+});
+
+endBtn.addEventListener("click", function () {
+  detail.contentEditable = false;
+});

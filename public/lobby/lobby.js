@@ -53,6 +53,7 @@ fetch("/showMua")
     let main = document.querySelector("#main");
     let content = main.querySelector(".muaAbstract");
     for (const mua of muas) {
+      console.log(mua);
       content.hidden = false;
       let node = content.cloneNode(true);
       content.hidden = true;

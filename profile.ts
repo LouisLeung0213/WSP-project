@@ -89,3 +89,16 @@ profileRoutes.get("/showIcon", async (req, res) => {
   let icons = result.rows;
   res.json(icons);
 });
+
+profileRoutes.put("/editIntro", async (req, res) => {
+  let newContent = req.body.content;
+  let muas_id = req.query.id;
+  let result = await client.query(
+    `update maus set introduction = ${newContent} where muas_id =${muas_id}`
+  );
+});
+
+// profileRoutes.get("/sessionId", (req, res) => {
+//   let currentUserId = req.session.user!.id;
+//   return currentUserId;
+// });
