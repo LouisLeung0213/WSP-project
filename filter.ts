@@ -23,24 +23,31 @@ filterRoutes.get("/showMua", async (req, res) => {
 
 filterRoutes.post("/searchFilter", async (req, res) => {
   let params = req.body;
-  // console.log(params.join(' or '))
-  let sql = `
+  console.log("Params: ", params);
+  
+  if (params.length == 0) {
+    res.json("Err: empty filter");
+  } else {
+    // console.log(params.join(' or '))
+    let sql = `
   select username from offers join users on 
   muas_id = users.id
-  where ${params.join(" or ")};
+  where ${params.join(" or ")}
+  order by users.id;
   `;
-  let result = await client.query(sql);
-  console.log("Filtered muas: ", result.rows);
-  let muas = new Set();
-  let i = 0;
-  let muasUnique = []
-  for (let mua of result.rows) {
-    if (!muas.has(mua.username)) {
-      muas.add(mua.username);
-      muasUnique.push(mua)
+    let result = await client.query(sql);
+    console.log("Filtered muas: ", result.rows);
+    let muas = new Set();
+    let i = 0;
+    let muasUnique = [];
+    for (let mua of result.rows) {
+      if (!muas.has(mua.username)) {
+        muas.add(mua.username);
+        muasUnique.push(mua);
+      }
     }
-  }
-  console.log("Unique muas: ",muasUnique);
+    console.log("Unique muas: ", muasUnique);
 
-  res.json(result.rows);
+    res.json(muasUnique);
+  }
 });
