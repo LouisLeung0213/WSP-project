@@ -64,11 +64,7 @@ fetch("/showMua")
 })
 
 
-
-
 let searchFilter = document.querySelector("#searchFilter");
-let logout = document.querySelector("#logoutBtn");
-let becomeMua = document.querySelector("#becomeMua");
 
 searchFilter.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -95,6 +91,10 @@ searchFilter.addEventListener("submit", (event) => {
     })
     .then((data) => console.log(data));
 });
+
+
+let logout = document.querySelector("#logoutBtn");
+let becomeMua = document.querySelector("#becomeMua");
 
 //logout function
 logout.addEventListener("click", async (event) => {
