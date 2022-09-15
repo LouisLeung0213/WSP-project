@@ -9,6 +9,10 @@ import cookieParser from "cookie-parser";
 import "./session";
 import path from "path";
 import { profileRoutes } from "./profile";
+<<<<<<< HEAD
+=======
+import { muaRoutes } from "./muas";
+>>>>>>> origin/main
 
 let app = express();
 //logger
@@ -32,6 +36,7 @@ app.get("/currentUser", (req, res) => {
 app.use(filterRoutes);
 app.use(userRoutes);
 app.use(profileRoutes);
+app.use(muaRoutes);
 
 app.listen(env.PORT, () => {
   print(env.PORT);

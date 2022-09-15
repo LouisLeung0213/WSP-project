@@ -42,6 +42,7 @@
     <div class="navBar">
       <div class="logoutDiv">
         <button id="logoutBtn">Logout</button>
+        <button id="becomeMua">Become MUA</button>
       </div>
 
       <div class="logoContainer">
@@ -61,8 +62,9 @@
             <i class="bi bi-search"></i>
           </button>
         </form>
-
-        <img src="../image/pikachu.png" alt="icon" id="profileIcon" />
+        <a href="/profile/profile.html">
+          <img src="/image/pikachu.png" alt="icon" id="profileIcon"
+        /></a>
       </div>
     </div>
 
@@ -105,13 +107,14 @@
         </div>
 
         <!-- right -->
-        <div id="main" class="row col-md-8">
-          <div class="content"></div>
+        <div id="main" class="">
+          <div class="muaAbstract"></div>
         </div>
       </div>
     </div>
     <a href="/profile/profile.html?id=1">To Scott Profile</a>
 
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="lobby.js"></script>
     <script src="/calendar.js"></script>
   </body>

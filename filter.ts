@@ -1,7 +1,9 @@
 import { client } from "./database";
 import { Router, RequestHandler, Request, Response } from "express";
+import { markAsUntransferable } from "worker_threads";
+import { muaRoutes } from "./muas";
 
-export const filterRoutes = Router()
+export const filterRoutes = Router();
 
 filterRoutes.get("/filter", async (req, res) => {
   let result = await client.query("SELECT * from categories");
@@ -9,21 +11,36 @@ filterRoutes.get("/filter", async (req, res) => {
   res.json(categories);
 });
 
+filterRoutes.get("/showMua", async (req, res) => {
+  let result = await client.query(
+    "SELECT username from muas join users on muas_id = users.id"
+  );
+  let muas = result.rows;
+  console.log("All the muas: ", muas);
 
-filterRoutes.post("/searchFilter", async (req,res) => {
-  let params = req.body
-  console.log(params.join(' or '))
+  res.json(muas);
+});
+
+filterRoutes.post("/searchFilter", async (req, res) => {
+  let params = req.body;
+  // console.log(params.join(' or '))
   let sql = `
-  select users.id, username, categories_id from offers join users on 
+  select username from offers join users on 
   muas_id = users.id
-  where ${params.join(' or ')};
-  ` 
+  where ${params.join(" or ")};
+  `;
+  let result = await client.query(sql);
+  console.log("Filtered muas: ", result.rows);
+  let muas = new Set();
+  let i = 0;
+  let muasUnique = []
+  for (let mua of result.rows) {
+    if (!muas.has(mua.username)) {
+      muas.add(mua.username);
+      muasUnique.push(mua)
+    }
+  }
+  console.log("Unique muas: ",muasUnique);
 
-  let result = await client.query(sql)
-  console.log(result.rows);
-  
-  res.json(sql); 
-})
-
-
-
+  res.json(result.rows);
+});

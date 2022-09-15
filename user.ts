@@ -125,7 +125,7 @@ userRoutes.post("/login", async (req, res) => {
 
 // TODO update profile
 
-// TODO Logout
+// Logout
 userRoutes.post("/logout", (req, res) => {
   req.session.destroy((err) => {
     if (err) {
@@ -185,8 +185,8 @@ userRoutes.post("/signUp", (req, res) => {
       return;
     }
 
-    await client.query(
-      /*sql*/ "insert into users (username,email,profilepic, nickname, password_hash, date_of_birth) values ($1,$2,$3,$4,$5,$6)",
+    const rows = await client.query(
+      /*sql*/ "insert into users (username,email,profilepic, nickname, password_hash, date_of_birth) values ($1,$2,$3,$4,$5,$6) returning id",
       [
         fields.username,
         fields.email,
@@ -196,6 +196,11 @@ userRoutes.post("/signUp", (req, res) => {
         fields.birthday as string,
       ]
     );
+    const userId = rows.rows[0].id;
+
+    req.session["user"] = { id: userId, username: fields.username as string };
+    req.session.save();
+
     res.json({});
   });
 });

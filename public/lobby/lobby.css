@@ -32,11 +32,20 @@ body {
 }
 
 #logoutBtn {
-  width: 120px;
+  width: 80px;
   height: 30px;
   border-radius: 40%;
   background-color: #f7b0bb;
   border: dashed;
+}
+
+#becomeMua {
+  width: 100px;
+  height: 30px;
+  border-radius: 40%;
+  background-color: #f7b0bb;
+  border: dashed;
+  margin-left: 10px;
 }
 
 .searchProfile {
@@ -99,7 +108,11 @@ body {
 #main {
   background-color: #f7b0bb71;
   width: 780px;
-  height: 200vh;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items:center;
 }
 
 @media only screen and (max-width: 768px) {
@@ -117,4 +130,12 @@ body {
     width: 750px;
     height: 200vh;
   }
+}
+
+.muaAbstract {
+  width: 90%;
+  /* height: 70px; */
+  margin-top: 20px;
+  background-color: #ecbee1;
+  text-align: center;
 }
