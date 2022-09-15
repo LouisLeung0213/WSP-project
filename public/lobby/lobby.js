@@ -124,7 +124,6 @@ logout.addEventListener("click", async (event) => {
 //TODO SIGN UP後立即LOGIN
 
 window.onload = async () => {
-  console.log("hi");
   const res = await fetch("/isMua");
   if (res.status == 200) {
     becomeMua.hidden = true;

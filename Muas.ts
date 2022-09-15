@@ -26,14 +26,17 @@ muaRoutes.post("/registration", async (req, res) => {
 });
 //TODO
 muaRoutes.get("/isMua", async (req, res) => {
-  let result = await client.query(`select * from muas where muas_id = $1`, [
-    req.session.user!.id,
-  ]);
-  if (result.rows.length > 0) {
-    res.status(200);
+  try {
+    let result = await client.query(`select * from muas where muas_id = $1`, [
+      req.session.user!.id,
+    ]);
+    if (result.rows.length > 0) {
+      res.status(200);
+      res.json({});
+      return;
+    }
+  } catch (error) {
+    res.status(401);
     res.json({});
-    return;
   }
-  res.status(401);
-  res.json({});
 });
