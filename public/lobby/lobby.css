@@ -132,8 +132,12 @@ body {
   }
 }
 
-.muaAbstract {
+#subMain {
   width: 90%;
+}
+
+.muaAbstract {
+  width: 100%;
   /* height: 70px; */
   margin-top: 20px;
   background-color: #ecbee1;
