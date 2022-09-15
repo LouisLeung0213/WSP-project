@@ -24,7 +24,7 @@ app.use((req: express.Request, res, next) => {
 });
 
 app.use(express.static("public"));
-
+app.use("/uploads", express.static("uploads"));
 app.get("/currentUser", (req, res) => {
   res.json(req.session.user);
 });

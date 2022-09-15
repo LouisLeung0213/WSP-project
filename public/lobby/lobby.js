@@ -59,7 +59,7 @@ fetch("/showMua")
       content.hidden = false;
       let node = content.cloneNode(true);
       content.hidden = true;
-      let muaName = mua.username
+      let muaName = mua.username;
       node.textContent = muaName;
       subMain.appendChild(node);
     }
@@ -99,7 +99,7 @@ searchFilter.addEventListener("submit", (event) => {
         content.hidden = false;
         let node = content.cloneNode(true);
         content.hidden = true;
-        let muaName = mua.username
+        let muaName = mua.username;
         node.textContent = muaName;
         subMain.appendChild(node);
       }
@@ -108,6 +108,8 @@ searchFilter.addEventListener("submit", (event) => {
 
 let logout = document.querySelector("#logoutBtn");
 let becomeMua = document.querySelector("#becomeMua");
+let profileTemplate = document.querySelector(".profileTemplate");
+let profileShowDiv = document.querySelector(".profileShowDiv");
 
 //logout function
 logout.addEventListener("click", async (event) => {
@@ -126,6 +128,20 @@ window.onload = async () => {
   const res = await fetch("/isMua");
   if (res.status == 200) {
     becomeMua.hidden = true;
+
+    let json = await res.json();
+    console.log(json);
+    //show profile node
+    let node = profileTemplate.cloneNode(true);
+    profileTemplate.hidden = true;
+    let alink = document.createElement("a");
+    alink.href = `/profile/profile.html?id=${json.id}`;
+    let image = document.createElement("img");
+    image.src = `/uploads/${json.pic}`;
+    image.alt = "icon";
+    image.id = "profileIcon";
+    profileShowDiv.appendChild(alink);
+    alink.appendChild(image);
   }
 };
 
