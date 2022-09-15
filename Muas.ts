@@ -6,8 +6,8 @@ import "./session";
 export const muaRoutes = Router();
 
 muaRoutes.post("/registration", async (req, res) => {
-  // console.log(req.session.user!.id);
-  let result = await client.query(`select * from users where id = ($1)`, [
+  console.log("current id" + req.session.user!.id);
+  let result = await client.query(`select * from users where id = $1`, [
     req.session.user!.id,
   ]);
   let userInfo = result.rows[0];
@@ -17,7 +17,7 @@ muaRoutes.post("/registration", async (req, res) => {
   ]);
   console.log(userInfo);
   if (userInfo.profilepic) {
-    let result = await client.query(`insert into muas (icon) value ($1)`, [
+    let result = await client.query(`insert into muas (icon) values ($1)`, [
       userInfo.profilepic,
     ]);
   }
@@ -26,12 +26,13 @@ muaRoutes.post("/registration", async (req, res) => {
 });
 //TODO
 muaRoutes.get("/isMua", async (req, res) => {
-  let result = await client.query(`select * from muas where id = ($1)`, [
+  let result = await client.query(`select * from muas where muas_id = $1`, [
     req.session.user!.id,
   ]);
   if (result.rows.length > 0) {
     res.status(200);
     res.json({});
+    return;
   }
   res.json({});
 });
