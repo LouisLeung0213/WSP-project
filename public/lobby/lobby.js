@@ -1,11 +1,10 @@
 fetch("/filter")
   .then((res) => res.json())
   .then((categories) => {
-    
     // console.log(categories);
     let catMap = new Map();
     let catsTree = [];
-    
+
     for (const catRow of categories) {
       let catNode = {
         id: catRow.id,
@@ -39,30 +38,28 @@ fetch("/filter")
         node.querySelector(".cat-name").textContent = cat.name;
         let subCatList = node.querySelector(".cat-list");
         // console.log(subCatList);
-        
+
         showCats(cat.children, subCatList);
       }
     }
-    
+
     showCats(catsTree, catList);
-    
   });
 
 fetch("/showMua")
-.then((res) => res.json())
-.then((muas) => {
-  console.log(muas);
-  let main = document.querySelector('#main')
-  let content = main.querySelector('.muaAbstract')
-  for (const mua of muas) {
-    content.hidden = false
-    let node = content.cloneNode(true)
-    content.hidden = true
-    node.textContent = JSON.stringify(mua)
-    main.appendChild(node)
-  }
-})
-
+  .then((res) => res.json())
+  .then((muas) => {
+    console.log(muas);
+    let main = document.querySelector("#main");
+    let content = main.querySelector(".muaAbstract");
+    for (const mua of muas) {
+      content.hidden = false;
+      let node = content.cloneNode(true);
+      content.hidden = true;
+      node.textContent = JSON.stringify(mua);
+      main.appendChild(node);
+    }
+  });
 
 let searchFilter = document.querySelector("#searchFilter");
 
@@ -77,8 +74,8 @@ searchFilter.addEventListener("submit", (event) => {
     }
   }
   // console.log(params);
-  let main = document.querySelector('#main')
-  main.textContent = ''
+  let main = document.querySelector("#main");
+  main.textContent = "";
   fetch(`/searchFilter`, {
     method: "post",
     headers: {
@@ -91,7 +88,6 @@ searchFilter.addEventListener("submit", (event) => {
     })
     .then((data) => console.log(data));
 });
-
 
 let logout = document.querySelector("#logoutBtn");
 let becomeMua = document.querySelector("#becomeMua");
@@ -108,8 +104,9 @@ logout.addEventListener("click", async (event) => {
 });
 
 //TODO SIGN UP後立即LOGIN
-/*
+
 window.onload = async () => {
+  console.log("hi");
   const res = await fetch("/isMua");
   const isMua = await res.json();
   if (isMua) {
@@ -134,4 +131,4 @@ becomeMua.addEventListener("click", async (event) => {
       if (result.isConfirmed) window.location = "/lobby/lobby.html";
     });
   }
-});*/
+});
