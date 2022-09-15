@@ -143,7 +143,7 @@ window.onload = async () => {
     let json = await res.json();
     console.log(json);
     //show profile node
-    let node = profileTemplate.cloneNode(true);
+    // let node = profileTemplate.cloneNode(true);
     profileTemplate.hidden = true;
     let alink = document.createElement("a");
     alink.href = `/profile/profile.html?id=${json.id}`;

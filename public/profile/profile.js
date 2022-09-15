@@ -12,7 +12,7 @@ let username = introContainer.querySelector(".username");
 let editBtn = document.getElementById("edit-button");
 let endBtn = document.getElementById("end-editing");
 
-let params = (new URL(document.location)).searchParams
+let params = new URL(document.location).searchParams;
 let paramsName = params.get("id");
 console.log("Current params: ", paramsName);
 
@@ -103,3 +103,26 @@ endBtn.addEventListener("click", async function () {
   let json = await res.json();
   console.log(json);
 });
+
+let profileTemplate = document.querySelector(".profileTemplate");
+let profileShowDiv = document.querySelector(".profileShowDiv");
+window.onload = async () => {
+  let defaultPic = document.createElement("img");
+  defaultPic.src = "/image/default_profile_pic.jpg";
+  defaultPic.alt = "profilePic";
+  profileTemplate.appendChild(defaultPic);
+  const res = await fetch("/isMua");
+  if (res.status == 200) {
+    let json = await res.json();
+    console.log(json);
+    //show profile node
+    // let node = profileTemplate.cloneNode(true);
+    profileTemplate.hidden = true;
+
+    let image = document.createElement("img");
+    image.src = `/uploads/${json.pic}`;
+    image.alt = "icon";
+    image.id = "profileIcon";
+    profileShowDiv.appendChild(image);
+  }
+};
