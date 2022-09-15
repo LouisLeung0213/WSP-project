@@ -1,4 +1,4 @@
-let image = document.querySelector("[name=mua_profilo]");
+let image = document.querySelector("[name=mua_portfolio]");
 let submitBtn = document.querySelector("#submitBtn");
 let portfolioContainer = document.querySelector(".portfolioContainer");
 let portfolio = portfolioContainer.querySelector(".portfolio");
@@ -13,6 +13,10 @@ let endBtn = document.getElementById("end-editing");
 let params = new URL(document.location).searchParams;
 let userId = params.get("id");
 
+let params = new URL(document.location).searchParams;
+let paramsName = params.get("id");
+console.log("Current params: ", paramsName);
+
 submitBtn.addEventListener("click", async (event) => {
   event.preventDefault();
 
@@ -20,7 +24,7 @@ submitBtn.addEventListener("click", async (event) => {
 
   let formData = new FormData();
 
-  formData.append("mua_profilo", image.files[0]);
+  formData.append("mua_portfolio", image.files[0]);
   const res = await fetch("/addWork", {
     method: "POST",
     body: formData,
@@ -31,7 +35,7 @@ submitBtn.addEventListener("click", async (event) => {
   location.reload();
 });
 
-fetch(`/showWork?id=${currentPageUserId}`)
+fetch(`/showWork?id=${paramsName}`)
   .then((res) => {
     return res.json();
     // console.log(res.json());
@@ -43,7 +47,7 @@ fetch(`/showWork?id=${currentPageUserId}`)
       let node = portfolio.cloneNode(true);
       //   portfolio.hidden = true;
       //   node.textContent = "haha";
-      let test = `../uploads/${work.mua_profilo}`;
+      let test = `../uploads/${work.mua_portfolio}`;
       console.log("test: ", test);
       node.src = test;
       portfolioContainer.appendChild(node);
@@ -52,7 +56,7 @@ fetch(`/showWork?id=${currentPageUserId}`)
     }
   });
 
-fetch("/showDetails?id=1")
+fetch(`/showDetails?id=${paramsName}`)
   .then((res) => {
     return res.json();
   })
@@ -67,7 +71,7 @@ fetch("/showDetails?id=1")
     }
   });
 
-fetch("/showNickname?id=1")
+fetch(`/showNickname?id=${paramsName}`)
   .then((res) => {
     return res.json();
   })
@@ -79,11 +83,3 @@ fetch("/showNickname?id=1")
       introContainer.appendChild(node);
     }
   });
-
-editBtn.addEventListener("click", function () {
-  detail.contentEditable = true;
-});
-
-endBtn.addEventListener("click", function () {
-  detail.contentEditable = false;
-});

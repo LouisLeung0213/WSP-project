@@ -1,3 +1,7 @@
+let main = document.querySelector("#main");
+let subMain = document.querySelector("#subMain")
+let content = main.querySelector(".muaAbstract");
+
 fetch("/filter")
   .then((res) => res.json())
   .then((categories) => {
@@ -46,25 +50,24 @@ fetch("/filter")
     showCats(catsTree, catList);
   });
 
-fetch("/showMua")
+  fetch("/showMua")
   .then((res) => res.json())
   .then((muas) => {
-    console.log(muas);
-    let main = document.querySelector("#main");
-    let content = main.querySelector(".muaAbstract");
+    // console.log(muas);
     for (const mua of muas) {
       console.log(mua);
       content.hidden = false;
       let node = content.cloneNode(true);
       content.hidden = true;
-      node.textContent = JSON.stringify(mua);
-      main.appendChild(node);
+      let muaName = mua.username
+      node.textContent = muaName;
+      subMain.appendChild(node);
     }
   });
 
-let searchFilter = document.querySelector("#searchFilter");
-
-searchFilter.addEventListener("submit", (event) => {
+  let searchFilter = document.querySelector("#searchFilter");
+  
+  searchFilter.addEventListener("submit", (event) => {
   event.preventDefault();
   let form = event.target;
   let params = [];
@@ -75,8 +78,6 @@ searchFilter.addEventListener("submit", (event) => {
     }
   }
   // console.log(params);
-  let main = document.querySelector("#main");
-  main.textContent = "";
   fetch(`/searchFilter`, {
     method: "post",
     headers: {
@@ -84,10 +85,26 @@ searchFilter.addEventListener("submit", (event) => {
     },
     body: JSON.stringify(params),
   })
-    .then((res) => {
-      return res.json();
-    })
-    .then((data) => console.log(data));
+  .then((res) => {
+    return res.json();
+  })
+  .then((muas) => {
+    if (muas == "Err: empty filter"){
+      // console.log(muas);
+      return
+    }
+    subMain.textContent = "";
+      // console.log(muas);
+      for (const mua of muas) {
+        content.hidden = false;
+        let node = content.cloneNode(true);
+        content.hidden = true;
+        let muaName = mua.username
+        node.textContent = muaName;
+        subMain.appendChild(node);
+      }
+    });
+    
 });
 
 let logout = document.querySelector("#logoutBtn");
@@ -107,7 +124,6 @@ logout.addEventListener("click", async (event) => {
 //TODO SIGN UP後立即LOGIN
 
 window.onload = async () => {
-  console.log("hi");
   const res = await fetch("/isMua");
   if (res.status == 200) {
     becomeMua.hidden = true;

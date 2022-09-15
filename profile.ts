@@ -22,7 +22,7 @@ const form = formidable({
 profileRoutes.post("/addWork", (req, res) => {
   form.parse(req, async (err, fields, files) => {
     // console.log(files);
-    let image = files.mua_profilo;
+    let image = files.mua_portfolio;
     let imageFile: formidable.File = Array.isArray(image) ? image[0] : image;
     let image_filename = imageFile?.newFilename;
     if (err) {
@@ -32,7 +32,7 @@ profileRoutes.post("/addWork", (req, res) => {
     }
     if (req.session.user) {
       await client.query(
-        "insert into profilo (muas_id, mua_profilo) values ($1 , $2)",
+        "insert into portfolio (muas_id, mua_portfolio) values ($1 , $2)",
         [req.session.user.id, image_filename]
       );
     } else {
@@ -50,7 +50,7 @@ profileRoutes.get("/showWork", async (req, res) => {
   let muas_id = req.query.id;
   console.log(muas_id);
   let result = await client.query(
-    `select * from profilo where muas_id = ${muas_id}`
+    `select * from portfolio where muas_id = ${muas_id}`
   );
   console.log(result.rows);
   let works = result.rows;
