@@ -4,6 +4,9 @@ let portfolioContainer = document.querySelector(".portfolioContainer");
 let portfolio = portfolioContainer.querySelector(".portfolio");
 let detailContainer = document.querySelector(".detailContainer");
 let detail = detailContainer.querySelector(".detail");
+let introContainer = document.querySelector(".introContainer");
+// let icon = introContainer.querySelector(".icon");
+let username = introContainer.querySelector(".username");
 
 submitBtn.addEventListener("click", async (event) => {
   event.preventDefault();
@@ -56,5 +59,18 @@ fetch("/showDetails?id=1")
       detail.hidden = true;
       console.log(node.textContent);
       detailContainer.appendChild(node);
+    }
+  });
+
+fetch("/showNickname?id=1")
+  .then((res) => {
+    return res.json();
+  })
+  .then((nicknames) => {
+    for (let nickname of nicknames) {
+      let node = username.cloneNode(true);
+      node.textContent = nickname.nickname;
+      username.hidden = true;
+      introContainer.appendChild(node);
     }
   });
