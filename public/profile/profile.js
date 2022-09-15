@@ -4,6 +4,7 @@ let portfolioContainer = document.querySelector(".portfolioContainer");
 let portfolio = portfolioContainer.querySelector(".portfolio");
 let detailContainer = document.querySelector(".detailContainer");
 let detail = detailContainer.querySelector(".detail");
+let newDetail = document.querySelectorAll("detail");
 let introContainer = document.querySelector(".introContainer");
 // let icon = introContainer.querySelector(".icon");
 let username = introContainer.querySelector(".username");
@@ -65,6 +66,8 @@ fetch(`/showDetails?id=${paramsName}`)
       // detail.hidden = true;
       console.log(node.textContent);
       detailContainer.appendChild(node);
+      detail.remove();
+      detail = detailContainer.querySelector(".detail");
     }
   });
 
@@ -77,6 +80,25 @@ fetch(`/showNickname?id=${paramsName}`)
       let node = username.cloneNode(true);
       node.textContent = nickname.nickname;
       username.hidden = true;
+      // node.className = "detail";
       introContainer.appendChild(node);
     }
   });
+
+editBtn.addEventListener("click", function () {
+  detail.contentEditable = true;
+});
+
+endBtn.addEventListener("click", async function () {
+  detail.contentEditable = false;
+  console.log(detail.textContent);
+  const res = await fetch(`/editIntro?id=${paramsName}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+    },
+    body: JSON.stringify({ content: detail.textContent }),
+  });
+  let json = await res.json();
+  console.log(json);
+});

@@ -1,7 +1,7 @@
 import { client } from "./database";
 import { Router, RequestHandler, Request, Response } from "express";
 import { markAsUntransferable } from "worker_threads";
-import { muaRoutes } from "./Muas";
+import { muaRoutes } from "./muas";
 
 export const filterRoutes = Router();
 
@@ -13,7 +13,7 @@ filterRoutes.get("/filter", async (req, res) => {
 
 filterRoutes.get("/showMua", async (req, res) => {
   let result = await client.query(
-    "SELECT username from muas join users on muas_id = users.id"
+    "SELECT username, users.id from muas join users on muas_id = users.id"
   );
   let muas = result.rows;
   // console.log("All the muas: ", muas);
@@ -24,13 +24,13 @@ filterRoutes.get("/showMua", async (req, res) => {
 filterRoutes.post("/searchFilter", async (req, res) => {
   let params = req.body;
   // console.log("Params: ", params);
-  
+
   if (params.length == 0) {
     res.json("Err: empty filter");
   } else {
     // console.log(params.join(' or '))
     let sql = `
-  select username from offers join users on 
+  select username, users.id from offers join users on 
   muas_id = users.id
   where ${params.join(" or ")}
   order by users.id;

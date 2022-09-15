@@ -9,7 +9,7 @@ import cookieParser from "cookie-parser";
 import "./session";
 import path from "path";
 import { profileRoutes } from "./profile";
-import { muaRoutes } from "./Muas";
+import { muaRoutes } from "./muas";
 
 let app = express();
 //logger

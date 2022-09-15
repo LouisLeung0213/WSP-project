@@ -90,15 +90,13 @@ profileRoutes.get("/showIcon", async (req, res) => {
   res.json(icons);
 });
 
-profileRoutes.put("/editIntro", async (req, res) => {
+profileRoutes.patch("/editIntro", async (req, res) => {
+  console.log(req.body);
+  console.log(req.query.id);
   let newContent = req.body.content;
   let muas_id = req.query.id;
   let result = await client.query(
-    `update maus set introduction = ${newContent} where muas_id =${muas_id}`
+    `update muas set introduction = '${newContent}' where muas_id =${muas_id}`
   );
+  res.json(result);
 });
-
-// profileRoutes.get("/sessionId", (req, res) => {
-//   let currentUserId = req.session.user!.id;
-//   return currentUserId;
-// });

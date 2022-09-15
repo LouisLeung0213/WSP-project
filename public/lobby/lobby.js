@@ -1,6 +1,7 @@
 let main = document.querySelector("#main");
 let subMain = document.querySelector("#subMain");
 let content = main.querySelector(".muaAbstract");
+let muaHref = main.querySelector(".muaHref");
 
 fetch("/filter")
   .then((res) => res.json())
@@ -50,20 +51,26 @@ fetch("/filter")
     showCats(catsTree, catList);
   });
 
-fetch("/showMua")
-  .then((res) => res.json())
-  .then((muas) => {
-    // console.log(muas);
-    for (const mua of muas) {
-      console.log(mua);
-      content.hidden = false;
-      let node = content.cloneNode(true);
-      content.hidden = true;
-      let muaName = mua.username;
-      node.textContent = muaName;
-      subMain.appendChild(node);
-    }
-  });
+function showMua() {
+  fetch("/showMua")
+    .then((res) => res.json())
+    .then((muas) => {
+      // console.log(muas);
+      for (const mua of muas) {
+        // console.log(mua);
+        content.hidden = false;
+        let node = content.cloneNode(true);
+        let nodeContent = node.querySelector(".muaHref");
+        let muaName = mua.username;
+        let muaId = mua.id;
+        nodeContent.href = `../../profile/profile.html?id=${muaId}`;
+        content.hidden = true;
+        nodeContent.textContent = muaName;
+        subMain.appendChild(node);
+      }
+    });
+}
+showMua();
 
 let searchFilter = document.querySelector("#searchFilter");
 
@@ -90,7 +97,8 @@ searchFilter.addEventListener("submit", (event) => {
     })
     .then((muas) => {
       if (muas == "Err: empty filter") {
-        // console.log(muas);
+        subMain.textContent = "";
+        showMua();
         return;
       }
       subMain.textContent = "";
@@ -98,9 +106,12 @@ searchFilter.addEventListener("submit", (event) => {
       for (const mua of muas) {
         content.hidden = false;
         let node = content.cloneNode(true);
-        content.hidden = true;
+        let nodeContent = node.querySelector(".muaHref");
         let muaName = mua.username;
-        node.textContent = muaName;
+        let muaId = mua.id;
+        nodeContent.href = `../../profile/profile.html?id=${muaId}`;
+        content.hidden = true;
+        nodeContent.textContent = muaName;
         subMain.appendChild(node);
       }
     });
