@@ -15,7 +15,7 @@ muaRoutes.post("/registration", async (req, res) => {
   await client.query(`insert into muas (muas_id) values ($1)`, [
     req.session.user!.id,
   ]);
-  console.log(userInfo);
+
   if (userInfo.profilepic) {
     let result = await client.query(`insert into muas (icon) values ($1)`, [
       userInfo.profilepic,

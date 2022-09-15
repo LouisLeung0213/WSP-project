@@ -1,4 +1,4 @@
-let image = document.querySelector("[name=mua_profilo]");
+let image = document.querySelector("[name=mua_portfolio]");
 let submitBtn = document.querySelector("#submitBtn");
 let portfolioContainer = document.querySelector(".portfolioContainer");
 let portfolio = portfolioContainer.querySelector(".portfolio");
@@ -15,7 +15,7 @@ submitBtn.addEventListener("click", async (event) => {
 
   let formData = new FormData();
 
-  formData.append("mua_profilo", image.files[0]);
+  formData.append("mua_portfolio", image.files[0]);
   const res = await fetch("/addWork", {
     method: "POST",
     body: formData,
@@ -38,7 +38,7 @@ fetch("/showWork?id=1")
       let node = portfolio.cloneNode(true);
       //   portfolio.hidden = true;
       //   node.textContent = "haha";
-      let test = `../uploads/${work.mua_profilo}`;
+      let test = `../uploads/${work.mua_portfolio}`;
       console.log("test: ", test);
       node.src = test;
       portfolioContainer.appendChild(node);
