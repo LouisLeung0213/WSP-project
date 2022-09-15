@@ -109,6 +109,7 @@ window.onload = async () => {
   console.log("hi");
   const res = await fetch("/isMua");
   const isMua = await res.json();
+  console.log(isMua);
   if (isMua) {
     becomeMua.hidden = true;
   }
@@ -128,7 +129,10 @@ becomeMua.addEventListener("click", async (event) => {
       title: `Welcome join Makeup Artist`,
       showConfirmButton: true,
     }).then((result) => {
-      if (result.isConfirmed) window.location = "/lobby/lobby.html";
+      if (result.isConfirmed) {
+        becomeMua.hidden = true;
+        window.location = "/lobby/lobby.html";
+      }
     });
   }
 });

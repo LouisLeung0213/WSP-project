@@ -31,7 +31,8 @@ muaRoutes.get("/isMua", async (req, res) => {
   ]);
   if (result.rows.length > 0) {
     res.status(200);
-    res.json();
+    res.json({});
+    return;
   }
-  res.json();
+  res.json({});
 });
