@@ -1,10 +1,9 @@
-
 body {
   margin: 0px;
 }
 
 .container {
-    margin: 0px 15vw;
+  margin: 0px 15vw;
 }
 
 .navBar {
@@ -79,4 +78,8 @@ body {
   margin: 20px 0px;
 }
 
-
+.detail {
+  width: 150px;
+  height: 150px;
+  background-color: #f7b0bb;
+}
