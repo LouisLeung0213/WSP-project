@@ -1,9 +1,12 @@
-import "./session";
-
-let image = document.querySelector("[name=profile]");
+let image = document.querySelector("[name=mua_profilo]");
 let submitBtn = document.querySelector("#submitBtn");
-let portfolio = document.querySelector(".portfolio");
 let portfolioContainer = document.querySelector(".portfolioContainer");
+let portfolio = portfolioContainer.querySelector(".portfolio");
+let detailContainer = document.querySelector(".detailContainer");
+let detail = detailContainer.querySelector(".detail");
+let introContainer = document.querySelector(".introContainer");
+// let icon = introContainer.querySelector(".icon");
+let username = introContainer.querySelector(".username");
 
 submitBtn.addEventListener("click", async (event) => {
   event.preventDefault();
@@ -13,20 +16,61 @@ submitBtn.addEventListener("click", async (event) => {
   let formData = new FormData();
 
   formData.append("mua_profilo", image.files[0]);
-  const res = await fetch("addWork", {
+  const res = await fetch("/addWork", {
     method: "POST",
     body: formData,
   });
   let json = await res.json();
   console.log(json);
+  alert("Success!");
+  location.reload();
 });
 
-fetch("/showWork")
-  .then((res) => res.json())
+fetch("/showWork?id=1")
+  .then((res) => {
+    return res.json();
+    // console.log(res.json());
+  })
   .then((works) => {
-    for (const work of works) {
+    console.log(works);
+    for (let work of works) {
+      //   console.log(work);
       let node = portfolio.cloneNode(true);
-
+      //   portfolio.hidden = true;
+      //   node.textContent = "haha";
+      let test = `../uploads/${work.mua_profilo}`;
+      console.log("test: ", test);
+      node.src = test;
       portfolioContainer.appendChild(node);
+      console.log(node.src);
+      //   console.log(node);
+    }
+  });
+
+fetch("/showDetails?id=1")
+  .then((res) => {
+    return res.json();
+  })
+  .then((intros) => {
+    console.log(intros);
+    for (let intro of intros) {
+      let node = detail.cloneNode(true);
+      node.textContent = intro.introduction;
+      detail.hidden = true;
+      console.log(node.textContent);
+      detailContainer.appendChild(node);
+    }
+  });
+
+fetch("/showNickname?id=1")
+  .then((res) => {
+    return res.json();
+  })
+  .then((nicknames) => {
+    for (let nickname of nicknames) {
+      let node = username.cloneNode(true);
+      node.textContent = nickname.nickname;
+      username.hidden = true;
+      introContainer.appendChild(node);
     }
   });
