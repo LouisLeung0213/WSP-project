@@ -8,6 +8,10 @@ let introContainer = document.querySelector(".introContainer");
 // let icon = introContainer.querySelector(".icon");
 let username = introContainer.querySelector(".username");
 
+let params = (new URL(document.location)).searchParams
+let paramsName = params.get('id');
+console.log("Current params: ", paramsName);
+
 submitBtn.addEventListener("click", async (event) => {
   event.preventDefault();
 
@@ -26,7 +30,7 @@ submitBtn.addEventListener("click", async (event) => {
   location.reload();
 });
 
-fetch("/showWork?id=1")
+fetch(`/showWork?id=${paramsName}`)
   .then((res) => {
     return res.json();
     // console.log(res.json());
@@ -47,7 +51,7 @@ fetch("/showWork?id=1")
     }
   });
 
-fetch("/showDetails?id=1")
+fetch(`/showDetails?id=${paramsName}`)
   .then((res) => {
     return res.json();
   })
@@ -62,7 +66,7 @@ fetch("/showDetails?id=1")
     }
   });
 
-fetch("/showNickname?id=1")
+fetch(`/showNickname?id=${paramsName}`)
   .then((res) => {
     return res.json();
   })
@@ -74,3 +78,4 @@ fetch("/showNickname?id=1")
       introContainer.appendChild(node);
     }
   });
+
