@@ -4,13 +4,14 @@ let portfolioContainer = document.querySelector(".portfolioContainer");
 let portfolio = portfolioContainer.querySelector(".portfolio");
 let detailContainer = document.querySelector(".detailContainer");
 let detail = detailContainer.querySelector(".detail");
-let newDetail = document.querySelectorAll("detail");
+// let newDetail = document.querySelectorAll("detail");
 let introContainer = document.querySelector(".introContainer");
 // let icon = introContainer.querySelector(".icon");
 let username = introContainer.querySelector(".username");
 // let paragraph = document.querySelecto("edit");
 let editBtn = document.getElementById("edit-button");
 let endBtn = document.getElementById("end-editing");
+let uploadPhoto = document.getElementById("choosePhoto");
 
 let params = new URL(document.location).searchParams;
 let paramsName = params.get("id");
@@ -33,6 +34,18 @@ submitBtn.addEventListener("click", async (event) => {
   alert("Success!");
   location.reload();
 });
+fetch(`/profile?id=${paramsName}`)
+  .then((res) => res.json())
+  .then((json) => {
+    console.log(json);
+    // console.log("other:" + paramsName);
+    if (json.currentUser != paramsName) {
+      submitBtn.hidden = true;
+      endBtn.hidden = true;
+      editBtn.hidden = true;
+      uploadPhoto.hidden = true;
+    }
+  });
 
 fetch(`/showWork?id=${paramsName}`)
   .then((res) => {
