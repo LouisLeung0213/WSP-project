@@ -46,6 +46,40 @@ profileRoutes.post("/addWork", (req, res) => {
 
 // let req = Request
 
+profileRoutes.get("/currentUser", (req, res) => {
+  res.json(req.session.user);
+});
+
+profileRoutes.get("/profile", async (req, res) => {
+  let muas_id = req.query.id;
+  console.log(muas_id);
+  let result = await client.query(
+    `
+select 
+  introduction 
+, nickname
+, icon
+from muas
+inner join users on users.id = muas_id 
+where muas_id = $1
+`,
+    [muas_id]
+  );
+  let user = result.rows[0];
+  let result2 = await client.query(
+    `
+select * from portfolio where muas_id = $1
+`,
+    [muas_id]
+  );
+  console.log("result.Rows!!!!" + result2.rows[0]);
+  let works = result.rows;
+  // console.log(result.rows);
+  // let intros = result.rows;
+  let currentUser = req.session.user?.id;
+  res.json({ user, works, currentUser });
+});
+
 profileRoutes.get("/showWork", async (req, res) => {
   let muas_id = req.query.id;
   console.log(muas_id);
@@ -55,10 +89,6 @@ profileRoutes.get("/showWork", async (req, res) => {
   console.log(result.rows);
   let works = result.rows;
   res.json(works);
-});
-
-profileRoutes.get("/currentUser", (req, res) => {
-  res.json(req.session.user);
 });
 
 profileRoutes.get("/showDetails", async (req, res) => {

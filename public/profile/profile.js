@@ -126,3 +126,9 @@ window.onload = async () => {
     profileShowDiv.appendChild(image);
   }
 };
+
+fetch(`/profile?id=${paramsName}`)
+  .then((res) => res.json())
+  .then((json) => {
+    console.log(json);
+  });
