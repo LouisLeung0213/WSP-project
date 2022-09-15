@@ -77,20 +77,21 @@ let searchFilter = document.querySelector("#searchFilter");
 searchFilter.addEventListener("submit", (event) => {
   event.preventDefault();
   let form = event.target;
-  let params = [];
-  for (let param of form) {
-    if (param.checked) {
-      params.push(`categories_id = ${param.value}`);
-      // param.checked = 0
+  let filterOptions = {cats: [], dates: []};
+  for (let cat of form) {
+    if (cat.checked) {
+      filterOptions.cats.push(`categories_id = ${cat.value}`);
     }
   }
   // console.log(params);
+  console.log(selectedDates)
+  filterOptions.dates = selectedDates
   fetch(`/searchFilter`, {
     method: "post",
     headers: {
       "Content-type": "application/json",
     },
-    body: JSON.stringify(params),
+    body: JSON.stringify(filterOptions),
   })
     .then((res) => {
       return res.json();
@@ -177,3 +178,4 @@ becomeMua.addEventListener("click", async (event) => {
     });
   }
 });
+

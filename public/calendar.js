@@ -1,8 +1,9 @@
 const date = new Date();
 let selectedDates = [];
 
+
 const renderCalendar = () => {
-  console.log(date);
+  // console.log(date);
   date.setDate(1);
 
   const monthDays = document.querySelector(".days");
@@ -115,32 +116,22 @@ function selectDate() {
       date.classList.remove("selected");
     }
     date.addEventListener("click", () => {
-      console.log(date.id);
+      // console.log(date.id);
       if (
         !date.classList.contains("unselectable") &&
         !date.classList.contains("selected")
       ) {
-        selectedDates.push(date.id);
+        selectedDates.push(`unavailable_date = '${date.id}'`);
         date.classList.add("selected")
-        console.log(selectedDates);
+        // console.log(selectedDates);
       } else if (date.classList.contains("selected")) {
-        selectedDates = selectedDates.filter((word) => word !== date.id);
+        selectedDates = selectedDates.filter((word) => word !== `unavailable_date = '${date.id}'`);
         date.classList.remove("selected")
-        console.log(selectedDates);
+        // console.log(selectedDates);
       }
     });
   }
 }
 selectDate();
 
-// function checkSelected() {
-//   let days = document.querySelectorAll(".days div");
-//   for (let date of days) {
-//     if (selectedDates.filter((word) => word == date.id).length > 0) {
-//       date.classList.add("selected");
-//     } else {
-//       date.classList.remove("selected");
-//     }
-//   }
-// }
-// checkSelected();
+

@@ -22,19 +22,33 @@ filterRoutes.get("/showMua", async (req, res) => {
 });
 
 filterRoutes.post("/searchFilter", async (req, res) => {
-  let params = req.body;
+  let filterOptions = req.body;
   // console.log("Params: ", params);
 
-  if (params.length == 0) {
+  if (filterOptions.cats.length == 0 && filterOptions.dates.length == 0 ) {
     res.json("Err: empty filter");
   } else {
-    // console.log(params.join(' or '))
+    let andExs = " "
+    let dateExsStart = ""
+    let dateExsEnd = ""
+    if (filterOptions.cats.length !== 0 && filterOptions.dates.length !== 0 ){
+      andExs = ') and ('
+    }
+    if (filterOptions.dates.length !== 0){
+      dateExsStart = " offers.muas_id not in (select muas_id from date_matches where "
+      dateExsEnd = ")"
+    }
+    console.log(filterOptions)
     let sql = `
-  select username, users.id from offers join users on 
-  muas_id = users.id
-  where ${params.join(" or ")}
+  select username, users.id from offers 
+  join users on muas_id = users.id 
+  left join date_matches on date_matches.muas_id = users.id
+  where (${filterOptions.cats.join(" or ")}
+  ${andExs}${dateExsStart}${filterOptions.dates.join(" or ")}${dateExsEnd}) 
   order by users.id;
   `;
+    console.log('sql: ',sql);
+    
     let result = await client.query(sql);
     // console.log("Filtered muas: ", result.rows);
     let muas = new Set();

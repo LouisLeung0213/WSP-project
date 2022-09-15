@@ -112,3 +112,4 @@ insert into muas (muas_id) values (2), (3);
 
 
 insert into offers (categories_id, muas_id) values (3, 2),(5, 3);
+
