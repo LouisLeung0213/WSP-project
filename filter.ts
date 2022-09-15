@@ -1,7 +1,7 @@
 import { client } from "./database";
 import { Router, RequestHandler, Request, Response } from "express";
 import { markAsUntransferable } from "worker_threads";
-import { muaRoutes } from "./Muas";
+import { muaRoutes } from "./muas";
 
 export const filterRoutes = Router();
 
@@ -24,7 +24,7 @@ filterRoutes.get("/showMua", async (req, res) => {
 filterRoutes.post("/searchFilter", async (req, res) => {
   let params = req.body;
   // console.log("Params: ", params);
-  
+
   if (params.length == 0) {
     res.json("Err: empty filter");
   } else {
