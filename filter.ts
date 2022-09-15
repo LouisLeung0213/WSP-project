@@ -13,7 +13,7 @@ filterRoutes.get("/filter", async (req, res) => {
 
 filterRoutes.get("/showMua", async (req, res) => {
   let result = await client.query(
-    "SELECT username from muas join users on muas_id = users.id"
+    "SELECT username, users.id from muas join users on muas_id = users.id"
   );
   let muas = result.rows;
   // console.log("All the muas: ", muas);
@@ -30,7 +30,7 @@ filterRoutes.post("/searchFilter", async (req, res) => {
   } else {
     // console.log(params.join(' or '))
     let sql = `
-  select username from offers join users on 
+  select username, users.id from offers join users on 
   muas_id = users.id
   where ${params.join(" or ")}
   order by users.id;

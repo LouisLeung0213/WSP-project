@@ -104,7 +104,7 @@ userRoutes.post("/login", async (req, res) => {
     return;
   }
   const user = users.rows[0];
-  console.log(user);
+  // console.log(user);
 
   const check = await checkPassword(password, user.password_hash);
   if (!check) {
@@ -145,8 +145,8 @@ userRoutes.use("/signUpLink", (req, res) => {
 userRoutes.post("/signUp", (req, res) => {
   form.parse(req, async (err, fields, files) => {
     let hashedPassword = await hashPassword(fields.password as string);
-    console.log({ err, fields, files });
-    console.log(hashedPassword);
+    // console.log({ err, fields, files });
+    // console.log(hashedPassword);
     let image = files.image;
     let imageFile = Array.isArray(image) ? image[0] : image;
     let image_filename = imageFile?.newFilename;
