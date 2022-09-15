@@ -98,7 +98,7 @@ html {
     transition: background-color 0.2s;
   }
   
-  .days div:hover:not(.today) {
+  .days div:hover:not(.unselectable) {
     background-color: #f78fb0;
     border: 0.2rem solid #777;
     cursor: pointer;
@@ -110,6 +110,11 @@ html {
   }
   
   .today {
+    font-weight: bold;
+    outline: 2px solid black;
+  }
+
+  .selected:not(.unselectable) {
     background-color: #e06c74;
   }
   

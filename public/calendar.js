@@ -1,4 +1,5 @@
 const date = new Date();
+let selectedDates = [];
 
 const renderCalendar = () => {
   console.log(date);
@@ -51,7 +52,9 @@ const renderCalendar = () => {
   let days = "";
 
   for (let x = firstDayIndex; x > 0; x--) {
-    days += `<div class="prev-date">${prevLastDay - x + 1}</div>`;
+    days += `<div class="prev-date unselectable" id="${date.getFullYear()}-${
+      date.getMonth() + 1
+    }-${prevLastDay - x + 1}">${prevLastDay - x + 1}</div>`;
   }
 
   for (let i = 1; i <= lastDay; i++) {
@@ -60,14 +63,20 @@ const renderCalendar = () => {
       date.getMonth() === new Date().getMonth() &&
       date.getFullYear() === new Date().getFullYear()
     ) {
-      days += `<div class="today">${i}</div>`;
+      days += `<div class="today" id="${date.getFullYear()}-${
+        date.getMonth() + 1
+      }-${i}">${i}</div>`;
     } else {
-      days += `<div>${i}</div>`;
+      days += `<div id="${date.getFullYear()}-${
+        date.getMonth() + 1
+      }-${i}">${i}</div>`;
     }
   }
 
   for (let j = 1; j <= nextDays; j++) {
-    days += `<div class="next-date">${j}</div>`;
+    days += `<div class="next-date unselectable" id="${date.getFullYear()}-${
+      date.getMonth() + 1
+    }-${j}">${j}</div>`;
   }
   monthDays.innerHTML = days;
 };
@@ -75,17 +84,63 @@ const renderCalendar = () => {
 document.querySelector(".prev").addEventListener("click", () => {
   date.setMonth(date.getMonth() - 1);
   renderCalendar();
+  selectDate();
 });
 
 document.querySelector(".next").addEventListener("click", () => {
   date.setMonth(date.getMonth() + 1);
   renderCalendar();
+  selectDate();
 });
 
 document.querySelector(".date p").addEventListener("click", () => {
-  date.setMonth((new Date).getMonth());
-  date.setFullYear((new Date).getFullYear());
+  date.setMonth(new Date().getMonth());
+  date.setFullYear(new Date().getFullYear());
   renderCalendar();
+  selectDate();
 });
 
 renderCalendar();
+
+// Select date
+
+function selectDate() {
+  let days = document.querySelectorAll(".days div");
+  // console.log(days);
+
+  for (let date of days) {
+    if (selectedDates.filter((word) => word == date.id).length > 0) {
+      date.classList.add("selected");
+    } else {
+      date.classList.remove("selected");
+    }
+    date.addEventListener("click", () => {
+      console.log(date.id);
+      if (
+        !date.classList.contains("unselectable") &&
+        !date.classList.contains("selected")
+      ) {
+        selectedDates.push(date.id);
+        date.classList.add("selected")
+        console.log(selectedDates);
+      } else if (date.classList.contains("selected")) {
+        selectedDates = selectedDates.filter((word) => word !== date.id);
+        date.classList.remove("selected")
+        console.log(selectedDates);
+      }
+    });
+  }
+}
+selectDate();
+
+// function checkSelected() {
+//   let days = document.querySelectorAll(".days div");
+//   for (let date of days) {
+//     if (selectedDates.filter((word) => word == date.id).length > 0) {
+//       date.classList.add("selected");
+//     } else {
+//       date.classList.remove("selected");
+//     }
+//   }
+// }
+// checkSelected();
