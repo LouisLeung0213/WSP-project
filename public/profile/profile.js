@@ -7,6 +7,11 @@ let detail = detailContainer.querySelector(".detail");
 let introContainer = document.querySelector(".introContainer");
 // let icon = introContainer.querySelector(".icon");
 let username = introContainer.querySelector(".username");
+// let paragraph = document.querySelecto("edit");
+let editBtn = document.getElementById("edit-button");
+let endBtn = document.getElementById("end-editing");
+let params = new URL(document.location).searchParams;
+let userId = params.get("id");
 
 let params = new URL(document.location).searchParams;
 let paramsName = params.get("id");
@@ -60,7 +65,7 @@ fetch(`/showDetails?id=${paramsName}`)
     for (let intro of intros) {
       let node = detail.cloneNode(true);
       node.textContent = intro.introduction;
-      detail.hidden = true;
+      // detail.hidden = true;
       console.log(node.textContent);
       detailContainer.appendChild(node);
     }

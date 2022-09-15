@@ -55,6 +55,7 @@ fetch("/showMua")
   .then((muas) => {
     // console.log(muas);
     for (const mua of muas) {
+      console.log(mua);
       content.hidden = false;
       let node = content.cloneNode(true);
       content.hidden = true;
