@@ -96,6 +96,7 @@ searchFilter.addEventListener("submit", (event) => {
     .then((data) => console.log(data));
 });
 
+//logout function
 logout.addEventListener("click", async (event) => {
   event.preventDefault();
   let res = await fetch("/logout", {
@@ -106,7 +107,31 @@ logout.addEventListener("click", async (event) => {
   }
 });
 
+//TODO SIGN UP後立即LOGIN
+/*
+window.onload = async () => {
+  const res = await fetch("/isMua");
+  const isMua = await res.json();
+  if (isMua) {
+    becomeMua.hidden = true;
+  }
+};
+
 becomeMua.addEventListener("click", async (event) => {
   event.preventDefault();
-  let res = await fetch("/logout", {});
-});
+  let res = await fetch("/registration", {
+    method: "post",
+  });
+
+  let json = await res.json();
+  console.log(json);
+  if (res.ok) {
+    Swal.fire({
+      icon: "success",
+      title: `Welcome join Makeup Artist`,
+      showConfirmButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) window.location = "/lobby/lobby.html";
+    });
+  }
+});*/

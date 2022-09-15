@@ -32,6 +32,7 @@ signUpForm.addEventListener("click", async (event) => {
   });
   let json = await res.json();
   console.log(json);
+
   if (!res.ok) {
     if (res.status == 400) {
       Swal.fire({
