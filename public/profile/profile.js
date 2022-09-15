@@ -12,6 +12,7 @@ let username = introContainer.querySelector(".username");
 let editBtn = document.getElementById("edit-button");
 let endBtn = document.getElementById("end-editing");
 
+let params = (new URL(document.location)).searchParams
 let paramsName = params.get("id");
 console.log("Current params: ", paramsName);
 
