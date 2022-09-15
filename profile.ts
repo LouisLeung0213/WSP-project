@@ -72,16 +72,20 @@ profileRoutes.get("/showDetails", async (req, res) => {
   res.json(intros);
 });
 
-profileRoutes.get("/showPersonInfo", async (req, res) => {
+profileRoutes.get("/showNickname", async (req, res) => {
   let muas_id = req.query.id;
   let result = await client.query(
     `select nickname from users where id = ${muas_id}`
   );
-  let result2 = await client.query(
+  let nicknames = result.rows;
+  res.json(nicknames);
+});
+
+profileRoutes.get("/showIcon", async (req, res) => {
+  let muas_id = req.query.id;
+  let result = await client.query(
     `select icon from muas where muas_id = ${muas_id}`
   );
-  let nicknames = result.rows;
-  let icons = result2.rows;
-  res.json(nicknames);
+  let icons = result.rows;
   res.json(icons);
 });
