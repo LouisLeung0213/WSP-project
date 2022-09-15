@@ -108,9 +108,7 @@ logout.addEventListener("click", async (event) => {
 window.onload = async () => {
   console.log("hi");
   const res = await fetch("/isMua");
-  const isMua = await res.json();
-  console.log(isMua);
-  if (isMua) {
+  if (res.status == 200) {
     becomeMua.hidden = true;
   }
 };
