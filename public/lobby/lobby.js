@@ -58,7 +58,8 @@ fetch("/showMua")
       content.hidden = false;
       let node = content.cloneNode(true);
       content.hidden = true;
-      node.textContent = JSON.stringify(mua);
+      let muaName = mua.username
+      node.textContent = muaName;
       subMain.appendChild(node);
     }
   });
@@ -97,7 +98,8 @@ searchFilter.addEventListener("submit", (event) => {
         content.hidden = false;
         let node = content.cloneNode(true);
         content.hidden = true;
-        node.textContent = JSON.stringify(mua);
+        let muaName = mua.username
+        node.textContent = muaName;
         subMain.appendChild(node);
       }
     });

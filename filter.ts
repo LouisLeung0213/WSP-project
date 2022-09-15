@@ -1,7 +1,7 @@
 import { client } from "./database";
 import { Router, RequestHandler, Request, Response } from "express";
 import { markAsUntransferable } from "worker_threads";
-import { muaRoutes } from "./muas";
+import { muaRoutes } from "./Muas";
 
 export const filterRoutes = Router();
 
