@@ -10,7 +10,6 @@ import "./session";
 import path from "path";
 import { profileRoutes } from "./profile";
 
-
 let app = express();
 //logger
 app.use(express.urlencoded({ extended: true }));
@@ -25,11 +24,9 @@ app.use((req: express.Request, res, next) => {
 
 app.use(express.static("public"));
 
-
 app.get("/currentUser", (req, res) => {
   res.json(req.session.user);
 });
-
 
 //use UserRoute for access user.ts
 app.use(filterRoutes);
