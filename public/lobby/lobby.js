@@ -1,5 +1,5 @@
 let main = document.querySelector("#main");
-let subMain = document.querySelector("#subMain")
+let subMain = document.querySelector("#subMain");
 let content = main.querySelector(".muaAbstract");
 
 fetch("/filter")
@@ -50,7 +50,7 @@ fetch("/filter")
     showCats(catsTree, catList);
   });
 
-  fetch("/showMua")
+fetch("/showMua")
   .then((res) => res.json())
   .then((muas) => {
     // console.log(muas);
@@ -63,9 +63,9 @@ fetch("/filter")
     }
   });
 
-  let searchFilter = document.querySelector("#searchFilter");
-  
-  searchFilter.addEventListener("submit", (event) => {
+let searchFilter = document.querySelector("#searchFilter");
+
+searchFilter.addEventListener("submit", (event) => {
   event.preventDefault();
   let form = event.target;
   let params = [];
@@ -83,15 +83,15 @@ fetch("/filter")
     },
     body: JSON.stringify(params),
   })
-  .then((res) => {
-    return res.json();
-  })
-  .then((muas) => {
-    if (muas == "Err: empty filter"){
-      // console.log(muas);
-      return
-    }
-    subMain.textContent = "";
+    .then((res) => {
+      return res.json();
+    })
+    .then((muas) => {
+      if (muas == "Err: empty filter") {
+        // console.log(muas);
+        return;
+      }
+      subMain.textContent = "";
       // console.log(muas);
       for (const mua of muas) {
         content.hidden = false;
@@ -101,7 +101,6 @@ fetch("/filter")
         subMain.appendChild(node);
       }
     });
-    
 });
 
 let logout = document.querySelector("#logoutBtn");
