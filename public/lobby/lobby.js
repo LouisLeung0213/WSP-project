@@ -1,3 +1,7 @@
+let main = document.querySelector("#main");
+let subMain = document.querySelector("#subMain")
+let content = main.querySelector(".muaAbstract");
+
 fetch("/filter")
   .then((res) => res.json())
   .then((categories) => {
@@ -49,9 +53,6 @@ fetch("/filter")
   fetch("/showMua")
   .then((res) => res.json())
   .then((muas) => {
-    let main = document.querySelector("#main");
-    let subMain = document.querySelector("#subMain")
-    let content = main.querySelector(".muaAbstract");
     // console.log(muas);
     for (const mua of muas) {
       content.hidden = false;
@@ -75,7 +76,6 @@ fetch("/filter")
     }
   }
   // console.log(params);
-  // let main = document.querySelector("#main");
   fetch(`/searchFilter`, {
     method: "post",
     headers: {
@@ -91,11 +91,8 @@ fetch("/filter")
       // console.log(muas);
       return
     }
-    let subMain = document.querySelector("#subMain")
     subMain.textContent = "";
       // console.log(muas);
-      let main = document.querySelector("#main");
-      let content = main.querySelector(".muaAbstract");
       for (const mua of muas) {
         content.hidden = false;
         let node = content.cloneNode(true);
