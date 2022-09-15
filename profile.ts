@@ -1,14 +1,14 @@
-import { profile } from "console";
-import { Request, Response, NextFunction, Router } from "express";
+// import { profile } from "console";
+import { response, Router } from "express";
 import formidable from "formidable";
 import fs from "fs";
-import { resourceLimits } from "worker_threads";
+// import { resourceLimits } from "worker_threads";
 import { client } from "./database";
 import "./session";
 
 export let profileRoutes = Router();
 
-const uploadDir = "uploads";
+const uploadDir = "./public/uploads";
 fs.mkdirSync(uploadDir, { recursive: true });
 
 const form = formidable({
@@ -21,7 +21,7 @@ const form = formidable({
 
 profileRoutes.post("/addWork", (req, res) => {
   form.parse(req, async (err, fields, files) => {
-    console.log(files);
+    // console.log(files);
     let image = files.mua_profilo;
     let imageFile: formidable.File = Array.isArray(image) ? image[0] : image;
     let image_filename = imageFile?.newFilename;
@@ -37,10 +37,10 @@ profileRoutes.post("/addWork", (req, res) => {
       );
     } else {
       res.status(400);
-      res.end("please login first");
+      res.json({ message: "please login first" });
     }
 
-    res.json({});
+    // res.json({});
   });
 });
 
@@ -48,13 +48,40 @@ profileRoutes.post("/addWork", (req, res) => {
 
 profileRoutes.get("/showWork", async (req, res) => {
   let muas_id = req.query.id;
+  console.log(muas_id);
   let result = await client.query(
-    `select * from profilo where id = ${muas_id}`
+    `select * from profilo where muas_id = ${muas_id}`
   );
+  console.log(result.rows);
   let works = result.rows;
   res.json(works);
 });
 
 profileRoutes.get("/currentUser", (req, res) => {
   res.json(req.session.user);
+});
+
+profileRoutes.get("/showDetails", async (req, res) => {
+  let muas_id = req.query.id;
+  console.log(muas_id);
+  let result = await client.query(
+    `select introduction from muas where muas_id = ${muas_id}`
+  );
+  // console.log(result.rows);
+  let intros = result.rows;
+  res.json(intros);
+});
+
+profileRoutes.get("/showPersonInfo", async (req, res) => {
+  let muas_id = req.query.id;
+  let result = await client.query(
+    `select nickname from users where id = ${muas_id}`
+  );
+  let result2 = await client.query(
+    `select icon from muas where muas_id = ${muas_id}`
+  );
+  let nicknames = result.rows;
+  let icons = result2.rows;
+  res.json(nicknames);
+  res.json(icons);
 });
