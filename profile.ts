@@ -1,12 +1,13 @@
 // import { profile } from "console";
-import { response, Router } from "express";
+import express, { Request, Response, NextFunction, Router } from "express";
 import formidable from "formidable";
 import fs from "fs";
 // import { resourceLimits } from "worker_threads";
 import { client } from "./database";
 import "./session";
-
 export let profileRoutes = Router();
+
+// profileRoutes.use("/profile", checkIsYourOwn, express.static("protected"));
 
 const uploadDir = "./public/uploads";
 fs.mkdirSync(uploadDir, { recursive: true });
@@ -45,6 +46,68 @@ profileRoutes.post("/addWork", (req, res) => {
 });
 
 // let req = Request
+profileRoutes.get("/profile", async (req, res) => {
+  let muas_id = req.query.id;
+  console.log(muas_id);
+  let result = await client.query(
+    `
+select 
+  introduction 
+, nickname
+, icon
+from muas
+inner join users on users.id = muas_id 
+where muas_id = $1
+`,
+    [muas_id]
+  );
+  let user = result.rows[0];
+  result = await client.query(
+    `select * from portfolio where muas_id = $1
+    `,
+    [muas_id]
+  );
+  console.log(result.rows);
+  let works = result.rows;
+  // console.log(result.rows);
+  // let intros = result.rows;
+  let currentUser = req.session.user?.id;
+  res.json({ user, works, currentUser });
+});
+
+profileRoutes.get("/currentUser", (req, res) => {
+  res.json(req.session.user);
+});
+
+profileRoutes.get("/profile", async (req, res) => {
+  let muas_id = req.query.id;
+  console.log(muas_id);
+  let result = await client.query(
+    `
+select 
+  introduction 
+, nickname
+, icon
+from muas
+inner join users on users.id = muas_id 
+where muas_id = $1
+`,
+    [muas_id]
+  );
+  let user = result.rows[0];
+  let result2 = await client.query(
+    `
+select * from portfolio where muas_id = $1
+`,
+    [muas_id]
+  );
+  console.log("result.Rows!!!!" + result2.rows[0]);
+  let works = result.rows;
+  // console.log(result.rows);
+  // let intros = result.rows;
+  let currentUser = req.session.user?.id;
+  res.json({ user, works, currentUser });
+});
 
 profileRoutes.get("/showWork", async (req, res) => {
   let muas_id = req.query.id;
@@ -55,10 +118,6 @@ profileRoutes.get("/showWork", async (req, res) => {
   console.log(result.rows);
   let works = result.rows;
   res.json(works);
-});
-
-profileRoutes.get("/currentUser", (req, res) => {
-  res.json(req.session.user);
 });
 
 profileRoutes.get("/showDetails", async (req, res) => {
@@ -100,3 +159,17 @@ profileRoutes.patch("/editIntro", async (req, res) => {
   );
   res.json(result);
 });
+
+function checkIsYourOwn(req: Request, res: Response, next: NextFunction) {
+  console.log("fk");
+  // if (req.session.user) {
+  // console.log(req.session.user.id);
+  let selfID = req.session.user!.id;
+  let otherID = req.query.id;
+  if (selfID == otherID) {
+    next();
+  } else {
+    res.end("This is not your page");
+  }
+}
+// }

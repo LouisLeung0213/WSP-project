@@ -4,15 +4,16 @@ let portfolioContainer = document.querySelector(".portfolioContainer");
 let portfolio = portfolioContainer.querySelector(".portfolio");
 let detailContainer = document.querySelector(".detailContainer");
 let detail = detailContainer.querySelector(".detail");
-let newDetail = document.querySelectorAll("detail");
+// let newDetail = document.querySelectorAll("detail");
 let introContainer = document.querySelector(".introContainer");
 // let icon = introContainer.querySelector(".icon");
 let username = introContainer.querySelector(".username");
 // let paragraph = document.querySelecto("edit");
 let editBtn = document.getElementById("edit-button");
 let endBtn = document.getElementById("end-editing");
+let uploadPhoto = document.getElementById("choosePhoto");
 
-let params = (new URL(document.location)).searchParams
+let params = new URL(document.location).searchParams;
 let paramsName = params.get("id");
 console.log("Current params: ", paramsName);
 
@@ -33,6 +34,18 @@ submitBtn.addEventListener("click", async (event) => {
   alert("Success!");
   location.reload();
 });
+fetch(`/profile?id=${paramsName}`)
+  .then((res) => res.json())
+  .then((json) => {
+    console.log(json);
+    // console.log("other:" + paramsName);
+    if (json.currentUser != paramsName) {
+      submitBtn.hidden = true;
+      endBtn.hidden = true;
+      editBtn.hidden = true;
+      uploadPhoto.hidden = true;
+    }
+  });
 
 fetch(`/showWork?id=${paramsName}`)
   .then((res) => {
@@ -103,3 +116,32 @@ endBtn.addEventListener("click", async function () {
   let json = await res.json();
   console.log(json);
 });
+
+let profileTemplate = document.querySelector(".profileTemplate");
+let profileShowDiv = document.querySelector(".profileShowDiv");
+window.onload = async () => {
+  let defaultPic = document.createElement("img");
+  defaultPic.src = "/image/default_profile_pic.jpg";
+  defaultPic.alt = "profilePic";
+  profileTemplate.appendChild(defaultPic);
+  const res = await fetch("/isMua");
+  if (res.status == 200) {
+    let json = await res.json();
+    console.log(json);
+    //show profile node
+    // let node = profileTemplate.cloneNode(true);
+    profileTemplate.hidden = true;
+
+    let image = document.createElement("img");
+    image.src = `/uploads/${json.pic}`;
+    image.alt = "icon";
+    image.id = "profileIcon";
+    profileShowDiv.appendChild(image);
+  }
+};
+
+fetch(`/profile?id=${paramsName}`)
+  .then((res) => res.json())
+  .then((json) => {
+    console.log(json);
+  });
