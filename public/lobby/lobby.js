@@ -90,7 +90,7 @@ searchFilter.addEventListener("submit", (event) => {
     }
   }
   // console.log(params);
-  console.log(selectedDates);
+  // console.log(selectedDates);
   filterOptions.dates = selectedDates;
   fetch(`/searchFilter`, {
     method: "post",

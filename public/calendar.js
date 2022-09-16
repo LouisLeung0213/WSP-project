@@ -110,7 +110,7 @@ function selectDate() {
   // console.log(days);
 
   for (let date of days) {
-    if (selectedDates.filter((word) => word == date.id).length > 0) {
+    if (selectedDates.filter((word) => word == `unavailable_date = '${date.id}'`).length > 0) {
       date.classList.add("selected");
     } else {
       date.classList.remove("selected");
