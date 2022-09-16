@@ -4,16 +4,15 @@ let portfolioContainer = document.querySelector(".btnContainer");
 let portfolioBtn = portfolioContainer.querySelector(".imageBtn");
 let detailContainer = document.querySelector(".detailContainer");
 let detail = detailContainer.querySelector(".detail");
-// let newDetail = document.querySelectorAll("detail");
+
 let introContainer = document.querySelector(".introContainer");
-// let icon = introContainer.querySelector(".icon");
+
 let username = introContainer.querySelector(".username");
-// let paragraph = document.querySelecto("edit");
+
 let editBtn = document.getElementById("edit-button");
 let endBtn = document.getElementById("end-editing");
 let uploadPhoto = document.getElementById("choosePhoto");
 let profileTemplate = document.querySelector(".profileTemplate");
-// let showBtn = document.getElementById("showImageBtn");
 let profileIcon = document.querySelector("#profileIcon");
 let deleteBtn = document.querySelector(".deleteBtn");
 
@@ -50,9 +49,6 @@ deleteBtn.addEventListener("click", async (event) => {
     .src.split("/")
     .slice(4);
 
-  // insideImage = event.currentTarget.querySelector(".portfolio1").src;
-  // console.log("thisImage: " + insideImage);
-  // insideImage = outsideImage;
   event.preventDefault();
 
   let res = await fetch("/deletePortfolio", {
@@ -79,16 +75,12 @@ fetch(`/profile?id=${paramsName}`)
     for (let work of json.works) {
       let node = portfolioBtn.cloneNode(true);
       let nodeContent = node.querySelector(".portfolio");
-      // let insideContent = document.querySelector(".portfolio1");
-      // console.log("insideContent : " + insideContent.src);
-      // portfolio.hidden = true;
+
       let photo = `/uploads/${work.mua_portfolio}`;
       nodeContent.src = photo;
-      // insideContent.src = photo;
+
       portfolioContainer.appendChild(node);
       portfolioBtn.remove();
-      // alert("success!");
-      // window.location.reload();
     }
     let intro = json.user.introduction;
     let introNode = detail.cloneNode(true);
@@ -117,79 +109,6 @@ fetch(`/profile?id=${paramsName}`)
     introContainer.appendChild(iconNode);
   });
 
-// let profileShowDiv = document.querySelector(".profileShowDiv");
-// window.onload = async () => {
-//   let defaultPic = document.createElement("img");
-//   defaultPic.src = "/image/default_profile_pic.jpg";
-//   defaultPic.alt = "profilePic";
-//   profileTemplate.appendChild(defaultPic);
-//   const res = await fetch("/isMua");
-//   if (res.status == 200) {
-//     let json = await res.json();
-//     console.log(json);
-//     //show profile node
-//     // let node = profileTemplate.cloneNode(true);
-//     profileTemplate.hidden = true;
-
-//     let image = document.createElement("img");
-//     image.src = `/uploads/${json.pic}`;
-//     image.alt = "icon";
-//     image.id = "profileIcon";
-//     profileShowDiv.appendChild(image);
-//   }
-// };
-
-// fetch(`/showNickname?id=${paramsName}`)
-//   .then((res) => {
-//     return res.json();
-//   })
-//   .then((nicknames) => {
-//     for (let nickname of nicknames) {
-//       let node = username.cloneNode(true);
-//       node.textContent = nickname.nickname;
-//       username.hidden = true;
-//       // node.className = "detail";
-//       introContainer.appendChild(node);
-//     }
-//   });
-// fetch(`/showWork?id=${paramsName}`)
-//   .then((res) => {
-//     return res.json();
-//     // console.log(res.json());
-//   })
-//   .then((works) => {
-//     console.log(works);
-//     for (let work of works) {
-//       //   console.log(work);
-//       let node = portfolio.cloneNode(true);
-//       //   portfolio.hidden = true;
-//       //   node.textContent = "haha";
-//       let test = `../uploads/${work.mua_portfolio}`;
-//       console.log("test: ", test);
-//       node.src = test;
-//       portfolioContainer.appendChild(node);
-//       console.log(node.src);
-//       //   console.log(node);
-//     }
-//   });
-
-// fetch(`/showDetails?id=${paramsName}`)
-//   .then((res) => {
-//     return res.json();
-//   })
-//   .then((intros) => {
-//     console.log(intros);
-//     for (let intro of intros) {
-//       let node = detail.cloneNode(true);
-//       node.textContent = intro.introduction;
-//       // detail.hidden = true;
-//       console.log(node.textContent);
-//       detailContainer.appendChild(node);
-//       detail.remove();
-//       detail = detailContainer.querySelector(".detail");
-//     }
-//   });
-
 editBtn.addEventListener("click", function () {
   detail.contentEditable = true;
 });
@@ -208,12 +127,6 @@ endBtn.addEventListener("click", async function () {
   console.log(json);
 });
 
-// showBtn.addEventListener("click", function (event) {
-//   event.preventDefault();
-//   console.log("hihi");
-// });
-
-// console.log("show:" + showBtn);
 document
   .getElementById("exampleModal")
   .addEventListener("show.bs.modal", (event) => {
@@ -221,6 +134,4 @@ document
     insideImage = event.currentTarget.querySelector(".portfolio1").src;
     insideImage = outsideImage;
     event.currentTarget.querySelector(".portfolio1").src = insideImage;
-    // console.log(insideImage);
-    // insideImage = outsideImage;
   });
