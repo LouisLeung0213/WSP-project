@@ -29,7 +29,8 @@ const form = formidable({
 profileRoutes.post("/addWork", (req, res) => {
   try {
     form.parse(req, async (err, fields, files) => {
-      // console.log(files);
+      console.log("fucku");
+      console.log(fields);
       try {
         let image = files.mua_portfolio;
         let imageFile: formidable.File = Array.isArray(image)
@@ -41,10 +42,16 @@ profileRoutes.post("/addWork", (req, res) => {
           res.end("Failed to upload photo: " + String(err));
           return;
         }
-        if (req.session.user) {
+        if (req.session.user && !fields) {
           await client.query(
             "insert into portfolio (muas_id, mua_portfolio) values ($1 , $2)",
             [req.session.user.id, image_filename]
+          );
+        }
+        if (req.session.user && fields) {
+          await client.query(
+            "insert into portfolio (muas_id, mua_portfolio, mua_description) values ($1 , $2, $3)",
+            [req.session.user.id, image_filename, fields.mua_description]
           );
         }
       } catch (error) {
@@ -70,6 +77,22 @@ profileRoutes.delete("/deletePortfolio", async (req, res) => {
 });
 
 // let req = Request
+// profileRoutes.get("/description", async (req, res) => {
+//   let muas_id = req.query.id;
+//   let result = await client.query(
+//     `
+// select
+//   mua_description
+// from portfolio
+// where muas_id = $1
+// `,
+//     [muas_id]
+//   );
+//   let description = result.rows;
+//   console.log(description);
+//   res.json({ description });
+// });
+
 profileRoutes.get("/profile", async (req, res) => {
   let muas_id = req.query.id;
   console.log(muas_id);
@@ -106,6 +129,17 @@ profileRoutes.patch("/editIntro", async (req, res) => {
   let muas_id = req.query.id;
   let result = await client.query(
     `update muas set introduction = '${newContent}' where muas_id =${muas_id}`
+  );
+  res.json(result);
+});
+
+profileRoutes.patch("/editDescription", async (req, res) => {
+  console.log(req.body);
+  console.log(req.query.id);
+  let newContent = req.body.content;
+  let muas_id = req.query.id;
+  let result = await client.query(
+    `update portfolio set mua_description = '${newContent}' where muas_id =${muas_id}`
   );
   res.json(result);
 });

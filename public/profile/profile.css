@@ -137,3 +137,21 @@ body {
 .theBox {
   height: 900px;
 }
+
+.submitContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+#submitBtn {
+  width: 50px;
+}
+
+.workText {
+  width: 500px;
+}
+
+.submitContainer > * {
+  margin-top: 10px;
+}

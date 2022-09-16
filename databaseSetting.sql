@@ -119,3 +119,5 @@ SELECT username, users.id, users.nickname, muas.icon, muas.avg_score, json_agg(m
 
     
 -- SELECT username, users.id from muas join users on muas.muas_id = users.id join offers on muas.muas_id = offers.muas_id;
+--------
+alter table portfolio add column mua_description varchar(255);
