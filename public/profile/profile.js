@@ -34,8 +34,8 @@ submitBtn.addEventListener("click", async (event) => {
   });
   let json = await res.json();
   console.log(json);
-  // alert("Success!");
-  // window.location.reload();
+  alert("Success!");
+  window.location.reload();
 });
 
 fetch(`/profile?id=${paramsName}`)

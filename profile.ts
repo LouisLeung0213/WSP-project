@@ -45,9 +45,10 @@ profileRoutes.post("/addWork", (req, res) => {
     } else {
       res.status(400);
       res.json({ message: "please login first" });
+      return;
     }
 
-    // res.json({});
+    res.json({});
   });
 });
 

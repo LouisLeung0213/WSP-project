@@ -1,6 +1,6 @@
 let main = document.querySelector("#main");
 let subMain = document.querySelector("#subMain");
-let content = main.querySelector(".muaAbstract");
+let muaAbstract = main.querySelector(".muaAbstract");
 let muaHref = main.querySelector(".muaHref");
 
 fetch("/filter")
@@ -58,13 +58,13 @@ function showMua() {
       // console.log(muas);
       for (const mua of muas) {
         // console.log(mua);
-        content.hidden = false;
-        let node = content.cloneNode(true);
+        muaAbstract.hidden = false;
+        let node = muaAbstract.cloneNode(true);
         let nodeContent = node.querySelector(".muaHref");
         let muaName = mua.username;
         let muaId = mua.id;
         nodeContent.href = `../../profile/profile.html?id=${muaId}`;
-        content.hidden = true;
+        muaAbstract.hidden = true;
         nodeContent.textContent = muaName;
         subMain.appendChild(node);
       }
@@ -77,15 +77,15 @@ let searchFilter = document.querySelector("#searchFilter");
 searchFilter.addEventListener("submit", (event) => {
   event.preventDefault();
   let form = event.target;
-  let filterOptions = {cats: [], dates: []};
+  let filterOptions = { cats: [], dates: [] };
   for (let cat of form) {
     if (cat.checked) {
       filterOptions.cats.push(`categories_id = ${cat.value}`);
     }
   }
   // console.log(params);
-  console.log(selectedDates)
-  filterOptions.dates = selectedDates
+  console.log(selectedDates);
+  filterOptions.dates = selectedDates;
   fetch(`/searchFilter`, {
     method: "post",
     headers: {
@@ -105,13 +105,13 @@ searchFilter.addEventListener("submit", (event) => {
       subMain.textContent = "";
       // console.log(muas);
       for (const mua of muas) {
-        content.hidden = false;
-        let node = content.cloneNode(true);
+        muaAbstract.hidden = false;
+        let node = muaAbstract.cloneNode(true);
         let nodeContent = node.querySelector(".muaHref");
         let muaName = mua.username;
         let muaId = mua.id;
         nodeContent.href = `../../profile/profile.html?id=${muaId}`;
-        content.hidden = true;
+        muaAbstract.hidden = true;
         nodeContent.textContent = muaName;
         subMain.appendChild(node);
       }
@@ -182,4 +182,3 @@ becomeMua.addEventListener("click", async (event) => {
     });
   }
 });
-
