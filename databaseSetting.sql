@@ -113,3 +113,6 @@ insert into muas (muas_id) values (2), (3);
 
 insert into offers (categories_id, muas_id) values (3, 2),(5, 3);
 
+SELECT username, users.id, users.nickname, muas.icon, muas.avg_score, json_agg(mua_portfolio) as mua_portfolio
+  from muas join users on muas_id = users.id 
+    left join portfolio on portfolio.muas_id= users.id group by users.id, muas.icon, muas.avg_score;

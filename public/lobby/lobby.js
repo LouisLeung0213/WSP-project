@@ -55,14 +55,20 @@ function showMua() {
   fetch("/showMua")
     .then((res) => res.json())
     .then((muas) => {
-      // console.log(muas);
+      console.log(muas);
       for (const mua of muas) {
-        // console.log(mua);
-        muaAbstract.hidden = false;
+        if (mua)
+          // console.log(mua);
+          muaAbstract.hidden = false;
         let node = muaAbstract.cloneNode(true);
         let nodeContent = node.querySelector(".muaHref");
         let muaName = mua.username;
         let muaId = mua.id;
+        let nickname = mua.nickname;
+        let icon = mua.icon;
+        let avg_score = mua.avg_score;
+        let portfolio = mua.mua_portfolio;
+        console.log(portfolio);
         nodeContent.href = `../../profile/profile.html?id=${muaId}`;
         muaAbstract.hidden = true;
         nodeContent.textContent = muaName;
