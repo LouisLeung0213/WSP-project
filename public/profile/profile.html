@@ -87,18 +87,16 @@
         </div>
         <div class="tags">
           <div class="tag gender">
-            <div>性別</div>
-            <input type="checkbox" name="gender1" />
-            <label for="gender1">男</label>
-            <input type="checkbox" name="gender2" />
-            <label for="gender1">女</label>
-          </div>
-          <div class="tag type">
-            <div>類型</div>
-            <input type="checkbox" name="type1" />
-            <label for="gender1">淡妝</label>
-            <input type="checkbox" name="type2" />
-            <label for="gender1">濃妝</label>
+            <form id="saveCat" method="get" action="/searchFilter">
+              <input id="saveCatSubmit" type="submit" value="儲存" />
+              <div class="cat-list">
+                <div class="cat">
+                  <input id="filterCheckbox" type="checkbox" name="cat_id" />
+                  <span class="cat-name">{cat}</span>
+                  <div class="cat-list"></div>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -178,11 +176,41 @@
           </div>
         </div>
       </div>
-      <!-- <div class="row"> -->
-      <!-- <div class="portfolioContainer">
-        <image class="portfolio" src="" alt=""></image>
-      </div> -->
-      <!-- </div> -->
+
+      <dialog id="editDialog">
+        <label>Please enter your information: </label>
+        <br />
+        <form action="/signUp" method="post">
+          <label>username: </label>
+          <input
+            type="text"
+            name="username"
+            id="username"
+            placeholder="Username here"
+          />
+          <br />
+          <label>password: </label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Password here"
+          />
+          <br />
+          <label>Enter password again: </label>
+          <input
+            type="password"
+            name="rePassword"
+            id="re_password"
+            placeholder="Password here again"
+          />
+          <br />
+          <input type="submit" value="Submit" />
+        </form>
+        <div>
+          <button id="signUp-cancel" value="cancel">Cancel</button>
+        </div>
+      </dialog>
     </div>
 
     <script src="../calendar.js"></script>

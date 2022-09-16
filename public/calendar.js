@@ -1,6 +1,6 @@
 const date = new Date();
-let selectedDates = [];
-
+let selectedDates = []
+let selectedDatesStr = [];
 
 const renderCalendar = () => {
   // console.log(date);
@@ -110,28 +110,36 @@ function selectDate() {
   // console.log(days);
 
   for (let date of days) {
-    if (selectedDates.filter((word) => word == `unavailable_date = '${date.id}'`).length > 0) {
+    if (
+      selectedDatesStr.filter(
+        (word) => word == `unavailable_date = '${date.id}'`
+      ).length > 0
+    ) {
       date.classList.add("selected");
     } else {
       date.classList.remove("selected");
     }
     date.addEventListener("click", () => {
-      // console.log(date.id);
       if (
         !date.classList.contains("unselectable") &&
         !date.classList.contains("selected")
-      ) {
-        selectedDates.push(`unavailable_date = '${date.id}'`);
-        date.classList.add("selected")
+        ) {
+        selectedDatesStr.push(`unavailable_date = '${date.id}'`);
+        selectedDates.push(date.id)
+        date.classList.add("selected");
         // console.log(selectedDates);
       } else if (date.classList.contains("selected")) {
-        selectedDates = selectedDates.filter((word) => word !== `unavailable_date = '${date.id}'`);
-        date.classList.remove("selected")
+        selectedDatesStr = selectedDatesStr.filter(
+          (word) => word !== `unavailable_date = '${date.id}'`
+        );
+        selectedDates = selectedDates.filter(
+          (word) => word !== date.id
+          );
+          date.classList.remove("selected");
+        }
         // console.log(selectedDates);
-      }
+        // console.log(selectedDatesStr);
     });
   }
 }
 selectDate();
-
-

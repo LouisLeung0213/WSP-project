@@ -24,8 +24,6 @@ filterRoutes.get("/showMua", async (req, res) => {
 
 filterRoutes.post("/searchFilter", async (req, res) => {
   let filterOptions = req.body;
-  // console.log("Params: ", params);
-
   if (filterOptions.cats.length == 0 && filterOptions.dates.length == 0) {
     res.json("Err: empty filter");
   } else {
@@ -65,5 +63,65 @@ filterRoutes.post("/searchFilter", async (req, res) => {
     // console.log("Unique muas: ", muasUnique);
 
     res.json(muasUnique);
+  }
+});
+
+filterRoutes.post("/saveCat", async (req, res) => {
+  let tags = req.body;
+  console.log(tags);
+  let sessionId = req.session.user?.id
+  console.log(sessionId);
+  
+  if (tags.cats.length == 0 && tags.dates.length == 0) {
+    res.json("Err: empty filter");
+  } else {
+    let andExs = " ";
+    let dateExsStart = "";
+    let dateExsEnd = "";
+    if (tags.cats.length !== 0 && tags.dates.length !== 0) {
+      andExs = ") and (";
+    }
+    if (tags.dates.length !== 0) {
+      dateExsStart =
+        " offers.muas_id not in (select muas_id from date_matches where ";
+      dateExsEnd = ")";
+    }
+    await client.query(`
+    DELETE FROM offers WHERE muas_id = ${sessionId};
+  `);
+    await client.query(`
+    DELETE FROM date_matches WHERE muas_id = ${sessionId};
+  `);
+
+    for (let catId of tags.cats){
+      await client.query(`insert into offers (muas_id, categories_id) values ($1, $2)`,
+      [sessionId, catId]
+      )
+    }
+
+    for (let unavailableDate of tags.dates){
+      await client.query(`insert into date_matches (muas_id, unavailable_date) values ($1, $2)`,
+      [sessionId, unavailableDate]
+      )
+    }
+
+    
+    // let sqlInsertCat = (tags.cats.map( (word: number) => `insert into offers (muas_id, categories_id) values ($1, $2)`,
+    // [${sessionId}, word ])
+    // console.log("sqlInsertCat: ", sqlInsertCat);
+
+  //   let sqlInsertDate = `
+  // select username, users.id from offers 
+  // join users on muas_id = users.id 
+  // left join date_matches on date_matches.muas_id = users.id
+  // where (${tags.cats.join(" or ")}
+  // ${andExs}${dateExsStart}${tags.dates.join(" or ")}${dateExsEnd}) 
+  // order by users.id;
+  // `;
+  //   console.log("sqlInsertDate: ", sqlInsertDate);
+
+    // await client.query(sqlInsertCat);
+  //   await client.query(sqlInsertDate);
+    res.json()
   }
 });
