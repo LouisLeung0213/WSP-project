@@ -104,6 +104,7 @@ create table portfolio(
     ,muas_id integer not null
     , foreign key (muas_id) references muas(muas_id)
     ,mua_portfolio varchar(255) not null
+    ,mua_description varchar(255)
 )
 
 ``````````````````````````````````````````````````````````````````````````````````````````````````
@@ -119,14 +120,11 @@ SELECT username, users.id, users.nickname, muas.icon, muas.avg_score, json_agg(m
 
     
 -- SELECT username, users.id from muas join users on muas.muas_id = users.id join offers on muas.muas_id = offers.muas_id;
-<<<<<<< HEAD
 --------
 alter table portfolio add column mua_description varchar(255);
-=======
 
 DELETE FROM offers WHERE muas_id = ${sessionId};
 DELETE FROM date_matches WHERE muas_id = ${sessionId};
 
 
 DELETE FROM offers WHERE muas_id = ${sessionId} and categories_id != any(array${tags.cats}::integer[]);
->>>>>>> origin/main

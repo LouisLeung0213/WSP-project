@@ -120,8 +120,6 @@ body {
   justify-content: center;
   align-items: center;
 }
-<<<<<<< HEAD
-
 #saveCat {
   background-color: #ecbee1;
   width: 45vw;
@@ -136,7 +134,6 @@ body {
   justify-content: left;
 }
 
-=======
 .modal1 {
   max-width: 1000px !important;
 }
@@ -155,7 +152,6 @@ body {
   height: 900px;
 }
 
-<<<<<<< HEAD
 .submitContainer {
   display: flex;
   flex-direction: column;
@@ -173,11 +169,8 @@ body {
 .submitContainer > * {
   margin-top: 10px;
 }
-=======
 .username {
   font-size: 50px;
   text-align: center;
   text-shadow: -1px 0px 13px rgba(164, 60, 85, 0.94);
 }
->>>>>>> 821f2aab8b902adf11f487d09707efe474d03b4a
->>>>>>> origin/main
