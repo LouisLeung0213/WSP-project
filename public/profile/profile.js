@@ -34,8 +34,8 @@ submitBtn.addEventListener("click", async (event) => {
   });
   let json = await res.json();
   console.log(json);
-  alert("Success!");
-  location.reload();
+  // alert("Success!");
+  // window.location.reload();
 });
 
 fetch(`/profile?id=${paramsName}`)
@@ -51,10 +51,13 @@ fetch(`/profile?id=${paramsName}`)
     }
     for (let work of json.works) {
       let node = portfolio.cloneNode(true);
-      portfolio.hidden = true;
+      // portfolio.hidden = true;
+      portfolio.remove();
       let photo = `/uploads/${work.mua_portfolio}`;
       node.src = photo;
       portfolioContainer.appendChild(node);
+      // alert("success!");
+      // window.location.reload();
     }
     let intro = json.user.introduction;
     let introNode = detail.cloneNode(true);
