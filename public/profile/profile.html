@@ -67,18 +67,16 @@
         </div>
         <div class="tags">
           <div class="tag gender">
-            <div>性別</div>
-            <input type="checkbox" name="gender1" />
-            <label for="gender1">男</label>
-            <input type="checkbox" name="gender2" />
-            <label for="gender1">女</label>
-          </div>
-          <div class="tag type">
-            <div>類型</div>
-            <input type="checkbox" name="type1" />
-            <label for="gender1">淡妝</label>
-            <input type="checkbox" name="type2" />
-            <label for="gender1">濃妝</label>
+            <form id="saveCat" method="get" action="/searchFilter">
+              <input id="saveCatSubmit" type="submit" value="儲存" />
+              <div class="cat-list">
+                <div class="cat">
+                  <input id="filterCheckbox" type="checkbox" name="cat_id" />
+                  <span class="cat-name">{cat}</span>
+                  <div class="cat-list"></div>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>

@@ -119,3 +119,9 @@ SELECT username, users.id, users.nickname, muas.icon, muas.avg_score, json_agg(m
 
     
 -- SELECT username, users.id from muas join users on muas.muas_id = users.id join offers on muas.muas_id = offers.muas_id;
+
+DELETE FROM offers WHERE muas_id = ${sessionId};
+DELETE FROM date_matches WHERE muas_id = ${sessionId};
+
+
+DELETE FROM offers WHERE muas_id = ${sessionId} and categories_id != any(array${tags.cats}::integer[]);

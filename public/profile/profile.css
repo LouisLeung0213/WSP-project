@@ -120,3 +120,18 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+#saveCat {
+  background-color: #ecbee1;
+  width: 45vw;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+
+.cat-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: left;
+}
+
