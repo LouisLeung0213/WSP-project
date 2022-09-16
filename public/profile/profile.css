@@ -119,3 +119,20 @@ body {
   justify-content: center;
   align-items: center;
 }
+.modal1 {
+  max-width: 1000px !important;
+}
+
+.portfolio {
+  max-width: 240px;
+  max-height: 240px;
+}
+
+.imageBtn {
+  background-color: #fff !important;
+  border-color: #fff !important;
+}
+
+.theBox {
+  height: 900px;
+}

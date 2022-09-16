@@ -1,7 +1,7 @@
 let image = document.querySelector("[name=mua_portfolio]");
 let submitBtn = document.querySelector("#submitBtn");
-let portfolioContainer = document.querySelector(".portfolioContainer");
-let portfolio = portfolioContainer.querySelector(".portfolio");
+let portfolioContainer = document.querySelector(".btnContainer");
+let portfolioBtn = portfolioContainer.querySelector(".imageBtn");
 let detailContainer = document.querySelector(".detailContainer");
 let detail = detailContainer.querySelector(".detail");
 // let newDetail = document.querySelectorAll("detail");
@@ -13,8 +13,9 @@ let editBtn = document.getElementById("edit-button");
 let endBtn = document.getElementById("end-editing");
 let uploadPhoto = document.getElementById("choosePhoto");
 let profileTemplate = document.querySelector(".profileTemplate");
-
+// let showBtn = document.getElementById("showImageBtn");
 let profileIcon = document.querySelector("#profileIcon");
+let deleteBtn = document.querySelector(".deleteBtn");
 
 let params = new URL(document.location).searchParams;
 let paramsName = params.get("id");
@@ -38,6 +39,26 @@ submitBtn.addEventListener("click", async (event) => {
   // window.location.reload();
 });
 
+deleteBtn.addEventListener("click", async (event) => {
+  let insideImage = event.path[2]
+    .querySelector(".portfolio1")
+    .src.split("/")
+    .slice(4);
+
+  // insideImage = event.currentTarget.querySelector(".portfolio1").src;
+  // console.log("thisImage: " + insideImage);
+  // insideImage = outsideImage;
+  event.preventDefault();
+
+  let res = await fetch("/deletePortfolio", {
+    method: "DELETE",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ insideImage }),
+  });
+  let json = await res.json();
+  console.log(json);
+});
+
 fetch(`/profile?id=${paramsName}`)
   .then((res) => res.json())
   .then((json) => {
@@ -48,14 +69,19 @@ fetch(`/profile?id=${paramsName}`)
       endBtn.hidden = true;
       editBtn.hidden = true;
       uploadPhoto.hidden = true;
+      deleteBtn.hidden = true;
     }
     for (let work of json.works) {
-      let node = portfolio.cloneNode(true);
+      let node = portfolioBtn.cloneNode(true);
+      let nodeContent = node.querySelector(".portfolio");
+      // let insideContent = document.querySelector(".portfolio1");
+      // console.log("insideContent : " + insideContent.src);
       // portfolio.hidden = true;
-      portfolio.remove();
       let photo = `/uploads/${work.mua_portfolio}`;
-      node.src = photo;
+      nodeContent.src = photo;
+      // insideContent.src = photo;
       portfolioContainer.appendChild(node);
+      portfolioBtn.remove();
       // alert("success!");
       // window.location.reload();
     }
@@ -176,3 +202,20 @@ endBtn.addEventListener("click", async function () {
   let json = await res.json();
   console.log(json);
 });
+
+// showBtn.addEventListener("click", function (event) {
+//   event.preventDefault();
+//   console.log("hihi");
+// });
+
+// console.log("show:" + showBtn);
+document
+  .getElementById("exampleModal")
+  .addEventListener("show.bs.modal", (event) => {
+    outsideImage = event.relatedTarget.querySelector(".portfolio").src;
+    insideImage = event.currentTarget.querySelector(".portfolio1").src;
+    insideImage = outsideImage;
+    event.currentTarget.querySelector(".portfolio1").src = insideImage;
+    // console.log(insideImage);
+    // insideImage = outsideImage;
+  });

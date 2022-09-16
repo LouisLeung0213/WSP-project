@@ -51,6 +51,14 @@ profileRoutes.post("/addWork", (req, res) => {
   });
 });
 
+profileRoutes.delete("/deletePortfolio", async (req, res) => {
+  let mua_portfolio = req.body.insideImage;
+  console.log(mua_portfolio);
+  await client.query(
+    `delete from portfolio where mua_portfolio = '${mua_portfolio}'`
+  );
+});
+
 // let req = Request
 profileRoutes.get("/profile", async (req, res) => {
   let muas_id = req.query.id;
