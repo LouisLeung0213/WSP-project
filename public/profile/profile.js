@@ -8,9 +8,11 @@ let detail = detailContainer.querySelector(".detail");
 let introContainer = document.querySelector(".introContainer");
 
 let username = introContainer.querySelector(".username");
-
+//ed
 let editBtn = document.getElementById("edit-button");
 let endBtn = document.getElementById("end-editing");
+
+//
 let uploadPhoto = document.getElementById("choosePhoto");
 let profileTemplate = document.querySelector(".profileTemplate");
 let profileIcon = document.querySelector("#profileIcon");

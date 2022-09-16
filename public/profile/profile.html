@@ -166,11 +166,41 @@
           </div>
         </div>
       </div>
-      <!-- <div class="row"> -->
-      <!-- <div class="portfolioContainer">
-        <image class="portfolio" src="" alt=""></image>
-      </div> -->
-      <!-- </div> -->
+
+      <dialog id="editDialog">
+        <label>Please enter your information: </label>
+        <br />
+        <form action="/signUp" method="post">
+          <label>username: </label>
+          <input
+            type="text"
+            name="username"
+            id="username"
+            placeholder="Username here"
+          />
+          <br />
+          <label>password: </label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Password here"
+          />
+          <br />
+          <label>Enter password again: </label>
+          <input
+            type="password"
+            name="rePassword"
+            id="re_password"
+            placeholder="Password here again"
+          />
+          <br />
+          <input type="submit" value="Submit" />
+        </form>
+        <div>
+          <button id="signUp-cancel" value="cancel">Cancel</button>
+        </div>
+      </dialog>
     </div>
 
     <script src="../calendar.js"></script>
