@@ -13,12 +13,19 @@ filterRoutes.get("/filter", async (req, res) => {
 
 filterRoutes.get("/showMua", async (req, res) => {
   let result = await client.query(
-    "SELECT username, users.id from muas join users on muas_id = users.id"
+    "SELECT username, users.id from muas join users on muas.muas_id = users.id join offers on muas.muas_id = offers.muas_id"
   );
-  let muas = result.rows;
   // console.log("All the muas: ", muas);
-
-  res.json(muas);
+  let muas = new Set();
+  let i = 0;
+  let muasUnique = [];
+  for (let mua of result.rows) {
+    if (!muas.has(mua.username)) {
+      muas.add(mua.username);
+      muasUnique.push(mua);
+    }
+  }
+  res.json(muasUnique);
 });
 
 filterRoutes.post("/searchFilter", async (req, res) => {
@@ -38,7 +45,7 @@ filterRoutes.post("/searchFilter", async (req, res) => {
       dateExsStart = " offers.muas_id not in (select muas_id from date_matches where "
       dateExsEnd = ")"
     }
-    console.log(filterOptions)
+    // console.log(filterOptions)
     let sql = `
   select username, users.id from offers 
   join users on muas_id = users.id 
@@ -47,7 +54,7 @@ filterRoutes.post("/searchFilter", async (req, res) => {
   ${andExs}${dateExsStart}${filterOptions.dates.join(" or ")}${dateExsEnd}) 
   order by users.id;
   `;
-    console.log('sql: ',sql);
+    // console.log('sql: ',sql);
     
     let result = await client.query(sql);
     // console.log("Filtered muas: ", result.rows);

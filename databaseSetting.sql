@@ -113,3 +113,4 @@ insert into muas (muas_id) values (2), (3);
 
 insert into offers (categories_id, muas_id) values (3, 2),(5, 3);
 
+SELECT username, users.id from muas join users on muas.muas_id = users.id join offers on muas.muas_id = offers.muas_id;
