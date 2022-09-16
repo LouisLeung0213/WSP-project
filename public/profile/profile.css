@@ -120,6 +120,7 @@ body {
   justify-content: center;
   align-items: center;
 }
+<<<<<<< HEAD
 
 #saveCat {
   background-color: #ecbee1;
@@ -135,3 +136,28 @@ body {
   justify-content: left;
 }
 
+=======
+.modal1 {
+  max-width: 1000px !important;
+}
+
+.portfolio {
+  max-width: 240px;
+  max-height: 240px;
+}
+
+.imageBtn {
+  background-color: #fff !important;
+  border-color: #fff !important;
+}
+
+.theBox {
+  height: 900px;
+}
+
+.username {
+  font-size: 50px;
+  text-align: center;
+  text-shadow: -1px 0px 13px rgba(164, 60, 85, 0.94);
+}
+>>>>>>> 821f2aab8b902adf11f487d09707efe474d03b4a

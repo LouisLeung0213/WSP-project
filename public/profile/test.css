@@ -1,0 +1,13 @@
+.modal1 {
+  max-width: 1000px !important;
+}
+
+.portfolio1 {
+  max-width: 240px;
+  max-height: 240px;
+}
+
+.imageBtn {
+  background-color: #fff !important;
+  border-color: #fff !important;
+}

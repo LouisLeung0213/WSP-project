@@ -57,22 +57,58 @@ function showMua() {
     .then((muas) => {
       console.log(muas);
       for (const mua of muas) {
-        if (mua)
+        if (mua) {
           // console.log(mua);
           muaAbstract.hidden = false;
-        let node = muaAbstract.cloneNode(true);
-        let nodeContent = node.querySelector(".muaHref");
-        let muaName = mua.username;
-        let muaId = mua.id;
-        let nickname = mua.nickname;
-        let icon = mua.icon;
-        let avg_score = mua.avg_score;
-        let portfolio = mua.mua_portfolio;
-        console.log(portfolio);
-        nodeContent.href = `../../profile/profile.html?id=${muaId}`;
-        muaAbstract.hidden = true;
-        nodeContent.textContent = muaName;
-        subMain.appendChild(node);
+          let node = muaAbstract.cloneNode(true);
+
+          let muaName = mua.username;
+          let muaId = mua.id;
+          let avg_score = mua.avg_score;
+
+          //aTag in portfolioBlock
+          let aTag = node.querySelector(".muaHref");
+          aTag.href = `../../profile/profile.html?id=${muaId}`;
+
+          // nickname in portfolioBlock
+          let nickname = mua.nickname;
+          console.log(muaName);
+          let pDiv = node.querySelector(".nickname");
+          if (nickname != null) {
+            pDiv.textContent = `${nickname}`;
+          } else {
+            pDiv.textContent = `${muaName}`;
+          }
+          // icon in portfolioBlock
+          let icon = mua.icon;
+          let iconImage = node.querySelector(".icon");
+          if (mua.icon == null) {
+            iconImage.src = `/uploads/default_profile_pic.jpg`;
+          } else {
+            iconImage.src = `/uploads/${icon}`;
+          }
+          //portfolio in portfolioBlock
+          let portfolio = mua.mua_portfolio;
+          let portfolioDiv = node.querySelector(".portfolioDiv");
+          let portfolioImage = node.querySelector(".portfolioPhoto");
+
+          if (portfolio.length > 0 && portfolio[0] != null) {
+            for (let photo of portfolio) {
+              // console.log(photo);
+              let clonePortfolio = portfolioImage.cloneNode(true);
+              portfolioDiv.appendChild(clonePortfolio);
+              clonePortfolio.src = `/uploads/${photo}`;
+            }
+          } else {
+            // portfolioImage.src = `/uploads/default_profile_pic.jpg`;
+            portfolioImage.hidden = true;
+          }
+          portfolioImage.remove();
+          // nodeContent.href = `../../profile/profile.html?id=${muaId}`;
+          muaAbstract.hidden = true;
+          // nodeContent.textContent = muaName;
+          subMain.appendChild(node);
+        }
       }
     });
 }
