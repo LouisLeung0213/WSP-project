@@ -1,6 +1,6 @@
 let main = document.querySelector("#main");
 let subMain = document.querySelector("#subMain");
-let content = main.querySelector(".muaAbstract");
+let muaAbstract = main.querySelector(".muaAbstract");
 let muaHref = main.querySelector(".muaHref");
 
 fetch("/filter")
@@ -55,18 +55,60 @@ function showMua() {
   fetch("/showMua")
     .then((res) => res.json())
     .then((muas) => {
-      // console.log(muas);
+      console.log(muas);
       for (const mua of muas) {
-        // console.log(mua);
-        content.hidden = false;
-        let node = content.cloneNode(true);
-        let nodeContent = node.querySelector(".muaHref");
-        let muaName = mua.username;
-        let muaId = mua.id;
-        nodeContent.href = `../../profile/profile.html?id=${muaId}`;
-        content.hidden = true;
-        nodeContent.textContent = muaName;
-        subMain.appendChild(node);
+        if (mua) {
+          // console.log(mua);
+          muaAbstract.hidden = false;
+          let node = muaAbstract.cloneNode(true);
+
+          let muaName = mua.username;
+          let muaId = mua.id;
+          let avg_score = mua.avg_score;
+
+          //aTag in portfolioBlock
+          let aTag = node.querySelector(".muaHref");
+          aTag.href = `../../profile/profile.html?id=${muaId}`;
+
+          // nickname in portfolioBlock
+          let nickname = mua.nickname;
+          console.log(muaName);
+          let pDiv = node.querySelector(".nickname");
+          if (nickname != null) {
+            pDiv.textContent = `${nickname}`;
+          } else {
+            pDiv.textContent = `${muaName}`;
+          }
+          // icon in portfolioBlock
+          let icon = mua.icon;
+          let iconImage = node.querySelector(".icon");
+          if (mua.icon == null) {
+            iconImage.src = `/uploads/default_profile_pic.jpg`;
+          } else {
+            iconImage.src = `/uploads/${icon}`;
+          }
+          //portfolio in portfolioBlock
+          let portfolio = mua.mua_portfolio;
+          let portfolioDiv = node.querySelector(".portfolioDiv");
+          let portfolioImage = node.querySelector(".portfolioPhoto");
+
+          if (portfolio.length > 0 && portfolio[0] != null) {
+            for (let photo of portfolio) {
+              // console.log(photo);
+              let clonePortfolio = portfolioImage.cloneNode(true);
+              portfolioDiv.appendChild(clonePortfolio);
+              clonePortfolio.src = `/uploads/${photo}`;
+            }
+          } else {
+            // portfolioImage.src = `/uploads/default_profile_pic.jpg`;
+            portfolioImage.hidden = true;
+          }
+          portfolioImage.remove();
+          // nodeContent.href = `../../profile/profile.html?id=${muaId}`;
+          muaAbstract.hidden = true;
+          // nodeContent.textContent = muaName;
+          subMain.appendChild(node);
+        }
       }
     });
 }
@@ -77,15 +119,15 @@ let searchFilter = document.querySelector("#searchFilter");
 searchFilter.addEventListener("submit", (event) => {
   event.preventDefault();
   let form = event.target;
-  let filterOptions = {cats: [], dates: []};
+  let filterOptions = { cats: [], dates: [] };
   for (let cat of form) {
     if (cat.checked) {
       filterOptions.cats.push(`categories_id = ${cat.value}`);
     }
   }
   // console.log(params);
-  console.log(selectedDates)
-  filterOptions.dates = selectedDates
+  // console.log(selectedDates);
+  filterOptions.dates = selectedDates;
   fetch(`/searchFilter`, {
     method: "post",
     headers: {
@@ -105,13 +147,13 @@ searchFilter.addEventListener("submit", (event) => {
       subMain.textContent = "";
       // console.log(muas);
       for (const mua of muas) {
-        content.hidden = false;
-        let node = content.cloneNode(true);
+        muaAbstract.hidden = false;
+        let node = muaAbstract.cloneNode(true);
         let nodeContent = node.querySelector(".muaHref");
         let muaName = mua.username;
         let muaId = mua.id;
         nodeContent.href = `../../profile/profile.html?id=${muaId}`;
-        content.hidden = true;
+        muaAbstract.hidden = true;
         nodeContent.textContent = muaName;
         subMain.appendChild(node);
       }
@@ -182,4 +224,3 @@ becomeMua.addEventListener("click", async (event) => {
     });
   }
 });
-

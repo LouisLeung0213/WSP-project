@@ -25,18 +25,23 @@ submitBtn.addEventListener("click", async (event) => {
   event.preventDefault();
 
   console.log(event.target);
+  try {
+    let formData = new FormData();
 
-  let formData = new FormData();
+    formData.append("mua_portfolio", image.files[0]);
+    const res = await fetch("/addWork", {
+      method: "POST",
+      body: formData,
+    });
+    let json = await res.json();
+    console.log(json);
 
-  formData.append("mua_portfolio", image.files[0]);
-  const res = await fetch("/addWork", {
-    method: "POST",
-    body: formData,
-  });
-  let json = await res.json();
-  console.log(json);
-  // alert("Success!");
-  // window.location.reload();
+    alert(`${json.message}`);
+
+    window.location.reload();
+  } catch (error) {
+    alert("file cannot be empty");
+  }
 });
 
 deleteBtn.addEventListener("click", async (event) => {

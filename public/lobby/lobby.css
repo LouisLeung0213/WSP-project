@@ -108,11 +108,11 @@ body {
 #main {
   background-color: #f7b0bb71;
   width: 780px;
-  height: 70vh;
+  height: 400vh;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  align-items:center;
+  align-items: center;
 }
 
 @media only screen and (max-width: 768px) {
@@ -134,12 +134,57 @@ body {
 
 #subMain {
   width: 90%;
+  height: 400vh;
+}
+
+.iconAndNickname {
+  display: flex;
+}
+
+#subMain .icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 30%;
+  border: 2px black solid;
+  margin: 10px;
+  padding: 0px;
+}
+
+#subMain .nickname {
+  font-size: 20px;
+  margin-top: 18px;
+  color: black;
+}
+
+.muaHref {
+  text-decoration: none;
+}
+
+#subMain .portfolioPhoto {
+  width: 100px;
+  height: 100px;
+  border: 2px black solid;
+  padding: 0px;
+  margin: 0px, 5px, 0px, 5px;
 }
 
 .muaAbstract {
   width: 100%;
-  /* height: 70px; */
+  height: 200px;
   margin-top: 20px;
   background-color: #ecbee1;
   text-align: center;
 }
+
+.portfolioDiv {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  padding: 0px 10px 0px 10px;
+}
+
+/* .porfolioDiv .portfolioPhoto {
+  width: 60px;
+  height: 60px;
+  border: 2px black solid;
+} */
