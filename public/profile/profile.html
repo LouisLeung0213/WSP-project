@@ -108,9 +108,14 @@
         id="contact-form"
         enctype="multipart/form-data"
       >
-        <label>
-          Upload your work
+        <label class="submitContainer">
+          提交作品
           <input type="file" name="mua_portfolio" id="choosePhoto" />
+          <textarea
+            class="workText"
+            placeholder="輸入作品簡介"
+            name="description"
+          ></textarea>
           <input type="submit" value="Submit" id="submitBtn" />
         </label>
       </form>
@@ -122,6 +127,7 @@
           data-bs-target="#exampleModal"
         >
           <image class="portfolio" src="./image/pikachu.png" alt=""></image>
+          <textarea class="outsideDescription"></textarea>
         </button>
       </div>
 
@@ -148,6 +154,7 @@
             </div>
             <div class="modal-body portfolioContainer">
               <image class="portfolio1" src="1" alt=""></image>
+              <p class="insideDescription"></p>
             </div>
             <div class="modal-footer">
               <button
@@ -156,6 +163,11 @@
                 data-bs-dismiss="modal"
               >
                 Close
+              </button>
+              <button type="button" class="btn btn-primary descriptionBtn">
+                編輯簡介</button
+              ><button type="button" class="btn btn-primary doneBtn">
+                編輯完成
               </button>
               <button type="button" class="btn btn-primary deleteBtn">
                 刪除

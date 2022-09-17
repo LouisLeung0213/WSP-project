@@ -120,7 +120,6 @@ body {
   justify-content: center;
   align-items: center;
 }
-
 #saveCat {
   background-color: #ecbee1;
   width: 45vw;
@@ -153,6 +152,23 @@ body {
   height: 900px;
 }
 
+.submitContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+#submitBtn {
+  width: 50px;
+}
+
+.workText {
+  width: 500px;
+}
+
+.submitContainer > * {
+  margin-top: 10px;
+}
 .username {
   font-size: 50px;
   text-align: center;
