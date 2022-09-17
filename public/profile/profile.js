@@ -131,14 +131,15 @@ endBtn.addEventListener("click", async function () {
   console.log(json);
 });
 
-fetch("/filter")
+fetch(`/filter?id=${paramsName}`)
   .then((res) => res.json())
   .then((categories) => {
-    // console.log(categories);
+    console.log("categories.allCats: ", categories.allCats);
+    console.log("categories.muaCats: ", categories.muaCats);
     let catMap = new Map();
     let catsTree = [];
 
-    for (const catRow of categories) {
+    for (const catRow of categories.allCats) {
       let catNode = {
         id: catRow.id,
         name: catRow.categories_name,
@@ -167,6 +168,9 @@ fetch("/filter")
           checkbox.hidden = true;
         }
         checkbox.value = cat.id;
+        if (categories.muaCats.filter(word => word == cat.id).length > 0){
+          checkbox.checked = true
+        }
         catList.appendChild(node);
         node.querySelector(".cat-name").textContent = cat.name;
         let subCatList = node.querySelector(".cat-list");
@@ -184,13 +188,14 @@ saveCat.addEventListener("submit", (event) => {
   let form = event.target;
   let tags = { cats: [], dates: [] };
   for (let cat of form) {
+    // console.log(cat);
     if (cat.checked) {
       tags.cats.push(+cat.value);
     }
   }
-  console.log(selectedDates);
-  console.log(selectedDatesStr);
-  tags.dates = selectedDates;
+  // console.log(selectedDatesMua);
+  // console.log(selectedDatesStr);
+  tags.dates = selectedDatesMua;
   fetch(`/saveCat`, {
     method: "post",
     headers: {
@@ -201,28 +206,41 @@ saveCat.addEventListener("submit", (event) => {
     .then((res) => {
       return res.json();
     })
-    .then((muas) => {
-      // if (muas == "Err: empty filter") {
-      //   subMain.textContent = "";
-      //   showMua();
-      //   return;
-      // }
-      // subMain.textContent = "";
-      // // console.log(muas);
-      // for (const mua of muas) {
-      //   muaAbstract.hidden = false;
-      //   let node = muaAbstract.cloneNode(true);
-      //   let nodeContent = node.querySelector(".muaHref");
-      //   let muaName = mua.username;
-      //   let muaId = mua.id;
-      //   nodeContent.href = `../../profile/profile.html?id=${muaId}`;
-      //   muaAbstract.hidden = true;
-      //   nodeContent.textContent = muaName;
-      //   subMain.appendChild(node);
-      // }
-      console.log(muas);
+    .then((message) => {
+      alert(message)
+      console.log(message);
     });
 });
+
+function showAvailableDate() {
+  fetch(`/showAvailableDate?id=${paramsName}`)
+    .then((res) => res.json())
+    .then((unavailable_dates) => {
+      let dates = document.querySelectorAll(".selectable");
+      for (let date of dates) {
+        for (let unavailable_date of unavailable_dates) {
+          if (date.id == unavailable_date.date) {
+            if (date.classList.contains("selected")) {
+              date.classList.remove("selected");
+            }
+            break;
+          }
+          date.classList.add("selected");
+        }
+      }
+    });
+}
+showAvailableDate();
+
+fetch(`/selectedDatesMua?id=${paramsName}`)
+  .then((res) => res.json())
+  .then((unavailable_dates) => {
+    for (let unavailable_date of unavailable_dates) {
+      selectedDatesMua.push(unavailable_date.date)
+    }
+    // console.log(selectedDatesMua);
+  });
+
 document
   .getElementById("exampleModal")
   .addEventListener("show.bs.modal", (event) => {

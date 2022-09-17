@@ -3,14 +3,17 @@ let subMain = document.querySelector("#subMain");
 let muaAbstract = main.querySelector(".muaAbstract");
 let muaHref = main.querySelector(".muaHref");
 
-fetch("/filter")
+let params = new URL(document.location).searchParams;
+let paramsName = params.get("id");
+
+fetch(`/filter?id=${paramsName}`)
   .then((res) => res.json())
   .then((categories) => {
-    // console.log(categories);
+    console.log(categories.allCats);
     let catMap = new Map();
     let catsTree = [];
 
-    for (const catRow of categories) {
+    for (const catRow of categories.allCats) {
       let catNode = {
         id: catRow.id,
         name: catRow.categories_name,
@@ -55,7 +58,7 @@ function showMua() {
   fetch("/showMua")
     .then((res) => res.json())
     .then((muas) => {
-      console.log(muas);
+      // console.log(muas);
       for (const mua of muas) {
         if (mua) {
           // console.log(mua);
@@ -72,7 +75,7 @@ function showMua() {
 
           // nickname in portfolioBlock
           let nickname = mua.nickname;
-          console.log(muaName);
+          // console.log(muaName);
           let pDiv = node.querySelector(".nickname");
           if (nickname != null) {
             pDiv.textContent = `${nickname}`;
@@ -185,7 +188,7 @@ window.onload = async () => {
     becomeMua.hidden = true;
 
     let json = await res.json();
-    console.log(json);
+    // console.log(json);
     //show profile node
     // let node = profileTemplate.cloneNode(true);
     profileTemplate.hidden = true;

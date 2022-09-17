@@ -114,7 +114,7 @@ html {
     outline: 2px solid black;
   }
 
-  .selected:not(.unselectable) {
+  .selected {
     background-color: #e06c74;
   }
   
