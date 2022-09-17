@@ -6,8 +6,24 @@ import { muaRoutes } from "./Muas";
 export const filterRoutes = Router();
 
 filterRoutes.get("/filter", async (req, res) => {
-  let result = await client.query("SELECT * from categories");
-  let categories = result.rows;
+  let resultAllCats = await client.query("SELECT * from categories");
+  let muaId = req.query.id;
+  let resultMuaCats;
+  let muaCats = [];
+  if (muaId) {
+    resultMuaCats = await client.query(
+      `SELECT categories_id from offers where muas_id = ${muaId}`
+    );
+    for (let resultMuaCat of resultMuaCats.rows) {
+      muaCats.push(resultMuaCat.categories_id);
+    }
+  }
+  let currentUser = req.session.user?.id;
+  let categories = {
+    allCats: resultAllCats.rows,
+    muaCats,
+    currentUser,
+  };
   res.json(categories);
 });
 
@@ -38,7 +54,7 @@ filterRoutes.post("/searchFilter", async (req, res) => {
         " offers.muas_id not in (select muas_id from date_matches where ";
       dateExsEnd = ")";
     }
-    console.log(filterOptions);
+    // console.log(filterOptions);
     let sql = `
   select username, users.id from offers 
   join users on muas_id = users.id 
@@ -47,7 +63,7 @@ filterRoutes.post("/searchFilter", async (req, res) => {
   ${andExs}${dateExsStart}${filterOptions.dates.join(" or ")}${dateExsEnd}) 
   order by users.id;
   `;
-    console.log("sql: ", sql);
+    // console.log("sql: ", sql);
 
     let result = await client.query(sql);
     // console.log("Filtered muas: ", result.rows);
@@ -68,24 +84,13 @@ filterRoutes.post("/searchFilter", async (req, res) => {
 
 filterRoutes.post("/saveCat", async (req, res) => {
   let tags = req.body;
-  console.log(tags);
+  // console.log(tags);
   let sessionId = req.session.user?.id;
-  console.log(sessionId);
+  // console.log(sessionId);
 
-  if (tags.cats.length == 0 && tags.dates.length == 0) {
+  if (tags.cats.length == 0) {
     res.json("Err: empty filter");
   } else {
-    let andExs = " ";
-    let dateExsStart = "";
-    let dateExsEnd = "";
-    if (tags.cats.length !== 0 && tags.dates.length !== 0) {
-      andExs = ") and (";
-    }
-    if (tags.dates.length !== 0) {
-      dateExsStart =
-        " offers.muas_id not in (select muas_id from date_matches where ";
-      dateExsEnd = ")";
-    }
     await client.query(`
     DELETE FROM offers WHERE muas_id = ${sessionId};
   `);
@@ -125,4 +130,24 @@ filterRoutes.post("/saveCat", async (req, res) => {
     //   await client.query(sqlInsertDate);
     res.json();
   }
+
+  res.json("Save categories and dates successfully!");
+});
+
+filterRoutes.get("/showAvailableDate", async (req, res) => {
+  let pageId = req.query.id;
+
+  let sql = `SELECT to_char(unavailable_date, 'yyyy/mm/dd') as date from date_matches where muas_id = ${pageId};`;
+  let result = await client.query(sql);
+  let unavailable_dates = result.rows;
+  res.json(unavailable_dates);
+});
+
+filterRoutes.get("/selectedDatesMua", async (req, res) => {
+  let pageId = req.query.id;
+
+  let sql = `SELECT to_char(unavailable_date, 'yyyy/mm/dd') as date from date_matches where muas_id = ${pageId};`;
+  let result = await client.query(sql);
+  let unavailable_dates = result.rows;
+  res.json(unavailable_dates);
 });
