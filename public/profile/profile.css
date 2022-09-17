@@ -174,3 +174,18 @@ body {
   text-align: center;
   text-shadow: -1px 0px 13px rgba(164, 60, 85, 0.94);
 }
+
+#editDialog {
+  width: 1000px;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  left: 20%;
+  transform: translateX(-50%);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.diaDiv {
+  font-size: 15px;
+}

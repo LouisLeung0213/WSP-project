@@ -5,6 +5,8 @@ import fs from "fs";
 // import { resourceLimits } from "worker_threads";
 import { client } from "./database";
 import "./session";
+import { hashPassword } from "./hash";
+
 export let profileRoutes = Router();
 
 const uploadDir = "./uploads";
@@ -128,18 +130,55 @@ profileRoutes.patch("/editIntro", async (req, res) => {
   let newContent = req.body.content;
   let muas_id = req.query.id;
   let result = await client.query(
-    `update muas set introduction = '${newContent}' where muas_id =${muas_id}`
+    `update muas set introduction = '${newContent}' where muas_id = '${muas_id}'`
   );
   res.json(result);
 });
 
 profileRoutes.patch("/editDescription", async (req, res) => {
+  // console.log("here?");
+
   console.log(req.body);
-  console.log(req.query.id);
+  // console.log(req.query.id);
   let newContent = req.body.content;
-  let muas_id = req.query.id;
+  let muas_image = req.body.image.split("/").slice("4");
+  console.log(muas_image);
+  // let muas_id = req.query.id;
   let result = await client.query(
-    `update portfolio set mua_description = '${newContent}' where muas_id =${muas_id}`
+    `update portfolio set mua_description = '${newContent}' where mua_portfolio = '${muas_image}'`
   );
   res.json(result);
+});
+
+//for update profile information
+profileRoutes.post("/profileUpdate", async (req, res) => {
+  let currentId = req.query.id;
+  console.log("currentID" + currentId);
+  form.parse(req, async (err, fields, files) => {
+    let hashedPassword = await hashPassword(fields.newPassword as string);
+    let newNicknameAtForm = fields.newNickname;
+    console.log({ err, fields, files });
+    // console.log(hashedPassword);
+    let image = files.newIcon;
+    let imageFile = Array.isArray(image) ? image[0] : image;
+    let image_filename = imageFile?.newFilename;
+    if (Array.isArray(fields.data)) {
+      res.status(402);
+      res.json({
+        error: "Invalid format",
+      });
+      return;
+    }
+    console.log(
+      /*sql*/ `update users set nickname = $1, password_hash = $2, profilepic = $3 where users.id= $4`,
+      [newNicknameAtForm, hashedPassword, image_filename, currentId]
+    );
+    const updateFinish = await client.query(
+      /*sql*/ `update users set nickname = $1, password_hash = $2, profilepic = $3 where users.id= $4`,
+      [newNicknameAtForm, hashedPassword, image_filename, currentId]
+    );
+
+    console.log(updateFinish);
+    res.json({ message: "Success" });
+  });
 });

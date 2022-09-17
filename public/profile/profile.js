@@ -9,9 +9,19 @@ let workDescription = document.querySelector("[name=description]");
 let introContainer = document.querySelector(".introContainer");
 
 let username = introContainer.querySelector(".username");
-
+//for edit profile
 let editBtn = document.getElementById("edit-button");
 let endBtn = document.getElementById("end-editing");
+let editDialog = document.querySelector("#editDialog");
+let diaDiv = document.querySelector(".diaDiv");
+let updateProfileForm = diaDiv.querySelector("#updateProfile");
+let diaSubmitBtn = diaDiv.querySelector("#diaSubmitBtn");
+let diaCancelBtn = diaDiv.querySelector("#diaCancelBtn");
+let updateNickname = diaDiv.querySelector("[name=updateNickname]");
+let updatePassword = diaDiv.querySelector("[name=updatePassword]");
+let updateIcon = diaDiv.querySelector("[name=updateIcon]");
+
+//for upload
 let uploadPhoto = document.getElementById("choosePhoto");
 let profileTemplate = document.querySelector(".profileTemplate");
 let profileIcon = document.querySelector("#profileIcon");
@@ -21,8 +31,42 @@ let descriptionBtn = document.querySelector(".descriptionBtn");
 let doneBtn = document.querySelector(".doneBtn");
 let saveCat = document.querySelector("#saveCat");
 
+//get params
 let params = new URL(document.location).searchParams;
 let paramsName = params.get("id");
+//Edit profile function
+// if (typeof editDialog.showModal != "function") {
+//   editDialog.hidden = true;
+// }
+editDialog.hidden = true;
+
+editBtn.addEventListener("click", () => {
+  editDialog.hidden = false;
+});
+
+diaCancelBtn.addEventListener("click", () => {
+  editDialog.hidden = true;
+});
+
+updateProfileForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  let formData = new FormData();
+
+  formData.append("newNickname", updateNickname.value);
+  formData.append("newPassword", updatePassword.value);
+  formData.append("newIcon", updateIcon.files[0]);
+  console.log(formData);
+
+  const res = await fetch(`/profileUpdate?id=${paramsName}`, {
+    method: "post",
+    body: formData,
+  });
+  console.log(res);
+
+  // let json = await
+});
+
 let change = true;
 
 console.log("Current params: ", paramsName);
@@ -130,8 +174,10 @@ descriptionBtn.addEventListener("click", async (event) => {
 });
 
 doneBtn.addEventListener("click", async (event) => {
+  let image = document.querySelector(".portfolio");
   let insideEdit = document.querySelector(".insideDescription");
-  // console.log(insideEdit);
+  console.log(image);
+  console.log(insideEdit);
   console.log(insideEdit.textContent);
   insideEdit.contentEditable = false;
   const res = await fetch(`/editDescription?id=${paramsName}`, {
@@ -139,14 +185,10 @@ doneBtn.addEventListener("click", async (event) => {
     headers: {
       "Content-Type": "application/json; charset=utf-8",
     },
-    body: JSON.stringify({ content: insideEdit.textContent }),
+    body: JSON.stringify({ content: insideEdit.textContent, image: image.src }),
   });
   let json = await res.json();
   console.log(json);
-});
-
-editBtn.addEventListener("click", function () {
-  detail.contentEditable = true;
 });
 
 endBtn.addEventListener("click", async function () {

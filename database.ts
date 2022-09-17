@@ -5,10 +5,10 @@ import { env } from "./env";
 dotenv.config();
 
 export const client = new Client({
-  database: process.env.DB_NAME,
-  user: process.env.DB_USERNAME,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT as any,
+  database: env.DB_NAME,
+  user: env.DB_USERNAME,
+  password: env.DB_PASSWORD,
+  port: env.DB_PORT,
   //   host: env.DB_HOST,
 });
 

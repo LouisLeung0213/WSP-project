@@ -63,6 +63,51 @@
         <button type="submit" id="edit-button">Edit</button>
         <button type="submit" id="end-editing">Done</button>
       </div>
+
+      <dialog id="editDialog">
+        <div class="diaDiv">
+          <label>Please edit your profile information: </label>
+          <br />
+          <form
+            action="/profileUpdate"
+            method="post"
+            enctype="multipart/form-data"
+            id="updateProfile"
+          >
+            <label>Nick-name: </label>
+            <input
+              type="text"
+              name="updateNickname"
+              id="updateNickame"
+              placeholder="update Nick-Name here"
+            />
+            <br />
+            <label>Re-new Password: </label>
+            <input
+              type="password"
+              name="updatePassword"
+              id="updatePassword"
+              placeholder="Update Password here"
+            />
+            <br />
+            <label>Enter Re-new Password again: </label>
+            <input
+              type="password"
+              name="updateRePassword"
+              id="updateRePassword"
+              placeholder="Re Enter Password here again"
+            />
+            <br />
+            <label>Upload New Icon</label>
+            <input type="file" name="updateIcon" id="updateIcon" />
+
+            <input type="submit" value="Submit" id="diaSubmitBtn" />
+          </form>
+
+          <button id="diaCancelBtn" value="cancel">Cancel</button>
+        </div>
+      </dialog>
+
       <div class="section">~~~~~ My tag ~~~~~</div>
       <div class="approach">
         <div class="calendar">
@@ -176,41 +221,6 @@
           </div>
         </div>
       </div>
-
-      <dialog id="editDialog">
-        <label>Please enter your information: </label>
-        <br />
-        <form action="/signUp" method="post">
-          <label>username: </label>
-          <input
-            type="text"
-            name="username"
-            id="username"
-            placeholder="Username here"
-          />
-          <br />
-          <label>password: </label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            placeholder="Password here"
-          />
-          <br />
-          <label>Enter password again: </label>
-          <input
-            type="password"
-            name="rePassword"
-            id="re_password"
-            placeholder="Password here again"
-          />
-          <br />
-          <input type="submit" value="Submit" />
-        </form>
-        <div>
-          <button id="signUp-cancel" value="cancel">Cancel</button>
-        </div>
-      </dialog>
     </div>
 
     <script src="../calendar.js"></script>
