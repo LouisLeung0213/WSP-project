@@ -1,7 +1,10 @@
 const date = new Date();
 let selectedDates = [];
 let selectedDatesStr = [];
-let selectedDatesMua = []
+let selectedDatesMua = [];
+
+let params = new URL(document.location).searchParams;
+let paramsName = params.get("id");
 
 const renderCalendar = () => {
   // console.log(date);
@@ -126,39 +129,47 @@ function selectDate() {
   let days = document.querySelectorAll(".days div");
   // console.log(days);
 
-  for (let date of days) {
-    if (
-      selectedDatesStr.filter(
-        (word) => word == `unavailable_date = '${date.id}'`
-      ).length > 0
-    ) {
-      date.classList.add("selected");
-    } else {
-      date.classList.remove("selected");
-    }
-    date.addEventListener("click", () => {
-      if (
-        date.classList.contains("selectable") &&
-        !date.classList.contains("selected")
-      ) {
-        selectedDatesStr.push(`unavailable_date = '${date.id}'`);
-        selectedDates.push(date.id);
-        selectedDatesMua = selectedDatesMua.filter((word) => word !== date.id);
-        date.classList.add("selected");
-        // console.log(selectedDates);
-      } else if (date.classList.contains("selected")) {
-        selectedDatesStr = selectedDatesStr.filter(
-          (word) => word !== `unavailable_date = '${date.id}'`
-        );
-        selectedDates = selectedDates.filter((word) => word !== date.id);
-        selectedDatesMua.push(date.id)
-        date.classList.remove("selected");
-      }
-      // console.log(selectedDates);
-      // console.log(selectedDatesMua);
+  fetch(`/filter?id=${paramsName}`)
+    .then((res) => res.json())
+    .then((categories) => {
+      for (let date of days) {
+        if (
+          selectedDatesStr.filter(
+            (word) => word == `unavailable_date = '${date.id}'`
+          ).length > 0
+        ) {
+          date.classList.add("selected");
+        } else {
+          date.classList.remove("selected");
+        }
 
-      // console.log(selectedDatesStr);
+        if (categories.currentUser == paramsName || paramsName == null) {
+          date.classList.add("editable")
+          date.addEventListener("click", () => {
+            if (
+              date.classList.contains("selectable") &&
+              !date.classList.contains("selected")
+            ) {
+              selectedDatesStr.push(`unavailable_date = '${date.id}'`);
+              selectedDates.push(date.id);
+              selectedDatesMua = selectedDatesMua.filter(
+                (word) => word !== date.id
+              );
+              date.classList.add("selected");
+              // console.log(selectedDates);
+            } else if (date.classList.contains("selected")) {
+              selectedDatesStr = selectedDatesStr.filter(
+                (word) => word !== `unavailable_date = '${date.id}'`
+              );
+              selectedDates = selectedDates.filter((word) => word !== date.id);
+              selectedDatesMua.push(date.id);
+              date.classList.remove("selected");
+            }
+          });
+        }
+      }
     });
   }
-}
-selectDate();
+  
+  selectDate();
+  

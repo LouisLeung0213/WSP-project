@@ -98,7 +98,7 @@ html {
     transition: background-color 0.2s;
   }
   
-  .days div:hover:not(.unselectable) {
+  .days .editable:hover {
     background-color: #f78fb0;
     border: 0.2rem solid #777;
     cursor: pointer;

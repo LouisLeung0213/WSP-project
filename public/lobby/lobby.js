@@ -3,13 +3,10 @@ let subMain = document.querySelector("#subMain");
 let muaAbstract = main.querySelector(".muaAbstract");
 let muaHref = main.querySelector(".muaHref");
 
-let params = new URL(document.location).searchParams;
-let paramsName = params.get("id");
-
 fetch(`/filter?id=${paramsName}`)
   .then((res) => res.json())
   .then((categories) => {
-    console.log(categories.allCats);
+    // console.log(categories.allCats);
     let catMap = new Map();
     let catsTree = [];
 

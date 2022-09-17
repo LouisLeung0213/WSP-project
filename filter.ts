@@ -8,14 +8,22 @@ export const filterRoutes = Router();
 filterRoutes.get("/filter", async (req, res) => {
   let resultAllCats = await client.query("SELECT * from categories");
   let muaId = req.query.id;
-  let resultMuaCats = await client.query(
-    `SELECT categories_id from offers where muas_id = ${muaId}`
-  );
+  let resultMuaCats;
   let muaCats = [];
-  for (let resultMuaCat of resultMuaCats.rows) {
-    muaCats.push(resultMuaCat.categories_id);
+  if (muaId) {
+    resultMuaCats = await client.query(
+      `SELECT categories_id from offers where muas_id = ${muaId}`
+    );
+    for (let resultMuaCat of resultMuaCats.rows) {
+      muaCats.push(resultMuaCat.categories_id);
+    }
   }
-  let categories = { allCats: resultAllCats.rows, muaCats: muaCats };
+  let currentUser = req.session.user?.id;
+  let categories = {
+    allCats: resultAllCats.rows,
+    muaCats,
+    currentUser,
+  };
   res.json(categories);
 });
 

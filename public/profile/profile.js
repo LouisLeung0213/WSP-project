@@ -9,7 +9,7 @@ let workDescription = document.querySelector("[name=description]");
 let introContainer = document.querySelector(".introContainer");
 
 let username = introContainer.querySelector(".username");
-
+let saveCatSubmit = document.querySelector("#saveCatSubmit");
 let editBtn = document.getElementById("edit-button");
 let endBtn = document.getElementById("end-editing");
 let uploadPhoto = document.getElementById("choosePhoto");
@@ -21,11 +21,9 @@ let descriptionBtn = document.querySelector(".descriptionBtn");
 let doneBtn = document.querySelector(".doneBtn");
 let saveCat = document.querySelector("#saveCat");
 
-let params = new URL(document.location).searchParams;
-let paramsName = params.get("id");
 let change = true;
 
-console.log("Current params: ", paramsName);
+// console.log("Current params: ", paramsName);
 
 submitBtn.addEventListener("click", async (event) => {
   event.preventDefault();
@@ -72,7 +70,7 @@ deleteBtn.addEventListener("click", async (event) => {
 fetch(`/profile?id=${paramsName}`)
   .then((res) => res.json())
   .then((json) => {
-    console.log(json);
+    // console.log(json);
     // console.log("other:" + paramsName);
     if (json.currentUser != paramsName) {
       submitBtn.hidden = true;
@@ -166,8 +164,8 @@ endBtn.addEventListener("click", async function () {
 fetch(`/filter?id=${paramsName}`)
   .then((res) => res.json())
   .then((categories) => {
-    console.log("categories.allCats: ", categories.allCats);
-    console.log("categories.muaCats: ", categories.muaCats);
+    // console.log("categories.allCats: ", categories.allCats);
+    // console.log("categories.muaCats: ", categories.muaCats);
     let catMap = new Map();
     let catsTree = [];
 
@@ -200,8 +198,12 @@ fetch(`/filter?id=${paramsName}`)
           checkbox.hidden = true;
         }
         checkbox.value = cat.id;
-        if (categories.muaCats.filter(word => word == cat.id).length > 0){
-          checkbox.checked = true
+        if (categories.muaCats.filter((word) => word == cat.id).length > 0) {
+          checkbox.checked = true;
+        }
+        if (categories.currentUser != paramsName) {
+          saveCatSubmit.hidden = true;
+          checkbox.disabled = true;
         }
         catList.appendChild(node);
         node.querySelector(".cat-name").textContent = cat.name;
@@ -239,39 +241,42 @@ saveCat.addEventListener("submit", (event) => {
       return res.json();
     })
     .then((message) => {
-      alert(message)
+      alert(message);
       console.log(message);
     });
 });
+fetch(`/selectedDatesMua?id=${paramsName}`)
+  .then((res) => res.json())
+  .then((unavailable_dates) => {
+    for (let unavailable_date of unavailable_dates) {
+      selectedDatesMua.push(unavailable_date.date);
+    }
+  });
 
 function showAvailableDate() {
   fetch(`/showAvailableDate?id=${paramsName}`)
     .then((res) => res.json())
     .then((unavailable_dates) => {
+      // console.log("unavailable_dates: ", unavailable_dates);
       let dates = document.querySelectorAll(".selectable");
       for (let date of dates) {
-        for (let unavailable_date of unavailable_dates) {
-          if (date.id == unavailable_date.date) {
-            if (date.classList.contains("selected")) {
-              date.classList.remove("selected");
+        if (unavailable_dates.length !== 0) {
+          for (let unavailable_date of unavailable_dates) {
+            if (date.id == unavailable_date.date) {
+              if (date.classList.contains("selected")) {
+                date.classList.remove("selected");
+              }
+              break;
             }
-            break;
+            date.classList.add("selected");
           }
+        } else {
           date.classList.add("selected");
         }
       }
     });
 }
 showAvailableDate();
-
-fetch(`/selectedDatesMua?id=${paramsName}`)
-  .then((res) => res.json())
-  .then((unavailable_dates) => {
-    for (let unavailable_date of unavailable_dates) {
-      selectedDatesMua.push(unavailable_date.date)
-    }
-    // console.log(selectedDatesMua);
-  });
 
 document
   .getElementById("exampleModal")
