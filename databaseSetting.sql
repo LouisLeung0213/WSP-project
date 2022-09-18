@@ -128,3 +128,5 @@ DELETE FROM date_matches WHERE muas_id = ${sessionId};
 
 
 DELETE FROM offers WHERE muas_id = ${sessionId} and categories_id != any(array${tags.cats}::integer[]);
+
+
