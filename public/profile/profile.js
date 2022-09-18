@@ -57,6 +57,15 @@ updateProfileForm.addEventListener("submit", async (event) => {
     body: formData,
   });
   console.log(res);
+  if (res.ok) {
+    Swal.fire({
+      icon: "success",
+      title: `Information updated`,
+      showConfirmButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) window.location.reload();
+    });
+  }
 
   // let json = await
 });
