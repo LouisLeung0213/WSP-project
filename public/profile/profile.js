@@ -12,7 +12,6 @@ let username = introContainer.querySelector(".username");
 //for edit profile
 let saveCatSubmit = document.querySelector("#saveCatSubmit");
 let editBtn = document.getElementById("edit-button");
-let endBtn = document.getElementById("end-editing");
 let editDialog = document.querySelector("#editDialog");
 let diaDiv = document.querySelector(".diaDiv");
 let updateProfileForm = diaDiv.querySelector("#updateProfile");
@@ -21,6 +20,7 @@ let diaCancelBtn = diaDiv.querySelector("#diaCancelBtn");
 let updateNickname = diaDiv.querySelector("[name=updateNickname]");
 let updatePassword = diaDiv.querySelector("[name=updatePassword]");
 let updateIcon = diaDiv.querySelector("[name=updateIcon]");
+let dialogDetail = diaDiv.querySelector("[name=dialogDetail]");
 
 //for upload
 let uploadPhoto = document.getElementById("choosePhoto");
@@ -50,6 +50,7 @@ updateProfileForm.addEventListener("submit", async (event) => {
   formData.append("newNickname", updateNickname.value);
   formData.append("newPassword", updatePassword.value);
   formData.append("newIcon", updateIcon.files[0]);
+  formData.append("newDescription", dialogDetail.value);
   console.log(formData);
 
   const res = await fetch(`/profileUpdate?id=${paramsName}`, {
@@ -90,9 +91,15 @@ submitBtn.addEventListener("click", async (event) => {
     let json = await res.json();
     console.log(json);
 
-    alert(`${json.message}`);
-
-    window.location.reload();
+    if (res.ok) {
+      Swal.fire({
+        icon: "success",
+        title: `upload success`,
+        showConfirmButton: true,
+      }).then((result) => {
+        if (result.isConfirmed) window.location.reload();
+      });
+    }
   } catch (error) {
     alert("file cannot be empty");
   }
@@ -116,14 +123,14 @@ deleteBtn.addEventListener("click", async (event) => {
   window.location.reload();
 });
 
+//for load profile page
 fetch(`/profile?id=${paramsName}`)
   .then((res) => res.json())
   .then((json) => {
-    console.log(json);
+    // console.log(json);
     // console.log("other:" + paramsName);
     if (json.currentUser != paramsName) {
       submitBtn.hidden = true;
-      endBtn.hidden = true;
       editBtn.hidden = true;
       uploadPhoto.hidden = true;
       deleteBtn.hidden = true;
@@ -143,6 +150,7 @@ fetch(`/profile?id=${paramsName}`)
       portfolioBtn.remove();
     }
     let intro = json.user.introduction;
+    console.log(json);
     let introNode = detail.cloneNode(true);
     introNode.textContent = intro;
     detailContainer.appendChild(introNode);
@@ -195,45 +203,59 @@ fetch(`/profile?id=${paramsName}`)
     });
   });
 
+//for portfolio
+document
+  .getElementById("exampleModal")
+  .addEventListener("show.bs.modal", async (event) => {
+    // console.log(event);
+    outsideText = event.relatedTarget.querySelector(
+      ".outsideDescription"
+    ).innerHTML;
+    insideText =
+      event.currentTarget.querySelector(".insideDescription").innerHTML;
+
+    console.log(event.relatedTarget);
+    outsideImage = event.relatedTarget.querySelector(".portfolio").src;
+    insideImage = event.currentTarget.querySelector(".portfolio1").src;
+    insideImage = outsideImage;
+    insideText = outsideText;
+    console.log(insideText);
+    // console.log(event.currentTarget);
+    event.currentTarget.querySelector(".portfolio1").src = insideImage;
+    event.currentTarget.querySelector(".insideDescription").innerHTML =
+      insideText;
+  });
+
 descriptionBtn.addEventListener("click", async (event) => {
   // console.log(event);
-  let insideEdit = document.querySelector(".insideDescription");
-  console.log(insideEdit);
-  insideEdit.contentEditable = true;
+  // let insideEdit = document.querySelector(".insideDescription");
+  console.log(insideDescription);
+  insideDescription.contentEditable = true;
 });
 
 doneBtn.addEventListener("click", async (event) => {
   let image = document.querySelector(".portfolio");
-  let insideEdit = document.querySelector(".insideDescription");
-  console.log(image);
-  console.log(insideEdit);
-  console.log(insideEdit.textContent);
-  insideEdit.contentEditable = false;
+  // let insideEdit = document.querySelector(".insideDescription");
+
+  console.log(image.src);
+  console.log(insideDescription);
+  console.log(insideDescription.textContent);
+  insideDescription.contentEditable = false;
   const res = await fetch(`/editDescription?id=${paramsName}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json; charset=utf-8",
     },
-    body: JSON.stringify({ content: insideEdit.textContent, image: image.src }),
+    body: JSON.stringify({
+      content: insideDescription.textContent,
+      image: image.src,
+    }),
   });
   let json = await res.json();
   console.log(json);
 });
 
-endBtn.addEventListener("click", async function () {
-  detail.contentEditable = false;
-  console.log(detail.textContent);
-  const res = await fetch(`/editIntro?id=${paramsName}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json; charset=utf-8",
-    },
-    body: JSON.stringify({ content: detail.textContent }),
-  });
-  let json = await res.json();
-  console.log(json);
-});
-
+//for filter categories
 fetch(`/filter?id=${paramsName}`)
   .then((res) => res.json())
   .then((categories) => {
@@ -294,6 +316,7 @@ fetch(`/filter?id=${paramsName}`)
     showCats(catsTree, catList);
   });
 
+//for filter
 saveCat.addEventListener("submit", (event) => {
   event.preventDefault();
   let form = event.target;
@@ -330,6 +353,7 @@ fetch(`/selectedDatesMua?id=${paramsName}`)
     }
   });
 
+//for calendar
 function showAvailableDate() {
   fetch(`/showAvailableDate?id=${paramsName}`)
     .then((res) => res.json())
@@ -354,23 +378,3 @@ function showAvailableDate() {
     });
 }
 showAvailableDate();
-
-document
-  .getElementById("exampleModal")
-  .addEventListener("show.bs.modal", async (event) => {
-    console.log(event);
-    outsideText = event.relatedTarget.querySelector(
-      ".outsideDescription"
-    ).innerHTML;
-    insideText =
-      event.currentTarget.querySelector(".insideDescription").innerHTML;
-    outsideImage = event.relatedTarget.querySelector(".portfolio").src;
-    insideImage = event.currentTarget.querySelector(".portfolio1").src;
-    insideImage = outsideImage;
-    insideText = outsideText;
-    console.log(insideText);
-    // console.log(event.currentTarget);
-    event.currentTarget.querySelector(".portfolio1").src = insideImage;
-    event.currentTarget.querySelector(".insideDescription").innerHTML =
-      insideText;
-  });
