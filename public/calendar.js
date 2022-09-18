@@ -127,31 +127,33 @@ renderCalendar();
 
 function selectDate() {
   let days = document.querySelectorAll(".days div");
-  // console.log(days);
-
   fetch(`/filter?id=${paramsName}`)
-    .then((res) => res.json())
-    .then((categories) => {
-      for (let date of days) {
+  .then((res) => res.json())
+  .then((categories) => {
+    for (let date of days) {
+      if (paramsName == null & date.classList.contains("selectable")) {
         if (
           selectedDatesStr.filter(
             (word) => word == `unavailable_date = '${date.id}'`
-          ).length > 0
-        ) {
-          date.classList.add("selected");
-        } else {
-          date.classList.remove("selected");
-        }
-
-        if (categories.currentUser == paramsName || paramsName == null) {
-          date.classList.add("editable");
-          date.addEventListener("click", () => {
+            ).length > 0
+            ) {
+              date.classList.add("selected");
+            } else {
+              date.classList.remove("selected");
+            }
+          }
+          
+          if (categories.currentUser == paramsName || paramsName == null) {
+            if (date.classList.contains("selectable")){
+              date.classList.add("editable");
+            }
+            date.addEventListener("click", () => {
             if (
               date.classList.contains("selectable") &&
               !date.classList.contains("selected")
-            ) {
-              selectedDatesStr.push(`unavailable_date = '${date.id}'`);
-              selectedDates.push(date.id);
+              ) {
+                selectedDatesStr.push(`unavailable_date = '${date.id}'`);
+                selectedDates.push(date.id);
               selectedDatesMua = selectedDatesMua.filter(
                 (word) => word !== date.id
               );

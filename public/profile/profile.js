@@ -311,9 +311,9 @@ function showAvailableDate() {
       // console.log("unavailable_dates: ", unavailable_dates);
       let dates = document.querySelectorAll(".selectable");
       for (let date of dates) {
-        if (unavailable_dates.length !== 0) {
-          for (let unavailable_date of unavailable_dates) {
-            if (date.id == unavailable_date.date) {
+        if (selectedDatesMua !== 0) {
+          for (let unavailable_date of selectedDatesMua) {
+            if (date.id == unavailable_date) {
               if (date.classList.contains("selected")) {
                 date.classList.remove("selected");
               }
