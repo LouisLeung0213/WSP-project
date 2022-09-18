@@ -33,12 +33,9 @@ let doneBtn = document.querySelector(".doneBtn");
 let saveCat = document.querySelector("#saveCat");
 
 //get params
-let params = new URL(document.location).searchParams;
-let paramsName = params.get("id");
-//Edit profile function
-// if (typeof editDialog.showModal != "function") {
-//   editDialog.hidden = true;
-// }
+// let params = new URL(document.location).searchParams;
+// let paramsName = params.get("id");
+
 editDialog.hidden = true;
 
 editBtn.addEventListener("click", () => {

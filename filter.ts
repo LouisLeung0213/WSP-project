@@ -112,26 +112,8 @@ filterRoutes.post("/saveCat", async (req, res) => {
       );
     }
 
-    // let sqlInsertCat = (tags.cats.map( (word: number) => `insert into offers (muas_id, categories_id) values ($1, $2)`,
-    // [${sessionId}, word ])
-    // console.log("sqlInsertCat: ", sqlInsertCat);
-
-    //   let sqlInsertDate = `
-    // select username, users.id from offers
-    // join users on muas_id = users.id
-    // left join date_matches on date_matches.muas_id = users.id
-    // where (${tags.cats.join(" or ")}
-    // ${andExs}${dateExsStart}${tags.dates.join(" or ")}${dateExsEnd})
-    // order by users.id;
-    // `;
-    //   console.log("sqlInsertDate: ", sqlInsertDate);
-
-    // await client.query(sqlInsertCat);
-    //   await client.query(sqlInsertDate);
-    res.json();
+    res.json("Save categories and dates successfully!");
   }
-
-  res.json("Save categories and dates successfully!");
 });
 
 filterRoutes.get("/showAvailableDate", async (req, res) => {

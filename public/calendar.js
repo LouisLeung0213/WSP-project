@@ -144,7 +144,7 @@ function selectDate() {
         }
 
         if (categories.currentUser == paramsName || paramsName == null) {
-          date.classList.add("editable")
+          date.classList.add("editable");
           date.addEventListener("click", () => {
             if (
               date.classList.contains("selectable") &&
@@ -169,7 +169,6 @@ function selectDate() {
         }
       }
     });
-  }
-  
-  selectDate();
-  
+}
+
+selectDate();
