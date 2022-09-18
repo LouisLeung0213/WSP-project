@@ -55,10 +55,10 @@ function showMua() {
   fetch("/showMua")
     .then((res) => res.json())
     .then((muas) => {
-      // console.log(muas);
+      console.log(muas);
       for (const mua of muas) {
         if (mua) {
-          // console.log(mua);
+          console.log(mua);
           muaAbstract.hidden = false;
           let node = muaAbstract.cloneNode(true);
 
@@ -80,12 +80,12 @@ function showMua() {
             pDiv.textContent = `${muaName}`;
           }
           // icon in portfolioBlock
-          let icon = mua.icon;
+          let icon = mua.profilepic;
           let iconImage = node.querySelector(".icon");
-          if (mua.icon == null) {
-            iconImage.src = `/uploads/default_profile_pic.jpg`;
-          } else {
+          if (mua.profilepic != null) {
             iconImage.src = `/uploads/${icon}`;
+          } else {
+            iconImage.src = `/uploads/default_profile_pic.jpg`;
           }
           //portfolio in portfolioBlock
           let portfolio = mua.mua_portfolio;

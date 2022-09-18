@@ -32,10 +32,6 @@ let descriptionBtn = document.querySelector(".descriptionBtn");
 let doneBtn = document.querySelector(".doneBtn");
 let saveCat = document.querySelector("#saveCat");
 
-//get params
-// let params = new URL(document.location).searchParams;
-// let paramsName = params.get("id");
-
 editDialog.hidden = true;
 
 editBtn.addEventListener("click", () => {
@@ -114,7 +110,7 @@ deleteBtn.addEventListener("click", async (event) => {
 fetch(`/profile?id=${paramsName}`)
   .then((res) => res.json())
   .then((json) => {
-    // console.log(json);
+    console.log(json);
     // console.log("other:" + paramsName);
     if (json.currentUser != paramsName) {
       submitBtn.hidden = true;
@@ -150,11 +146,11 @@ fetch(`/profile?id=${paramsName}`)
     username.hidden = true;
     introContainer.appendChild(nickNameNode);
 
-    let icon = json.user.icon;
+    let icon = json.user.profilepic;
     let iconNode = profileIcon.cloneNode(true);
     profileIcon.hidden = true;
     let myIcon;
-    if (json.user.icon) {
+    if (json.user.profilepic) {
       myIcon = `/uploads/${icon}`;
     } else {
       myIcon = `/uploads/default_profile_pic.jpg`;

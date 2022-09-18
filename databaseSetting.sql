@@ -14,7 +14,6 @@ create table users (
 create table muas (
     muas_id integer unique
     , foreign key(muas_id) references users(id)
-    , icon varchar(255)
     , avg_score integer
     , introduction text
 );
@@ -128,3 +127,12 @@ DELETE FROM date_matches WHERE muas_id = ${sessionId};
 
 
 DELETE FROM offers WHERE muas_id = ${sessionId} and categories_id != any(array${tags.cats}::integer[]);
+
+
+----------------set profilepic to unique for muas_icon to fk it-----------------
+-- alter table users add constraint unique_profilepic unique(profilepic);
+
+-- alter table muas add foreign key(icon) references users(profilepic);
+
+----drop muas icon----
+alter table muas drop column icon;
