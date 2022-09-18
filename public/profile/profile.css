@@ -189,3 +189,35 @@ body {
 .diaDiv {
   font-size: 15px;
 }
+
+.ratingContainer {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.score {
+  outline: 2px solid red;
+  width: 20px;
+  height: 20px;
+}
+
+.commentQty {
+  outline: 2px solid red;
+  width: 20px;
+  height: 20px;
+}
+
+.likeBtn {
+  outline: 2px solid red;
+  width: 20px;
+  height: 20px;
+  background-color: green;
+}
+
+.dislikeBtn {
+  outline: 2px solid red;
+  width: 20px;
+  height: 20px;
+  background-color: red;
+}

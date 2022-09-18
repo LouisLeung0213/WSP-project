@@ -7,7 +7,7 @@ let detail = detailContainer.querySelector(".detail");
 let submitContainer = document.querySelector(".submitContainer");
 let workDescription = document.querySelector("[name=description]");
 let introContainer = document.querySelector(".introContainer");
-
+let ratingContainer = document.querySelector(".ratingContainer");
 let username = introContainer.querySelector(".username");
 //for edit profile
 let saveCatSubmit = document.querySelector("#saveCatSubmit");
@@ -167,6 +167,32 @@ fetch(`/profile?id=${paramsName}`)
 
     iconNode.src = myIcon;
     introContainer.appendChild(iconNode);
+
+    // Rating system
+
+    // Rating system -- comment
+
+    let likeBtn = document.querySelector(".likeBtn");
+    let dislikeBtn = document.querySelector(".dislikeBtn");
+
+    likeBtn.addEventListener("click", () => {
+      console.log("hi");
+      // let comment = { from, to, action };
+      // fetch(`/like?${paramsName}`, {
+      //   method: "post",
+      //   headers: {
+      //     "Content-type": "application/json",
+      //   },
+      //   body: JSON.stringify(tags),
+      // })
+      //   .then((res) => {
+      //     return res.json();
+      //   })
+      //   .then((message) => {
+      //     alert(message);
+      //     console.log(message);
+      //   });
+    });
   });
 
 descriptionBtn.addEventListener("click", async (event) => {
@@ -249,10 +275,10 @@ fetch(`/filter?id=${paramsName}`)
         checkbox.value = cat.id;
         if (categories.muaCats.filter((word) => word == cat.id).length > 0) {
           checkbox.checked = true;
-        // } else if (cat.children.length == 0){
-        //   node.hidden = true
+          // } else if (cat.children.length == 0){
+          //   node.hidden = true
         }
-        if (categories.currentUser != paramsName){
+        if (categories.currentUser != paramsName) {
           saveCatSubmit.hidden = true;
           checkbox.disabled = true;
         }
