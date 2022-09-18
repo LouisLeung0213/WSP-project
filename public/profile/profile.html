@@ -61,7 +61,6 @@
           </p>
         </div>
         <button type="submit" id="edit-button">Edit</button>
-        <button type="submit" id="end-editing">Done</button>
       </div>
 
       <dialog id="editDialog">
@@ -100,7 +99,10 @@
             <br />
             <label>Upload New Icon</label>
             <input type="file" name="updateIcon" id="updateIcon" />
-
+            <br />
+            <label>Update your description:</label>
+            <input class="detail" id="edit" name="dialogDetail" />
+            <br />
             <input type="submit" value="Submit" id="diaSubmitBtn" />
           </form>
 
@@ -189,7 +191,6 @@
         >
           <div class="modal-content theBox">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
               <button
                 type="button"
                 class="btn-close"
@@ -197,10 +198,14 @@
                 aria-label="Close"
               ></button>
             </div>
+            <!-- <div class="insidePorfolio"> -->
             <div class="modal-body portfolioContainer">
               <image class="portfolio1" src="1" alt=""></image>
+            </div>
+            <div class="insideDescriptionDiv">
               <p class="insideDescription"></p>
             </div>
+            <!-- </div> -->
             <div class="modal-footer">
               <button
                 type="button"

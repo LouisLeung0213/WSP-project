@@ -142,6 +142,16 @@ body {
   max-width: 240px;
   max-height: 240px;
 }
+.insideDescription {
+  font-size: 25px;
+  padding: 10px 10px 10px 15px;
+  text-align: center;
+}
+
+.insidePorfolio {
+  display: flex;
+  height: 100%;
+}
 
 .imageBtn {
   background-color: #fff !important;

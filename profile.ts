@@ -135,7 +135,7 @@ profileRoutes.patch("/editIntro", async (req, res) => {
 });
 
 profileRoutes.patch("/editDescription", async (req, res) => {
-  // console.log("here?");
+  console.log("here?");
 
   console.log(req.body);
   // console.log(req.query.id);
@@ -144,7 +144,8 @@ profileRoutes.patch("/editDescription", async (req, res) => {
   console.log(muas_image);
   // let muas_id = req.query.id;
   let result = await client.query(
-    `update portfolio set mua_description = '${newContent}' where mua_portfolio = '${muas_image}'`
+    `update portfolio set mua_description = $1 where mua_portfolio = $2`,
+    [newContent, muas_image]
   );
   res.json(result);
 });
@@ -156,6 +157,7 @@ profileRoutes.post("/profileUpdate", async (req, res) => {
   form.parse(req, async (err, fields, files) => {
     let hashedPassword = await hashPassword(fields.newPassword as string);
     let newNicknameAtForm = fields.newNickname;
+    let newDescriptionForm = fields.newDescription;
     console.log({ err, fields, files });
     // console.log(hashedPassword);
     let image = files.newIcon;
@@ -169,14 +171,19 @@ profileRoutes.post("/profileUpdate", async (req, res) => {
       return;
     }
     console.log(
-      /*sql*/ `update users set nickname = $1, password_hash = $2, profilepic = $3 where users.id= $4`,
-      [newNicknameAtForm, hashedPassword, image_filename, currentId]
+      /*sql*/ `update users set nickname = $1, password_hash = $2, profilepic = $3 ,  where users.id= $4`,
+      [newNicknameAtForm, hashedPassword, image_filename, currentId],
+      /*sql*/ `update muas set introduction = $1 where muas_id = $2`,
+      [newDescriptionForm, currentId]
     );
     const updateFinish = await client.query(
       /*sql*/ `update users set nickname = $1, password_hash = $2, profilepic = $3 where users.id= $4`,
       [newNicknameAtForm, hashedPassword, image_filename, currentId]
     );
-
+    const updateDescription = await client.query(
+      /*sql*/ `update muas set introduction = $1 where muas_id = $2`,
+      [newDescriptionForm, currentId]
+    );
     console.log(updateFinish);
     res.json({ message: "Success" });
   });
