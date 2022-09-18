@@ -237,8 +237,10 @@ fetch(`/filter?id=${paramsName}`)
 
     function showCats(catsTree, catList) {
       catList.textContent = "";
+      if (categories.currentUser != paramsName) {
+        saveCatSubmit.hidden = true;
+      }
       for (const cat of catsTree) {
-        // console.log(cat.name);
         let node = catTemplate.cloneNode(true);
         let checkbox = node.querySelector("input");
         if (cat.children.length > 0) {
@@ -247,8 +249,10 @@ fetch(`/filter?id=${paramsName}`)
         checkbox.value = cat.id;
         if (categories.muaCats.filter((word) => word == cat.id).length > 0) {
           checkbox.checked = true;
+        // } else if (cat.children.length == 0){
+        //   node.hidden = true
         }
-        if (categories.currentUser != paramsName) {
+        if (categories.currentUser != paramsName){
           saveCatSubmit.hidden = true;
           checkbox.disabled = true;
         }
