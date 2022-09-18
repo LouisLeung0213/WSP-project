@@ -16,12 +16,12 @@ muaRoutes.post("/registration", async (req, res) => {
     await client.query(`insert into muas (muas_id) values ($1)`, [
       req.session.user!.id,
     ]);
-    if (userInfo.profilepic) {
-      await client.query(`update muas set icon = ($1) where muas_id = ($2)`, [
-        userInfo.profilepic,
-        req.session.user!.id,
-      ]);
-    }
+    // if (userInfo.profilepic) {
+    //   await client.query(`update muas set icon = ($1) where muas_id = ($2)`, [
+    //     userInfo.profilepic,
+    //     req.session.user!.id,
+    //   ]);
+    //}
 
     res.json({});
     return;
@@ -33,13 +33,14 @@ muaRoutes.post("/registration", async (req, res) => {
 //TODO
 muaRoutes.get("/isMua", async (req, res) => {
   try {
-    let result = await client.query(`select * from muas where muas_id = $1`, [
-      req.session.user!.id,
-    ]);
+    let result = await client.query(
+      `select * from users join muas on muas_id = users.id where users.id = $1`,
+      [req.session.user!.id]
+    );
     console.log(result.rows[0]);
     if (result.rows.length > 0) {
       res.status(200);
-      res.json({ id: req.session.user!.id, pic: result.rows[0].icon });
+      res.json({ id: req.session.user!.id, pic: result.rows[0].profilepic });
       return;
     }
   } catch (error) {

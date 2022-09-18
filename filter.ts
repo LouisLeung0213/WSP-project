@@ -28,9 +28,9 @@ filterRoutes.get("/filter", async (req, res) => {
 });
 
 filterRoutes.get("/showMua", async (req, res) => {
-  let sql = `SELECT username, users.id, users.nickname, muas.icon, muas.avg_score, json_agg(mua_portfolio) as mua_portfolio
+  let sql = `SELECT username, users.id, users.nickname, users.profilepic, muas.avg_score, json_agg(mua_portfolio) as mua_portfolio
   from muas join users on muas_id = users.id 
-    left join portfolio on portfolio.muas_id= users.id group by users.id, muas.icon, muas.avg_score;`;
+    left join portfolio on portfolio.muas_id= users.id group by users.id, users.profilepic, muas.avg_score;`;
   let result = await client.query(sql);
   let muas = result.rows;
   // console.log("All the muas: ", muas);

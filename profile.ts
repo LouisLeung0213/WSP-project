@@ -31,7 +31,6 @@ const form = formidable({
 profileRoutes.post("/addWork", (req, res) => {
   try {
     form.parse(req, async (err, fields, files) => {
-      console.log("fucku");
       console.log(fields);
       try {
         let image = files.mua_portfolio;
@@ -103,7 +102,7 @@ profileRoutes.get("/profile", async (req, res) => {
 select 
   introduction 
 , nickname
-, icon
+, profilepic
 from muas
 inner join users on users.id = muas_id 
 where muas_id = $1
