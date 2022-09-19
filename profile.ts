@@ -145,7 +145,6 @@ profileRoutes.patch("/editDescription", async (req, res) => {
   // let muas_id = req.query.id;
   let result = await client.query(
     `update portfolio set mua_description = '${newContent}' where mua_portfolio = '${muas_image}'`
-    // [newContent, muas_image]
   );
   res.json(result);
 });

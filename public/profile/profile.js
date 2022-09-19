@@ -292,7 +292,6 @@ descriptionBtn.addEventListener("click", async (event) => {
 });
 
 doneBtn.addEventListener("click", async (event) => {
-  console.log(event);
   let image = document.querySelector(".portfolio1");
   // let insideEdit = document.querySelector(".insideDescription");
 
