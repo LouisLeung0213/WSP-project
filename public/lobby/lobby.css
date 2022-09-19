@@ -14,6 +14,7 @@ body {
 }
 
 .navBar {
+  z-index: 1;
   height: 100px;
   width: 100%;
   background-color: #f7b0bb;
@@ -181,6 +182,10 @@ body {
   align-items: center;
 }
 
+.animate__fadeIn {
+  animation-duration: 3s;
+}
+
 @media only screen and (max-width: 768px) {
   .logo {
     font-size: 50px;
@@ -221,6 +226,7 @@ body {
   font-size: 20px;
   color: black;
   margin: 0 20px;
+  text-decoration: underline;
 }
 
 .muaHref {
@@ -277,4 +283,14 @@ body {
   border-radius: 40px;
   font-weight: bold;
   background-color: #ecc3e2;
+}
+
+.footer {
+  width: 100%;
+  height: 100px;
+  border-top: 3px solid #b3394b;
+  background-color: #f3779c42;
+  text-align: center;
+  padding-top: 20px;
+  font-size: 30px;
 }
