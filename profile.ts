@@ -191,11 +191,13 @@ profileRoutes.post("/profileUpdate", async (req, res) => {
 // Rating system -- comment
 
 profileRoutes.post("/comment", async (req, res) => {
-  let ratingRecord = await client.query(
+  // See if there is record before action
+  let ratingRecordBefore = await client.query(
     `select users_id, muas_id from ratings where users_id = $1 and muas_id = $2`,
     [req.body.from, req.body.to]
   );
-  if (ratingRecord.rows.length == 0) {
+  // does not => update, does => insert
+  if (ratingRecordBefore.rows.length == 0) {
     await client.query(
       `insert into ratings (users_id, muas_id, score) values ($1, $2, $3)`,
       [req.body.from, req.body.to, req.body.action]
@@ -206,6 +208,25 @@ profileRoutes.post("/comment", async (req, res) => {
       [req.body.from, req.body.to, req.body.action]
     );
   }
+  // See what is the total score of the mua
+
+  let ratingRecordAfter = await client.query(
+    `select users_id, muas_id, score from ratings where muas_id = $1`,
+    [req.body.to]
+  );
+
+  let totalScore = 0;
+
+  for (let record of ratingRecordAfter.rows) {
+    totalScore += record.score;
+  }
+
+  console.log("totalScore of the mua: ", totalScore);
+
+  await client.query(`update muas set "avg_score" = $1 where muas_id = $2 `, [
+    totalScore,
+    req.body.to,
+  ]);
 
   res.json(req.body.action);
 });

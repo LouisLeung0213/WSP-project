@@ -185,8 +185,8 @@ fetch(`/profile?id=${paramsName}`)
 
     if (json.currentUser == paramsName) {
       console.log(json.currentUser, paramsName);
-      likeBtn.hidden = true;
-      dislikeBtn.hidden = true;
+      // likeBtn.hidden = true;
+      // dislikeBtn.hidden = true;
     }
 
     function comment(action) {
@@ -299,7 +299,7 @@ doneBtn.addEventListener("click", async (event) => {
   console.log(insideDescription);
   console.log(insideDescription.textContent);
   insideDescription.contentEditable = false;
-  const res = await fetch(`/editDescription?id=${paramsName}`, {
+  const res = await fetch(`/editDescription`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json; charset=utf-8",
@@ -311,6 +311,16 @@ doneBtn.addEventListener("click", async (event) => {
   });
   let json = await res.json();
   console.log(json);
+
+  if (res.ok) {
+    Swal.fire({
+      icon: "success",
+      title: `description updated`,
+      showConfirmButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) window.location.reload();
+    });
+  }
 });
 
 //for filter categories
