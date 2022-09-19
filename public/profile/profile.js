@@ -42,35 +42,6 @@ diaCancelBtn.addEventListener("click", () => {
   editDialog.hidden = true;
 });
 
-updateProfileForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
-
-  let formData = new FormData();
-
-  formData.append("newNickname", updateNickname.value);
-  formData.append("newPassword", updatePassword.value);
-  formData.append("newIcon", updateIcon.files[0]);
-  formData.append("newDescription", dialogDetail.value);
-  console.log(formData);
-
-  const res = await fetch(`/profileUpdate?id=${paramsName}`, {
-    method: "post",
-    body: formData,
-  });
-  console.log(res);
-  if (res.ok) {
-    Swal.fire({
-      icon: "success",
-      title: `Information updated`,
-      showConfirmButton: true,
-    }).then((result) => {
-      if (result.isConfirmed) window.location.reload();
-    });
-  }
-
-  // let json = await
-});
-
 let change = true;
 
 // console.log("Current params: ", paramsName);
@@ -150,12 +121,13 @@ fetch(`/profile?id=${paramsName}`)
       portfolioBtn.remove();
     }
     let intro = json.user.introduction;
-    console.log(json);
+    //console.log(json);
     let introNode = detail.cloneNode(true);
     introNode.textContent = intro;
     detailContainer.appendChild(introNode);
     detail.remove();
     detail = detailContainer.querySelector(".detail");
+    dialogDetail.textContent = intro;
 
     let nickname = json.user.nickname;
     let nickNameNode = username.cloneNode(true);
@@ -260,7 +232,38 @@ fetch(`/profile?id=${paramsName}`)
     }
     showScore();
   });
+//-------------------------------------------------''
 
+updateProfileForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  let formData = new FormData();
+
+  formData.append("newNickname", updateNickname.value);
+  formData.append("newPassword", updatePassword.value);
+  formData.append("newIcon", updateIcon.files[0]);
+  formData.append("newDescription", dialogDetail.value);
+  //console.log(formData);
+
+  const res = await fetch(`/profileUpdate?id=${paramsName}`, {
+    method: "post",
+    body: formData,
+  });
+  console.log(res);
+  if (res.ok) {
+    Swal.fire({
+      icon: "success",
+      title: `Information updated`,
+      showConfirmButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) window.location.reload();
+    });
+  }
+
+  // let json = await
+});
+
+//--------------------------------
 //for portfolio
 document
   .getElementById("exampleModal")
