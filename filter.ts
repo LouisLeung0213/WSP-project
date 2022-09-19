@@ -139,8 +139,8 @@ filterRoutes.post("/saveCat", async (req, res) => {
 filterRoutes.get("/showAvailableDate", async (req, res) => {
   let pageId = req.query.id;
 
-  let sql = `SELECT to_char(unavailable_date, 'yyyy/mm/dd') as date from date_matches where muas_id = ${pageId};`;
-  let result = await client.query(sql);
+  let sql = `SELECT to_char(unavailable_date, 'yyyy/mm/dd') as date from date_matches where muas_id = $1`;
+  let result = await client.query(sql, [pageId]);
   let unavailable_dates = result.rows;
   res.json(unavailable_dates);
 });
@@ -148,8 +148,8 @@ filterRoutes.get("/showAvailableDate", async (req, res) => {
 filterRoutes.get("/selectedDatesMua", async (req, res) => {
   let pageId = req.query.id;
 
-  let sql = `SELECT to_char(unavailable_date, 'yyyy/mm/dd') as date from date_matches where muas_id = ${pageId};`;
-  let result = await client.query(sql);
+  let sql = `SELECT to_char(unavailable_date, 'yyyy/mm/dd') as date from date_matches where muas_id = $1`;
+  let result = await client.query(sql, [pageId]);
   let unavailable_dates = result.rows;
   res.json(unavailable_dates);
 });
