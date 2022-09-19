@@ -183,12 +183,12 @@ fetch(`/profile?id=${paramsName}`)
     let likeBtn = document.querySelector(".likeBtn");
     let dislikeBtn = document.querySelector(".dislikeBtn");
 
-    if (json.currentUser == paramsName){
+    if (json.currentUser == paramsName) {
       console.log(json.currentUser, paramsName);
-      likeBtn.hidden = true
-      dislikeBtn.hidden = true
+      likeBtn.hidden = true;
+      dislikeBtn.hidden = true;
     }
-  
+
     function comment(action) {
       let comment = { from: json.currentUser, to: +paramsName, action };
       fetch(`/comment`, {
@@ -208,58 +208,57 @@ fetch(`/profile?id=${paramsName}`)
 
     likeBtn.addEventListener("click", () => {
       comment(1);
+      showScore();
     });
 
     dislikeBtn.addEventListener("click", () => {
       comment(-1);
+      showScore();
     });
 
     // Rating System -- show comment qty / show score
 
     let commentQty = document.querySelector(".commentQty");
-    let score = document.querySelector(".score")
-    fetch(`/score?id=${paramsName}`)
-      .then((res) => {
-        return res.json();
-      })
-      .then((comments) => {
-        // Rating System -- show comment qty
+    let score = document.querySelector(".score");
 
-        commentQty.textContent = "評級人數: " + comments.length;
+    function showScore() {
+      fetch(`/score?id=${paramsName}`)
+        .then((res) => {
+          return res.json();
+        })
+        .then((comments) => {
+          // Rating System -- show comment qty
 
-        // Rating System -- show score
+          commentQty.textContent = "評級人數: " + comments.length;
 
-        if (comments.length > 4){
-          let totalScore = 0
-          for (let comment of comments){
-            totalScore += +comment.score
+          // Rating System -- show score
+
+          if (comments.length > 4) {
+            let totalScore = 0;
+            for (let comment of comments) {
+              totalScore += +comment.score;
+            }
+            if (totalScore >= 3) {
+              score.textContent = "評級: 壓倒性好評";
+            } else if (totalScore >= 2) {
+              score.textContent = "評級: 極度好評";
+            } else if (totalScore >= 1) {
+              score.textContent = "評級: 大多好評";
+            } else if (totalScore == 0) {
+              score.textContent = "評級: 褒貶不一";
+            } else if (totalScore <= -3) {
+              score.textContent = "評級: 壓倒性負評";
+            } else if (totalScore <= -2) {
+              score.textContent = "評級: 極度負評";
+            } else if (totalScore <= -1) {
+              score.textContent = "評級: 大多負評";
+            }
+          } else {
+            score.textContent = "評級: 數據不足";
           }
-          if (totalScore >= 3){
-            score.textContent = "評級: 壓倒性好評"
-          } else if (totalScore >= 2){
-            score.textContent = "評級: 極度好評"
-          } else if (totalScore >= 1){
-            score.textContent = "評級: 大多好評"
-          } else if (totalScore == 0){
-            score.textContent = "評級: 褒貶不一"
-          } else if (totalScore <= -3){
-            score.textContent = "評級: 壓倒性負評"
-          } else if (totalScore <= -2){
-            score.textContent = "評級: 極度負評"
-          } else if (totalScore <= -1){
-            score.textContent = "評級: 大多負評"
-          }
-
-
-        } else {
-          score.textContent = "評級: 數據不足"
-        }
-
-      });
-
-      
-
-
+        });
+    }
+    showScore();
   });
 
 //for portfolio
