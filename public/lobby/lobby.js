@@ -28,7 +28,7 @@ fetch(`/filter?id=${paramsName}`)
 
     let catList = document.querySelector(".cat-list");
     let catTemplate = catList.querySelector(".cat");
-
+    let catCount = 0;
     function showCats(catsTree, catList) {
       catList.textContent = "";
       for (const cat of catsTree) {
@@ -37,7 +37,13 @@ fetch(`/filter?id=${paramsName}`)
         let checkbox = node.querySelector("input");
         if (cat.children.length > 0) {
           checkbox.hidden = true;
+          node.classList.add(`rootCat${catCount}`);
+          node.classList.add(`rootnode`);
+          catCount++;
+        } else {
+          node.classList.add("leafCat");
         }
+
         checkbox.value = cat.id;
         catList.appendChild(node);
         node.querySelector(".cat-name").textContent = cat.name;
