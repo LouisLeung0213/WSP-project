@@ -125,12 +125,17 @@ filterRoutes.post("/saveCat", async (req, res) => {
   if (tags.cats.length == 0) {
     res.json("Err: empty filter");
   } else {
-    await client.query(`
-    DELETE FROM offers WHERE muas_id = ${sessionId};
-  `);
-    await client.query(`
-    DELETE FROM date_matches WHERE muas_id = ${sessionId};
-  `);
+    await client.query(
+      `
+    DELETE FROM offers WHERE muas_id = $1
+  `,
+      [sessionId]
+    );
+    await client.query(
+      `
+    DELETE FROM date_matches WHERE muas_id = $1`,
+      [sessionId]
+    );
 
     for (let catId of tags.cats) {
       await client.query(

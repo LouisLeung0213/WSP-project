@@ -396,8 +396,7 @@ saveCat.addEventListener("submit", (event) => {
       tags.cats.push(+cat.value);
     }
   }
-  // console.log(selectedDatesMua);
-  // console.log(selectedDatesStr);
+
   tags.dates = selectedDatesMua;
   fetch(`/saveCat`, {
     method: "post",
