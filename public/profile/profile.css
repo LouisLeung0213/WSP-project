@@ -219,9 +219,14 @@ body {
 }
 
 .ratingContainer {
+  height: 200px;
   display: flex;
   justify-content: space-around;
   margin-top: 20px;
+}
+
+.ratingContainer > * {
+  margin-right: 15px;
 }
 
 .score {
@@ -248,16 +253,22 @@ body {
   outline: 2px solid black;
   width: 20px;
   height: 20px;
-  background-color: lightgreen;
+  /* background-color: lightgreen;? */
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
+  border-radius: 40%;
 }
 
 .dislikeBtn {
   outline: 2px solid black;
   width: 20px;
   height: 20px;
-  background-color: lightcoral;
+  /* background-color: lightcoral; */
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
+  border-radius: 40%;
 }
 
 .portfolio1 {
@@ -269,5 +280,17 @@ body {
   height: 89vh;
   display: flex;
   justify-content: center;
+  align-items: center;
+}
+
+.btnContainer {
+  justify-content: center;
+  align-items: center;
+}
+
+.introContainer {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
   align-items: center;
 }

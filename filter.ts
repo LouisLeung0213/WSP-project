@@ -28,12 +28,12 @@ filterRoutes.get("/filter", async (req, res) => {
 });
 
 filterRoutes.get("/showMua", async (req, res) => {
-  // let today = new Date()
-  // await client.query(`update muas set is_new = false where $1 - join_date > 7`,[today])
+  let today = new Date()
+  await client.query(`update muas set is_new = false where $1 - join_date > 7`,[today])
 
   let sql = `SELECT username, users.id, users.nickname, users.profilepic, muas.avg_score, json_agg(mua_portfolio) as mua_portfolio, muas.is_new
   from muas join users on muas_id = users.id 
-    left join portfolio on portfolio.muas_id= users.id group by users.id, users.profilepic, muas.avg_score, muas.is_new
+    left join portfolio on portfolio.muas_id= users.id group by users.id, muas.muas_id
     order by muas.is_new, avg_score desc;`;
   let result = await client.query(sql);
   let muas = result.rows;
@@ -44,7 +44,7 @@ filterRoutes.get("/showMua", async (req, res) => {
 
 filterRoutes.post("/searchFilter", async (req, res) => {
   let filterOptions = req.body;
-  console.log("req.", req.body);
+  // console.log("req.", req.body);
   if (filterOptions.cats.length == 0 && filterOptions.dates.length == 0) {
     res.json("Err: empty filter");
   } else {
@@ -69,25 +69,26 @@ select
 , users.profilepic
 , users.nickname
 , array_agg(portfolio.mua_portfolio) as mua_portfolio
+, muas.is_new
 from muas
 inner join users on users.id = muas.muas_id
 left join portfolio on portfolio.muas_id = muas.muas_id
 where muas.muas_id in (select muas_id from whitelist)
   and muas.muas_id not in (select muas_id from blacklist) 
-group by muas.muas_id, users.id`;
-    console.log("sql: ", sql);
+group by muas.muas_id, users.id
+order by muas.is_new, avg_score desc`;
 
     let result = await client.query(sql, [
       filterOptions.dates,
       filterOptions.cats,
     ]);
-    console.log("Filtered muas: ", result.rows);
+    // console.log("Filtered muas: ", result.rows);
     let muas = new Set();
     let i = 0;
     let muasUnique = [];
     for (let mua of result.rows) {
-      if (!muas.has(mua.username)) {
-        muas.add(mua.username);
+      if (!muas.has(mua.mua_id)) {
+        muas.add(mua.mua_id);
         muasUnique.push(mua);
       }
     }
