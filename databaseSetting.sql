@@ -14,8 +14,11 @@ create table users (
 create table muas (
     muas_id integer unique
     , foreign key(muas_id) references users(id)
+    , total_score integer
     , avg_score integer
     , introduction text
+    , join_date date
+    , is_new boolean
 );
 
 create table categories (
@@ -146,3 +149,9 @@ select  username, users.id, users.nickname, users.profilepic, muas.avg_score, js
   where (categories_id = 2
    ) group by username, users.id, users.nickname, users.profilepic, muas.avg_score
   order by users.id ;
+
+alter table muas add column total_score integer;
+alter table muas add column join_date date;
+alter table muas add column isNew boolean;
+
+update muas set is_new = true where muas_id = 6;
