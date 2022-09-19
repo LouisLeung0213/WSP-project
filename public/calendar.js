@@ -35,24 +35,24 @@ const renderCalendar = () => {
   const nextDays = 7 - lastDayIndex - 1;
 
   const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    "1 月",
+    "2 月",
+    "3 月",
+    "4 月",
+    "5 月",
+    "6 月",
+    "7 月",
+    "8 月",
+    "9 月",
+    "10 月",
+    "11 月",
+    "12 月",
   ];
 
   document.querySelector(".date h1").textContent =
-    months[date.getMonth()] + ", " + date.getFullYear();
+    date.getFullYear() + " 年" + " " + months[date.getMonth()];
 
-  document.querySelector(".date p").innerHTML = new Date().toDateString();
+  document.querySelector(".date p").innerHTML = "今天: " + new Date().toDateString();
 
   let days = "";
 

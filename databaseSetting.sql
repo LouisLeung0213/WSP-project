@@ -154,6 +154,7 @@ from offers
 alter table muas add column total_score integer;
 alter table muas add column join_date date;
 alter table muas add column is_new boolean;
+alter table muas add column comment_qty integer;
 
 update muas set is_new = true where muas_id = 6;
 -----------------------------------------------------------------------------beeno version
@@ -237,3 +238,7 @@ left join portfolio on portfolio.muas_id = muas.muas_id
 where muas.muas_id in (select muas_id from whitelist)
   and muas.muas_id not in (select muas_id from blacklist) 
 group by muas.muas_id, users.id;
+
+
+alter table muas add column comment_qty integer;
+alter table muas add column comment_qty_enough boolean;

@@ -205,7 +205,7 @@ fetch(`/profile?id=${paramsName}`)
 
           // Rating System -- show score
 
-          if (result.commentQty > 4) {
+          if (result.commentQtyEnough) {
 
             if (result.avgScore >= 90) {
               score.textContent = "評級: 壓倒性好評";

@@ -28,13 +28,16 @@ filterRoutes.get("/filter", async (req, res) => {
 });
 
 filterRoutes.get("/showMua", async (req, res) => {
-  let today = new Date()
-  await client.query(`update muas set is_new = false where $1 - join_date > 7`,[today])
+  let today = new Date();
+  await client.query(
+    `update muas set is_new = false where $1 - join_date > 7`,
+    [today]
+  );
 
-  let sql = `SELECT username, users.id, users.nickname, users.profilepic, muas.avg_score, json_agg(mua_portfolio) as mua_portfolio, muas.is_new
+  let sql = `SELECT username, users.id, users.nickname, users.profilepic, muas.avg_score, json_agg(mua_portfolio) as mua_portfolio, muas.is_new, muas.comment_qty_enough
   from muas join users on muas_id = users.id 
     left join portfolio on portfolio.muas_id= users.id group by users.id, muas.muas_id
-    order by muas.is_new, avg_score desc;`;
+    order by muas.is_new, muas.comment_qty_enough, avg_score desc;`;
   let result = await client.query(sql);
   let muas = result.rows;
   // console.log("All the muas: ", muas);
@@ -70,13 +73,14 @@ select
 , users.nickname
 , array_agg(portfolio.mua_portfolio) as mua_portfolio
 , muas.is_new
+, muas.comment_qty_enough
 from muas
 inner join users on users.id = muas.muas_id
 left join portfolio on portfolio.muas_id = muas.muas_id
 where muas.muas_id in (select muas_id from whitelist)
   and muas.muas_id not in (select muas_id from blacklist) 
 group by muas.muas_id, users.id
-order by muas.is_new, avg_score desc`;
+order by muas.is_new, muas.comment_qty_enough, avg_score desc`;
 
     let result = await client.query(sql, [
       filterOptions.dates,
