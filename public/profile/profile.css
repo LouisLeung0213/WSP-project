@@ -231,6 +231,7 @@ body {
   width: 20px;
   height: 20px;
   background-color: lightgreen;
+  cursor: pointer;
 }
 
 .dislikeBtn {
@@ -238,4 +239,5 @@ body {
   width: 20px;
   height: 20px;
   background-color: lightcoral;
+  cursor: pointer;
 }

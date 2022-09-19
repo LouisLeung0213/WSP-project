@@ -185,8 +185,8 @@ fetch(`/profile?id=${paramsName}`)
 
     if (json.currentUser == paramsName) {
       console.log(json.currentUser, paramsName);
-      likeBtn.hidden = true;
-      dislikeBtn.hidden = true;
+      // likeBtn.hidden = true;
+      // dislikeBtn.hidden = true;
     }
 
     function comment(action) {
