@@ -136,3 +136,13 @@ DELETE FROM offers WHERE muas_id = ${sessionId} and categories_id != any(array${
 
 ----drop muas icon----
 alter table muas drop column icon;
+
+
+select  username, users.id, users.nickname, users.profilepic, muas.avg_score, json_agg(mua_portfolio) as mua_portfolio from offers
+  left join portfolio on portfolio.muas_id =  offers.muas_id
+  left join muas on offers.muas_id = muas.muas_id
+  left join users on muas.muas_id = users.id  
+  left join date_matches on date_matches.muas_id = users.id
+  where (categories_id = 2
+   ) group by username, users.id, users.nickname, users.profilepic, muas.avg_score
+  order by users.id ;

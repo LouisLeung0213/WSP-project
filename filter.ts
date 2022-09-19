@@ -56,14 +56,17 @@ filterRoutes.post("/searchFilter", async (req, res) => {
     }
     // console.log(filterOptions);
     let sql = `
-  select username, users.id from offers 
-  join users on muas_id = users.id 
+  select username, users.id, users.nickname, users.profilepic, muas.avg_score, json_agg(mua_portfolio) as mua_portfolio from offers 
+  left join portfolio on portfolio.muas_id =  offers.muas_id
+  left join muas on offers.muas_id = muas.muas_id
+  left join users on muas.muas_id = users.id  
   left join date_matches on date_matches.muas_id = users.id
   where (${filterOptions.cats.join(" or ")}
   ${andExs}${dateExsStart}${filterOptions.dates.join(" or ")}${dateExsEnd}) 
-  order by users.id;
+  group by username, users.id, users.nickname, users.profilepic, muas.avg_score
+  order by users.id ;
   `;
-    // console.log("sql: ", sql);
+    console.log("sql: ", sql);
 
     let result = await client.query(sql);
     // console.log("Filtered muas: ", result.rows);
