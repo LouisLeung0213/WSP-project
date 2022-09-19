@@ -226,31 +226,28 @@ fetch(`/profile?id=${paramsName}`)
         .then((res) => {
           return res.json();
         })
-        .then((comments) => {
+        .then((result) => {
           // Rating System -- show comment qty
 
-          commentQty.textContent = "評級人數: " + comments.length;
+          commentQty.textContent = "評級人數: " + result.commentQty;
 
           // Rating System -- show score
 
-          if (comments.length > 4) {
-            let totalScore = 0;
-            for (let comment of comments) {
-              totalScore += +comment.score;
-            }
-            if (totalScore >= 3) {
+          if (result.commentQty > 4) {
+
+            if (result.avgScore >= 90) {
               score.textContent = "評級: 壓倒性好評";
-            } else if (totalScore >= 2) {
+            } else if (result.avgScore >= 60) {
               score.textContent = "評級: 極度好評";
-            } else if (totalScore >= 1) {
+            } else if (result.avgScore >= 30) {
               score.textContent = "評級: 大多好評";
-            } else if (totalScore == 0) {
+            } else if (result.avgScore == 0) {
               score.textContent = "評級: 褒貶不一";
-            } else if (totalScore <= -3) {
+            } else if (result.avgScore <= -90) {
               score.textContent = "評級: 壓倒性負評";
-            } else if (totalScore <= -2) {
+            } else if (result.avgScore <= -60) {
               score.textContent = "評級: 極度負評";
-            } else if (totalScore <= -1) {
+            } else if (result.avgScore <= -30) {
               score.textContent = "評級: 大多負評";
             }
           } else {

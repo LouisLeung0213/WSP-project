@@ -208,25 +208,6 @@ profileRoutes.post("/comment", async (req, res) => {
       [req.body.from, req.body.to, req.body.action]
     );
   }
-  // See what is the total score of the mua
-
-  let ratingRecordAfter = await client.query(
-    `select users_id, muas_id, score from ratings where muas_id = $1`,
-    [req.body.to]
-  );
-
-  let totalScore = 0;
-
-  for (let record of ratingRecordAfter.rows) {
-    totalScore += record.score;
-  }
-
-  console.log("totalScore of the mua: ", totalScore);
-
-  await client.query(`update muas set "avg_score" = $1 where muas_id = $2 `, [
-    totalScore,
-    req.body.to,
-  ]);
 
   res.json(req.body.action);
 });
@@ -235,11 +216,37 @@ profileRoutes.post("/comment", async (req, res) => {
 
 profileRoutes.get("/score", async (req, res) => {
   let pageId = req.query.id;
-  let comments = await client.query(
+
+  // See what is the total score and average score of the mua
+
+  let ratingRecordAfter = await client.query(
     `select users_id, muas_id, score from ratings where muas_id = $1`,
     [pageId]
   );
-  console.log("commentAll: ", comments);
 
-  res.json(comments.rows);
+  let totalScore = 0;
+  let commentQty = 0;
+
+  for (let record of ratingRecordAfter.rows) {
+    totalScore += record.score;
+    commentQty++;
+  }
+
+  let avgScore = Math.round((totalScore / commentQty) * 100);
+
+  // console.log("totalScore: ", totalScore);
+  // console.log("commentQty: ", commentQty);
+  // console.log("avgScore: ", avgScore);
+
+  await client.query(`update muas set "total_score" = $1 where muas_id = $2 `, [
+    totalScore,
+    pageId,
+  ]);
+
+  await client.query(`update muas set "avg_score" = $1 where muas_id = $2 `, [
+    avgScore,
+    pageId,
+  ]);
+
+  res.json({ totalScore, commentQty, avgScore });
 });
