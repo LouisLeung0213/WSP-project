@@ -154,8 +154,24 @@ profileRoutes.post("/profileUpdate", async (req, res) => {
   let currentId = req.query.id;
   console.log("currentID" + currentId);
   form.parse(req, async (err, fields, files) => {
-    let hashedPassword = await hashPassword(fields.newPassword as string);
-    let newNicknameAtForm = fields.newNickname;
+    let hashedPassword;
+    if (fields.newPassword == "") {
+      let result = await client.query(
+        `select password_hash from users where users.id = ${currentId}`
+      );
+      hashedPassword = result.rows[0].password_hash;
+    } else {
+      hashedPassword = await hashPassword(fields.newPassword as string);
+    }
+    let newNicknameAtForm;
+    if (fields.newNickname == "") {
+      let result = await client.query(
+        `select nickname from users where users.id = ${currentId}`
+      );
+      newNicknameAtForm = result.rows[0].nickname;
+    } else {
+      newNicknameAtForm = fields.newNickname;
+    }
     let newDescriptionForm = fields.newDescription;
     console.log({ err, fields, files });
     // console.log(hashedPassword);
