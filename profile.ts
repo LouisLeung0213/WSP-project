@@ -261,5 +261,22 @@ profileRoutes.get("/score", async (req, res) => {
     pageId,
   ]);
 
-  res.json({ totalScore, commentQty, avgScore });
+  await client.query(`update muas set "comment_qty" = $1 where muas_id = $2 `, [
+    commentQty,
+    pageId,
+  ]);
+
+  let commentQtyEnough = false
+
+  if (commentQty > 4) {
+    await client.query(
+      `update muas set "comment_qty_enough" = true where muas_id = $1 `,
+      [pageId]
+    );
+    commentQtyEnough = true
+  }
+
+
+
+  res.json({ totalScore, commentQty, avgScore, commentQtyEnough });
 });
