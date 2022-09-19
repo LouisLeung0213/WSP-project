@@ -42,35 +42,6 @@ diaCancelBtn.addEventListener("click", () => {
   editDialog.hidden = true;
 });
 
-updateProfileForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
-
-  let formData = new FormData();
-
-  formData.append("newNickname", updateNickname.value);
-  formData.append("newPassword", updatePassword.value);
-  formData.append("newIcon", updateIcon.files[0]);
-  formData.append("newDescription", dialogDetail.value);
-  console.log(formData);
-
-  const res = await fetch(`/profileUpdate?id=${paramsName}`, {
-    method: "post",
-    body: formData,
-  });
-  console.log(res);
-  if (res.ok) {
-    Swal.fire({
-      icon: "success",
-      title: `Information updated`,
-      showConfirmButton: true,
-    }).then((result) => {
-      if (result.isConfirmed) window.location.reload();
-    });
-  }
-
-  // let json = await
-});
-
 let change = true;
 
 // console.log("Current params: ", paramsName);
@@ -150,12 +121,13 @@ fetch(`/profile?id=${paramsName}`)
       portfolioBtn.remove();
     }
     let intro = json.user.introduction;
-    console.log(json);
+    //console.log(json);
     let introNode = detail.cloneNode(true);
     introNode.textContent = intro;
     detailContainer.appendChild(introNode);
     detail.remove();
     detail = detailContainer.querySelector(".detail");
+    dialogDetail.textContent = intro;
 
     let nickname = json.user.nickname;
     let nickNameNode = username.cloneNode(true);
@@ -226,31 +198,28 @@ fetch(`/profile?id=${paramsName}`)
         .then((res) => {
           return res.json();
         })
-        .then((comments) => {
+        .then((result) => {
           // Rating System -- show comment qty
 
-          commentQty.textContent = "評級人數: " + comments.length;
+          commentQty.textContent = "評級人數: " + result.commentQty;
 
           // Rating System -- show score
 
-          if (comments.length > 4) {
-            let totalScore = 0;
-            for (let comment of comments) {
-              totalScore += +comment.score;
-            }
-            if (totalScore >= 3) {
+          if (result.commentQty > 4) {
+
+            if (result.avgScore >= 90) {
               score.textContent = "評級: 壓倒性好評";
-            } else if (totalScore >= 2) {
+            } else if (result.avgScore >= 60) {
               score.textContent = "評級: 極度好評";
-            } else if (totalScore >= 1) {
+            } else if (result.avgScore >= 30) {
               score.textContent = "評級: 大多好評";
-            } else if (totalScore == 0) {
+            } else if (result.avgScore == 0) {
               score.textContent = "評級: 褒貶不一";
-            } else if (totalScore <= -3) {
+            } else if (result.avgScore <= -90) {
               score.textContent = "評級: 壓倒性負評";
-            } else if (totalScore <= -2) {
+            } else if (result.avgScore <= -60) {
               score.textContent = "評級: 極度負評";
-            } else if (totalScore <= -1) {
+            } else if (result.avgScore <= -30) {
               score.textContent = "評級: 大多負評";
             }
           } else {
@@ -260,7 +229,38 @@ fetch(`/profile?id=${paramsName}`)
     }
     showScore();
   });
+//-------------------------------------------------''
 
+updateProfileForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  let formData = new FormData();
+
+  formData.append("newNickname", updateNickname.value);
+  formData.append("newPassword", updatePassword.value);
+  formData.append("newIcon", updateIcon.files[0]);
+  formData.append("newDescription", dialogDetail.value);
+  //console.log(formData);
+
+  const res = await fetch(`/profileUpdate?id=${paramsName}`, {
+    method: "post",
+    body: formData,
+  });
+  console.log(res);
+  if (res.ok) {
+    Swal.fire({
+      icon: "success",
+      title: `Information updated`,
+      showConfirmButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) window.location.reload();
+    });
+  }
+
+  // let json = await
+});
+
+//--------------------------------
 //for portfolio
 document
   .getElementById("exampleModal")
@@ -395,8 +395,7 @@ saveCat.addEventListener("submit", (event) => {
       tags.cats.push(+cat.value);
     }
   }
-  // console.log(selectedDatesMua);
-  // console.log(selectedDatesStr);
+
   tags.dates = selectedDatesMua;
   fetch(`/saveCat`, {
     method: "post",
