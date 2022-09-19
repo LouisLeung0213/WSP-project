@@ -28,8 +28,11 @@ filterRoutes.get("/filter", async (req, res) => {
 });
 
 filterRoutes.get("/showMua", async (req, res) => {
-  let today = new Date()
-  await client.query(`update muas set is_new = false where $1 - join_date > 7`,[today])
+  let today = new Date();
+  await client.query(
+    `update muas set is_new = false where $1 - join_date > 7`,
+    [today]
+  );
 
   let sql = `SELECT username, users.id, users.nickname, users.profilepic, muas.avg_score, json_agg(mua_portfolio) as mua_portfolio, muas.is_new
   from muas join users on muas_id = users.id 
