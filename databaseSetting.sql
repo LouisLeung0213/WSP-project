@@ -138,7 +138,8 @@ DELETE FROM offers WHERE muas_id = ${sessionId} and categories_id != any(array${
 alter table muas drop column icon;
 
 
-select  username, users.id, users.nickname, users.profilepic, muas.avg_score, json_agg(mua_portfolio) as mua_portfolio from offers
+select  username, users.id, users.nickname, users.profilepic, muas.avg_score, json_agg(mua_portfolio) as mua_portfolio 
+from offers
   left join portfolio on portfolio.muas_id =  offers.muas_id
   left join muas on offers.muas_id = muas.muas_id
   left join users on muas.muas_id = users.id  
@@ -146,3 +147,84 @@ select  username, users.id, users.nickname, users.profilepic, muas.avg_score, js
   where (categories_id = 2
    ) group by username, users.id, users.nickname, users.profilepic, muas.avg_score
   order by users.id ;
+-----------------------------------------------------------------------------beeno version
+  with
+  blacklist as (
+  select
+    distinct date_matches.muas_id
+  from date_matches
+  where date_matches.unavailable_date = any(:dates)
+)
+, whitelist as (
+  select
+    distinct offers.muas_id
+  from offers
+  where offers.categories_id = all(:cat_ids)
+)
+
+select
+  muas.id as mua_id
+, muas.avg_score
+, users.profilepic
+, users.nickname
+, array_agg(portfolio.mua_portfolio)
+from muas
+inner join users on users.id = muas.users_id
+inner join portfolio on portfolio.id = muas.portfolio_id
+where muas.muas_id in (select muas_id from whitelist)
+  and muas.muas_id not in (select muas_id from blacklist)
+
+
+
+
+   select
+    distinct offers.muas_id
+  from offers
+  where offers.categories_id = 2
+
+  select
+    distinct date_matches.muas_id
+  from date_matches
+  where date_matches.unavailable_date = '2022/09/04'
+
+  select
+  muas.muas_id as mua_id
+, muas.avg_score
+, users.profilepic
+, users.nickname
+
+from muas
+inner join users on users.id = muas.muas_id
+
+
+group by muas.muas_id, users.id
+, array_agg(portfolio.mua_portfolio)
+inner join portfolio on portfolio.id = muas.muas_id
+
+
+ with
+  blacklist as (
+  select
+    distinct date_matches.muas_id
+  from date_matches
+  where date_matches.unavailable_date ='2022/09/02'
+)
+, whitelist as (
+  select
+    distinct offers.muas_id
+  from offers
+  where offers.categories_id =  34
+)
+
+select
+  muas.muas_id as mua_id
+, muas.avg_score
+, users.profilepic
+, users.nickname
+, array_agg(portfolio.mua_portfolio) as mua_portfolio
+from muas
+inner join users on users.id = muas.muas_id
+left join portfolio on portfolio.muas_id = muas.muas_id
+where muas.muas_id in (select muas_id from whitelist)
+  and muas.muas_id not in (select muas_id from blacklist) 
+group by muas.muas_id, users.id;
