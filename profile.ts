@@ -138,14 +138,43 @@ profileRoutes.post("/profileUpdate", async (req, res) => {
   let currentId = req.query.id;
   console.log("currentID" + currentId);
   form.parse(req, async (err, fields, files) => {
-    let hashedPassword = await hashPassword(fields.newPassword as string);
-    let newNicknameAtForm = fields.newNickname;
+    let hashedPassword;
+    if (fields.newPassword == "") {
+      let result = await client.query(
+        `select password_hash from users where users.id = ${currentId}`
+      );
+      hashedPassword = result.rows[0].password_hash;
+    } else {
+      hashedPassword = await hashPassword(fields.newPassword as string);
+    }
+    let newNicknameAtForm;
+    if (fields.newNickname == "") {
+      let result = await client.query(
+        `select nickname from users where users.id = ${currentId}`
+      );
+      newNicknameAtForm = result.rows[0].nickname;
+    } else {
+      newNicknameAtForm = fields.newNickname;
+    }
     let newDescriptionForm = fields.newDescription;
     console.log({ err, fields, files });
     // console.log(hashedPassword);
-    let image = files.newIcon;
-    let imageFile = Array.isArray(image) ? image[0] : image;
-    let image_filename = imageFile?.newFilename;
+    let image_filename;
+    if (!files.newIcon) {
+      // get from db
+      let oldIcon = await client.query(
+        `select profilepic from users where users.id = ${currentId}`
+      );
+      image_filename = oldIcon;
+      res.json();
+      return;
+    } else {
+      let image = files.newIcon;
+      let imageFile = Array.isArray(image) ? image[0] : image;
+
+      image_filename = imageFile?.newFilename;
+    }
+
     if (Array.isArray(fields.data)) {
       res.status(402);
       res.json({

@@ -2,6 +2,7 @@ body {
   margin: 0px;
   height: 100%;
   width: 100%;
+  background-color: #f05f793b;
 }
 
 .container {
@@ -120,8 +121,9 @@ body {
   justify-content: center;
   align-items: center;
 }
+
 #saveCat {
-  background-color: #ecbee1;
+  background-color: #f7b0bb;
   width: 45vw;
   display: flex;
   align-items: center;
@@ -132,6 +134,17 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: left;
+  height: 100%;
+}
+
+.rootCat {
+  background-color: rgba(1, 225, 255, 0.623);
+  width: 50%;
+  border: 1px solid #f7b0bb;
+}
+
+.cat-list {
+  background-color: #f7b0bb;
 }
 
 .modal1 {
@@ -206,9 +219,14 @@ body {
 }
 
 .ratingContainer {
+  height: 200px;
   display: flex;
   justify-content: space-around;
   margin-top: 20px;
+}
+
+.ratingContainer > * {
+  margin-right: 15px;
 }
 
 .score {
@@ -235,16 +253,22 @@ body {
   outline: 2px solid black;
   width: 20px;
   height: 20px;
-  background-color: lightgreen;
+  /* background-color: lightgreen;? */
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
+  border-radius: 40%;
 }
 
 .dislikeBtn {
   outline: 2px solid black;
   width: 20px;
   height: 20px;
-  background-color: lightcoral;
+  /* background-color: lightcoral; */
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
+  border-radius: 40%;
 }
 
 .portfolio1 {
@@ -255,6 +279,11 @@ body {
 .insideContainer {
   height: 89vh;
   display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btnContainer {
   justify-content: center;
   align-items: center;
 }
