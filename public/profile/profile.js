@@ -413,20 +413,9 @@ saveCat.addEventListener("submit", (event) => {
       console.log(message);
     });
 });
-fetch(`/selectedDatesMua?id=${paramsName}`)
-  .then((res) => res.json())
-  .then((unavailable_dates) => {
-    for (let unavailable_date of unavailable_dates) {
-      selectedDatesMua.push(unavailable_date.date);
-    }
-  });
 
-//for calendar
 function showAvailableDate() {
-  fetch(`/showAvailableDate?id=${paramsName}`)
-    .then((res) => res.json())
-    .then((unavailable_dates) => {
-      // console.log("unavailable_dates: ", unavailable_dates);
+      // console.log("selectedDatesMua: ", selectedDatesMua);
       let dates = document.querySelectorAll(".selectable");
       for (let date of dates) {
         if (selectedDatesMua.length !== 0) {
@@ -443,6 +432,16 @@ function showAvailableDate() {
           date.classList.add("selected");
         }
       }
-    });
 }
-showAvailableDate();
+
+fetch(`/selectedDatesMua?id=${paramsName}`)
+  .then((res) => res.json())
+  .then((unavailable_dates) => {
+    for (let unavailable_date of unavailable_dates) {
+      selectedDatesMua.push(unavailable_date.date);
+    }
+    showAvailableDate();
+  });
+
+//for calendar
+

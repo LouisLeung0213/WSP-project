@@ -157,9 +157,7 @@ body {
   margin: 0 20px;
 }
 
-#subMain .newMember {
-  margin: 0 20px;
-}
+
 
 .muaHref {
   text-decoration: none;
@@ -203,6 +201,7 @@ body {
   border-radius: 40px;
   font-weight: bold;
   background-color: #ecc3e2;
+  margin: 0 20px;
 }
 
 .avgScore{

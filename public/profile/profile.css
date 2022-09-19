@@ -230,45 +230,53 @@ body {
 }
 
 .score {
-  outline: 2px solid black;
+  border: 2px solid blue;
+  color: blue;
+  height: fit-content;
   width: fit-content;
-  padding: 0 10px;
-  height: 20px;
+  padding: 5px;
   text-align: center;
   font-size: 10px;
   font-weight: bold;
+  border-radius: 40px;
 }
 
 .commentQty {
-  outline: 2px solid black;
+  border: 2px solid blue;
+  color: blue;
   width: fit-content;
-  padding: 0 10px;
-  height: 20px;
+  padding: 5px;
+  height: fit-content;
   text-align: center;
   font-size: 10px;
   font-weight: bold;
+  border-radius: 40px;
 }
 
 .likeBtn {
-  outline: 2px solid black;
-  width: 20px;
-  height: 20px;
+  outline: 2px solid green;
+  width: fit-content;
+  height: fit-content;
   /* background-color: lightgreen;? */
   justify-content: center;
   align-items: center;
   cursor: pointer;
   border-radius: 40%;
+  padding: 5px;
+  color: green
 }
 
 .dislikeBtn {
-  outline: 2px solid black;
-  width: 20px;
-  height: 20px;
+  outline: 2px solid red;
+  width: fit-content;
+  height: fit-content;
   /* background-color: lightcoral; */
   justify-content: center;
   align-items: center;
   cursor: pointer;
   border-radius: 40%;
+  padding: 5px;
+  color: red
 }
 
 .portfolio1 {
@@ -293,4 +301,15 @@ body {
   flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
+}
+
+.avgScore{
+  border: 2px solid blue;
+  color: blue;
+  height: fit-content;
+  width: fit-content;
+  padding: 5px;
+  border-radius: 40px;
+  font-weight: bold;
+
 }
