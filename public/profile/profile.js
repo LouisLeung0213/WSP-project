@@ -362,6 +362,8 @@ fetch(`/filter?id=${paramsName}`)
         if (cat.children.length > 0) {
           checkbox.hidden = true;
           node.classList.add("rootCat");
+        } else {
+          node.classList.add("leafCat");
         }
         checkbox.value = cat.id;
         if (categories.muaCats.filter((word) => word == cat.id).length > 0) {
@@ -406,10 +408,18 @@ saveCat.addEventListener("submit", (event) => {
     body: JSON.stringify(tags),
   })
     .then((res) => {
+      if (res.ok) {
+        Swal.fire({
+          icon: "success",
+          title: `preference updated`,
+          showConfirmButton: true,
+        }).then((result) => {
+          if (result.isConfirmed) window.location.reload();
+        });
+      }
       return res.json();
     })
     .then((message) => {
-      alert(message);
       console.log(message);
     });
 });
