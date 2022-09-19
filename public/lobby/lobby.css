@@ -143,6 +143,7 @@ body {
 .rootnode .cat-name {
   border: 1px solid #f7b0bb;
   background-color: rgba(243, 60, 105, 0.61);
+  padding: 0px 8px;
 }
 .rootCat > .cat-name {
   background-color: rgba(243, 60, 105, 0.61);
