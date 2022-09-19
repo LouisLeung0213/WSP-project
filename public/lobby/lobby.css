@@ -87,13 +87,14 @@ body {
 
 #searchFilter {
   background-color: #f7b0bb;
-  width: 95vw;
-  height: 22rem;
+  width: fit-content;
+  height: fit-content;
   display: flex;
   /* align-items: center; */
   justify-content: space-around;
   font-size: 2rem;
   flex-wrap: wrap;
+  margin-bottom: 10px;
 }
 
 .searchFilterSubmit {
@@ -101,6 +102,7 @@ body {
   height: 3rem;
   background-color: #f78fb0;
   border: #f78fb0;
+  margin: 8px;
 }
 
 .searchFilterSubmit:hover {
@@ -220,8 +222,6 @@ body {
   margin: 0 20px;
 }
 
-
-
 .muaHref {
   text-decoration: none;
 }
@@ -267,7 +267,7 @@ body {
   margin: 0 20px;
 }
 
-.avgScore{
+.avgScore {
   border: 2px solid blue;
   color: blue;
   height: fit-content;
