@@ -48,29 +48,6 @@ filterRoutes.post("/searchFilter", async (req, res) => {
   if (filterOptions.cats.length == 0 && filterOptions.dates.length == 0) {
     res.json("Err: empty filter");
   } else {
-    // let andExs = " ";
-    // let dateExsStart = "";
-    // let dateExsEnd = "";
-    // if (filterOptions.cats.length !== 0 && filterOptions.dates.length !== 0) {
-    //   andExs = ") and (";
-    // }
-    // if (filterOptions.dates.length !== 0) {
-    //   dateExsStart =
-    //     " offers.muas_id not in (select muas_id from date_matches where ";
-    //   dateExsEnd = ")";
-    // }
-    // console.log(filterOptions);
-    //   let sql = `
-    // select username, users.id, users.nickname, users.profilepic, muas.avg_score, json_agg(mua_portfolio) as mua_portfolio from offers
-    // left join portfolio on portfolio.muas_id =  offers.muas_id
-    // left join muas on offers.muas_id = muas.muas_id
-    // left join users on muas.muas_id = users.id
-    // left join date_matches on date_matches.muas_id = users.id
-    // where (${filterOptions.cats.join(" or ")}
-    // ${andExs}${dateExsStart}${filterOptions.dates.join(" or ")}${dateExsEnd})
-    // group by username, users.id, users.nickname, users.profilepic, muas.avg_score
-    // order by users.id ;
-    // `;
     let sql = `
     with
   blacklist as (
