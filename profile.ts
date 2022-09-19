@@ -188,3 +188,38 @@ profileRoutes.post("/profileUpdate", async (req, res) => {
     res.json({ message: "Success" });
   });
 });
+
+// Rating system -- comment
+
+profileRoutes.post("/comment", async (req, res) => {
+  let ratingRecord = await client.query(
+    `select users_id, muas_id from ratings where users_id = $1 and muas_id = $2`,
+    [req.body.from, req.body.to]
+  );
+  if (ratingRecord.rows.length == 0) {
+    await client.query(
+      `insert into ratings (users_id, muas_id, score) values ($1, $2, $3)`,
+      [req.body.from, req.body.to, req.body.action]
+    );
+  } else {
+    await client.query(
+      `update ratings set "score" = $3 where users_id = $1 and muas_id = $2 `,
+      [req.body.from, req.body.to, req.body.action]
+    );
+  }
+
+  res.json(req.body.action);
+});
+
+// Rating System -- show comment qty
+
+profileRoutes.get("/score", async (req, res) => {
+  let pageId = req.query.id;
+  let comments = await client.query(
+    `select users_id, muas_id, score from ratings where muas_id = $1`,
+    [pageId]
+  );
+  console.log("commentAll: ", comments);
+
+  res.json(comments.rows);
+});

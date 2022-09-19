@@ -207,27 +207,35 @@ body {
 }
 
 .score {
-  outline: 2px solid red;
-  width: 20px;
+  outline: 2px solid black;
+  width: fit-content;
+  padding: 0 10px;
   height: 20px;
+  text-align: center;
+  font-size: 10px;
+  font-weight: bold;
 }
 
 .commentQty {
-  outline: 2px solid red;
-  width: 20px;
+  outline: 2px solid black;
+  width: fit-content;
+  padding: 0 10px;
   height: 20px;
+  text-align: center;
+  font-size: 10px;
+  font-weight: bold;
 }
 
 .likeBtn {
-  outline: 2px solid red;
+  outline: 2px solid black;
   width: 20px;
   height: 20px;
-  background-color: green;
+  background-color: lightgreen;
 }
 
 .dislikeBtn {
-  outline: 2px solid red;
+  outline: 2px solid black;
   width: 20px;
   height: 20px;
-  background-color: red;
+  background-color: lightcoral;
 }
