@@ -364,6 +364,7 @@ fetch(`/filter?id=${paramsName}`)
         let checkbox = node.querySelector("input");
         if (cat.children.length > 0) {
           checkbox.hidden = true;
+          node.classList.add("rootCat");
         }
         checkbox.value = cat.id;
         if (categories.muaCats.filter((word) => word == cat.id).length > 0) {

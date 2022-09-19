@@ -2,6 +2,7 @@ body {
   margin: 0px;
   height: 100%;
   width: 100%;
+  background-color: #f05f793b;
 }
 
 .container {
@@ -120,8 +121,9 @@ body {
   justify-content: center;
   align-items: center;
 }
+
 #saveCat {
-  background-color: #ecbee1;
+  background-color: #f7b0bb;
   width: 45vw;
   display: flex;
   align-items: center;
@@ -132,6 +134,17 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: left;
+  height: 100%;
+}
+
+.rootCat {
+  background-color: rgba(1, 225, 255, 0.623);
+  width: 50%;
+  border: 1px solid #f7b0bb;
+}
+
+.cat-list {
+  background-color: #f7b0bb;
 }
 
 .modal1 {
