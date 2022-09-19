@@ -122,7 +122,7 @@ searchFilter.addEventListener("submit", (event) => {
   let filterOptions = { cats: [], dates: [] };
   for (let cat of form) {
     if (cat.checked) {
-      filterOptions.cats.push(`categories_id = ${cat.value}`);
+      filterOptions.cats.push(+cat.value);
     }
   }
   // console.log(params);
@@ -159,7 +159,7 @@ searchFilter.addEventListener("submit", (event) => {
 
         //aTag in portfolioBlock
         let aTag = node.querySelector(".muaHref");
-        aTag.href = `../../profile/profile.html?id=${muaId}`;
+        aTag.href = `/profile/profile.html?id=${muaId}`;
         // nickname in portfolioBlock
         let nickname = mua.nickname;
         // console.log(muaName);

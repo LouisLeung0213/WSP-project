@@ -1,0 +1,77 @@
+# Visualize on https://erd.surge.sh
+# or https://quick-erd.surge.sh
+#
+# Relationship Types
+#  -    - one to one
+#  -<   - one to many
+#  >-   - many to one
+#  >-<  - many to many
+#  -0   - one to zero or one
+#  0-   - zero or one to one
+#  0-0  - zero or one to zero or one
+#  -0<  - one to zero or many
+#  >0-  - zero or many to one
+#
+////////////////////////////////////
+
+
+users
+-----
+id integer PK
+date_of_birth date
+email varchar(255)
+nickname varchar(255) NULL
+password_hash varchar(255)
+profilepic varchar(255) NULL unique
+username varchar(64)
+
+
+muas
+----
+muas_id integer NULL unique FK >- users.id
+avg_score integer NULL
+introduction text NULL
+
+
+ratings
+-------
+id integer PK
+users_id integer FK >- users.id
+muas_id integer FK >- muas.muas_id
+score integer
+
+
+date_matches
+------------
+id integer PK
+muas_id integer FK >- muas.muas_id
+unavailable_date date NULL
+
+
+categories
+----------
+id integer PK
+parent_id integer NULL FK >- categories.id
+categories_name varchar(255) NULL
+
+
+portfolio
+---------
+id integer PK
+muas_id integer FK >- muas.muas_id
+mua_portfolio varchar(255)
+mua_description varchar(255) NULL
+
+
+offers
+------
+id integer PK
+categories_id integer NULL FK >- categories.id
+muas_id integer NULL FK >- muas.muas_id
+
+
+profiles
+--------
+id integer PK
+muas_id integer FK >- muas.muas_id
+profile_photo varchar(255)

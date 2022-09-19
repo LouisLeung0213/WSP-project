@@ -44,37 +44,67 @@ filterRoutes.get("/showMua", async (req, res) => {
 
 filterRoutes.post("/searchFilter", async (req, res) => {
   let filterOptions = req.body;
+  console.log("req.", req.body);
   if (filterOptions.cats.length == 0 && filterOptions.dates.length == 0) {
     res.json("Err: empty filter");
   } else {
-    let andExs = " ";
-    let dateExsStart = "";
-    let dateExsEnd = "";
-    if (filterOptions.cats.length !== 0 && filterOptions.dates.length !== 0) {
-      andExs = ") and (";
-    }
-    if (filterOptions.dates.length !== 0) {
-      dateExsStart =
-        " offers.muas_id not in (select muas_id from date_matches where ";
-      dateExsEnd = ")";
-    }
+    // let andExs = " ";
+    // let dateExsStart = "";
+    // let dateExsEnd = "";
+    // if (filterOptions.cats.length !== 0 && filterOptions.dates.length !== 0) {
+    //   andExs = ") and (";
+    // }
+    // if (filterOptions.dates.length !== 0) {
+    //   dateExsStart =
+    //     " offers.muas_id not in (select muas_id from date_matches where ";
+    //   dateExsEnd = ")";
+    // }
     // console.log(filterOptions);
+    //   let sql = `
+    // select username, users.id, users.nickname, users.profilepic, muas.avg_score, json_agg(mua_portfolio) as mua_portfolio from offers
+    // left join portfolio on portfolio.muas_id =  offers.muas_id
+    // left join muas on offers.muas_id = muas.muas_id
+    // left join users on muas.muas_id = users.id
+    // left join date_matches on date_matches.muas_id = users.id
+    // where (${filterOptions.cats.join(" or ")}
+    // ${andExs}${dateExsStart}${filterOptions.dates.join(" or ")}${dateExsEnd})
+    // group by username, users.id, users.nickname, users.profilepic, muas.avg_score
+    // order by users.id ;
+    // `;
     let sql = `
-  select username, users.id, users.nickname, users.profilepic, muas.avg_score, json_agg(mua_portfolio) as mua_portfolio, muas.is_new
-  from offers 
-  left join portfolio on portfolio.muas_id =  offers.muas_id
-  left join muas on offers.muas_id = muas.muas_id
-  left join users on muas.muas_id = users.id  
-  left join date_matches on date_matches.muas_id = users.id
-  where (${filterOptions.cats.join(" or ")}
-  ${andExs}${dateExsStart}${filterOptions.dates.join(" or ")}${dateExsEnd}) 
-  group by username, users.id, users.nickname, users.profilepic, muas.avg_score, muas.is_new
-  order by muas.is_new, users.id ;
-  `;
+    with
+  blacklist as (
+  select
+    distinct date_matches.muas_id
+  from date_matches
+  where date_matches.unavailable_date = any($1)
+)
+, whitelist as (
+  select
+    distinct offers.muas_id
+  from offers
+  where offers.categories_id = all($2::int[])
+)
+
+select
+  muas.muas_id as mua_id
+, muas.avg_score
+, users.profilepic
+, users.nickname
+, array_agg(portfolio.mua_portfolio) as mua_portfolio
+from muas
+inner join users on users.id = muas.muas_id
+left join portfolio on portfolio.muas_id = muas.muas_id
+where muas.muas_id in (select muas_id from whitelist)
+  and muas.muas_id not in (select muas_id from blacklist) 
+group by muas.muas_id, users.id`;
     console.log("sql: ", sql);
 
-    let result = await client.query(sql);
-    // console.log("Filtered muas: ", result.rows);
+    let result = await client.query(sql, [
+      filterOptions.dates,
+      filterOptions.cats,
+    ]);
+    console.log("Filtered muas: ", result.rows);
     let muas = new Set();
     let i = 0;
     let muasUnique = [];

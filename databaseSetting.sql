@@ -61,43 +61,43 @@ create table date_matches (
 );
 
 
-insert into categories (categories_name) values ('time');
-insert into categories (categories_name,parent_id) values ('no_preference','1');
-insert into categories (categories_name,parent_id) values ('morning','1');
-insert into categories (categories_name,parent_id) values ('afternoon','1');
-insert into categories (categories_name,parent_id) values ('night','1');
-insert into categories (categories_name,parent_id) values ('all_day','1');
-insert into categories (categories_name) values ('style');
-insert into categories (categories_name,parent_id) values ('western','7');
-insert into categories (categories_name,parent_id) values ('chinese','7');
-insert into categories (categories_name,parent_id) values ('taiwanese','7');
-insert into categories (categories_name,parent_id) values ('japanese','7');
-insert into categories (categories_name,parent_id) values ('korean','7');
-insert into categories (categories_name) values ('service');
-insert into categories (categories_name,parent_id) values ('wedding','13');
-insert into categories (categories_name,parent_id) values ('advertisement','13');
-insert into categories (categories_name,parent_id) values ('performance','13');
-insert into categories (categories_name,parent_id) values ('casual','13');
-insert into categories (categories_name,parent_id) values ('one_head','14');
-insert into categories (categories_name,parent_id) values ('two_head','14');
-insert into categories (categories_name,parent_id) values ('outdoor','14');
-insert into categories (categories_name,parent_id) values ('registration','14');
-insert into categories (categories_name,parent_id) values ('photo','15');
-insert into categories (categories_name,parent_id) values ('film','15');
-insert into categories (categories_name,parent_id) values ('drama','16');
-insert into categories (categories_name,parent_id) values ('stunt','16');
-insert into categories (categories_name,parent_id) values ('party','17');
-insert into categories (categories_name,parent_id) values ('dating','17');
-insert into categories (categories_name,parent_id) values ('fashionable','17');
-insert into categories (categories_name) values ('in_out_door');
-insert into categories (categories_name,parent_id) values ('no_preference','29');
-insert into categories (categories_name,parent_id) values ('indoor','29');
-insert into categories (categories_name,parent_id) values ('outdoor','29');
-insert into categories (categories_name) values ('location');
-insert into categories (categories_name,parent_id) values ('no_preference','33');
-insert into categories (categories_name,parent_id) values ('hk_island','33');
-insert into categories (categories_name,parent_id) values ('kowloon','33');
-insert into categories (categories_name,parent_id) values ('new_ter','33');
+insert into categories (categories_name) values ('時間');
+insert into categories (categories_name,parent_id) values ('沒有偏好','1');
+insert into categories (categories_name,parent_id) values ('早上','1');
+insert into categories (categories_name,parent_id) values ('下午','1');
+insert into categories (categories_name,parent_id) values ('晚上','1');
+insert into categories (categories_name,parent_id) values ('全日','1');
+insert into categories (categories_name) values ('風格');
+insert into categories (categories_name,parent_id) values ('西式','7');
+insert into categories (categories_name,parent_id) values ('中式','7');
+insert into categories (categories_name,parent_id) values ('台式','7');
+insert into categories (categories_name,parent_id) values ('中式','7');
+insert into categories (categories_name,parent_id) values ('韓式','7');
+insert into categories (categories_name) values ('服務');
+insert into categories (categories_name,parent_id) values ('婚禮','13');
+insert into categories (categories_name,parent_id) values ('廣告','13');
+insert into categories (categories_name,parent_id) values ('表演','13');
+insert into categories (categories_name,parent_id) values ('日常','13');
+insert into categories (categories_name,parent_id) values ('一妝一頭','14');
+insert into categories (categories_name,parent_id) values ('兩妝兩頭','14');
+insert into categories (categories_name,parent_id) values ('戶外','14');
+insert into categories (categories_name,parent_id) values ('註冊','14');
+insert into categories (categories_name,parent_id) values ('相片','15');
+insert into categories (categories_name,parent_id) values ('影片','15');
+insert into categories (categories_name,parent_id) values ('舞台劇','16');
+insert into categories (categories_name,parent_id) values ('特技化妝','16');
+insert into categories (categories_name,parent_id) values ('派對','17');
+insert into categories (categories_name,parent_id) values ('約會','17');
+insert into categories (categories_name,parent_id) values ('時尚化妝','17');
+insert into categories (categories_name) values ('戶外室內');
+insert into categories (categories_name,parent_id) values ('沒有偏好','29');
+insert into categories (categories_name,parent_id) values ('戶外','29');
+insert into categories (categories_name,parent_id) values ('室內','29');
+insert into categories (categories_name) values ('地點');
+insert into categories (categories_name,parent_id) values ('沒有偏好','33');
+insert into categories (categories_name,parent_id) values ('香港島','33');
+insert into categories (categories_name,parent_id) values ('九龍','33');
+insert into categories (categories_name,parent_id) values ('新界','33');
 
 
 ``````````````````````````````````````````````````````````````````````````````````````````````````
@@ -141,7 +141,8 @@ DELETE FROM offers WHERE muas_id = ${sessionId} and categories_id != any(array${
 alter table muas drop column icon;
 
 
-select  username, users.id, users.nickname, users.profilepic, muas.avg_score, json_agg(mua_portfolio) as mua_portfolio from offers
+select  username, users.id, users.nickname, users.profilepic, muas.avg_score, json_agg(mua_portfolio) as mua_portfolio 
+from offers
   left join portfolio on portfolio.muas_id =  offers.muas_id
   left join muas on offers.muas_id = muas.muas_id
   left join users on muas.muas_id = users.id  
@@ -155,3 +156,84 @@ alter table muas add column join_date date;
 alter table muas add column isNew boolean;
 
 update muas set is_new = true where muas_id = 6;
+-----------------------------------------------------------------------------beeno version
+  with
+  blacklist as (
+  select
+    distinct date_matches.muas_id
+  from date_matches
+  where date_matches.unavailable_date = any(:dates)
+)
+, whitelist as (
+  select
+    distinct offers.muas_id
+  from offers
+  where offers.categories_id = all(:cat_ids)
+)
+
+select
+  muas.id as mua_id
+, muas.avg_score
+, users.profilepic
+, users.nickname
+, array_agg(portfolio.mua_portfolio)
+from muas
+inner join users on users.id = muas.users_id
+inner join portfolio on portfolio.id = muas.portfolio_id
+where muas.muas_id in (select muas_id from whitelist)
+  and muas.muas_id not in (select muas_id from blacklist)
+
+
+
+
+   select
+    distinct offers.muas_id
+  from offers
+  where offers.categories_id = 2
+
+  select
+    distinct date_matches.muas_id
+  from date_matches
+  where date_matches.unavailable_date = '2022/09/04'
+
+  select
+  muas.muas_id as mua_id
+, muas.avg_score
+, users.profilepic
+, users.nickname
+
+from muas
+inner join users on users.id = muas.muas_id
+
+
+group by muas.muas_id, users.id
+, array_agg(portfolio.mua_portfolio)
+inner join portfolio on portfolio.id = muas.muas_id
+
+
+ with
+  blacklist as (
+  select
+    distinct date_matches.muas_id
+  from date_matches
+  where date_matches.unavailable_date ='2022/09/02'
+)
+, whitelist as (
+  select
+    distinct offers.muas_id
+  from offers
+  where offers.categories_id =  34
+)
+
+select
+  muas.muas_id as mua_id
+, muas.avg_score
+, users.profilepic
+, users.nickname
+, array_agg(portfolio.mua_portfolio) as mua_portfolio
+from muas
+inner join users on users.id = muas.muas_id
+left join portfolio on portfolio.muas_id = muas.muas_id
+where muas.muas_id in (select muas_id from whitelist)
+  and muas.muas_id not in (select muas_id from blacklist) 
+group by muas.muas_id, users.id;
