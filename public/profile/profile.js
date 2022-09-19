@@ -292,7 +292,7 @@ descriptionBtn.addEventListener("click", async (event) => {
 });
 
 doneBtn.addEventListener("click", async (event) => {
-  let image = document.querySelector(".portfolio");
+  let image = document.querySelector(".portfolio1");
   // let insideEdit = document.querySelector(".insideDescription");
 
   console.log(image.src);

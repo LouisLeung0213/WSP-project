@@ -35,14 +35,14 @@
     <link rel="stylesheet" href="/lobby/lobby.css" />
     <link rel="stylesheet" href="/calendar.css" />
 
-    <title>Lobby</title>
+    <title>主頁</title>
   </head>
   <body>
     <!-- logo, search && profile icon -->
     <div class="navBar">
       <div class="logoutDiv">
-        <button id="logoutBtn">Logout</button>
-        <button id="becomeMua">Become MUA</button>
+        <button id="logoutBtn">登出</button>
+        <button id="becomeMua">成為化妝師</button>
       </div>
 
       <div class="logoContainer">
@@ -54,7 +54,7 @@
           <input
             class="form-control me-2"
             type="search"
-            placeholder="Search"
+            placeholder="搜索"
             aria-label="Search"
             id="searchInput"
           />
@@ -77,7 +77,7 @@
       <!-- condition filter -->
       <div class="row filterDiv">
         <form id="searchFilter" method="get" action="/searchFilter">
-          <input class="searchFilterSubmit" type="submit" value="Search" />
+          <input class="searchFilterSubmit" type="submit" value="搜索" />
           <div class="cat-list">
             <div class="cat">
               <input class="filterCheckbox" type="checkbox" name="cat_id" />
@@ -100,13 +100,13 @@
             <i class="fas fa-angle-right next"></i>
           </div>
           <div class="weekdays">
-            <div>Sun</div>
-            <div>Mon</div>
-            <div>Tue</div>
-            <div>Wed</div>
-            <div>Thu</div>
-            <div>Fri</div>
-            <div>Sat</div>
+            <div>日</div>
+            <div>一</div>
+            <div>二</div>
+            <div>三</div>
+            <div>四</div>
+            <div>五</div>
+            <div>六</div>
           </div>
           <div class="days"></div>
         </div>
@@ -128,7 +128,7 @@
         </div>
       </div>
     </div>
-    <a href="/profile/profile.html?id=1">To Scott Profile</a>
+    <!-- <a href="/profile/profile.html?id=1">To Scott Profile</a> -->
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/calendar.js"></script>
