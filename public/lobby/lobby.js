@@ -2,6 +2,7 @@ let main = document.querySelector("#main");
 let subMain = document.querySelector("#subMain");
 let muaAbstract = main.querySelector(".muaAbstract");
 let muaHref = main.querySelector(".muaHref");
+let adminLink = document.querySelector(".adminLink");
 
 fetch(`/filter?id=${paramsName}`)
   .then((res) => res.json())
@@ -85,7 +86,7 @@ function showMua() {
           } else {
             pDiv.textContent = `${muaName}`;
           }
-          
+
           // average score
           let avgScore = node.querySelector(".avgScore");
           if (mua.comment_qty_enough) {
@@ -107,11 +108,10 @@ function showMua() {
           } else {
             avgScore.textContent = `評級: 數據不足`;
           }
-          
-          
+
           // new member
           let newMem = node.querySelector(".newMember");
-          if ((mua.is_new !== true)) {
+          if (mua.is_new !== true) {
             newMem.hidden = true;
           }
 
@@ -303,3 +303,12 @@ becomeMua.addEventListener("click", async (event) => {
     });
   }
 });
+
+fetch("/checkIsAdmin")
+  .then((res) => res.json())
+  .then((id) => {
+    // console.log(id.isAdmin);
+    if (id.isAdmin.isadmin == false) {
+      adminLink.hidden = true;
+    }
+  });

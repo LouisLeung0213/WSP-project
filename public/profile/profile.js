@@ -21,11 +21,14 @@ let updateNickname = diaDiv.querySelector("[name=updateNickname]");
 let updatePassword = diaDiv.querySelector("[name=updatePassword]");
 let updateIcon = diaDiv.querySelector("[name=updateIcon]");
 let dialogDetail = diaDiv.querySelector("[name=dialogDetail]");
-
+let fakeDeleteBtn = document.querySelector(".fakeDeleteBtn");
+let nodeDescription = document.querySelector(".outsideDescription");
+let outsideMua_id = document.querySelector(".outsideMua_id");
 //for upload
 let uploadPhoto = document.getElementById("choosePhoto");
 let profileTemplate = document.querySelector(".profileTemplate");
 let profileIcon = document.querySelector("#profileIcon");
+let personalIcon = document.querySelector(".personalIcon");
 let deleteBtn = document.querySelector(".deleteBtn");
 let insideDescription = document.querySelector(".insideDescription");
 let descriptionBtn = document.querySelector(".descriptionBtn");
@@ -33,6 +36,13 @@ let doneBtn = document.querySelector(".doneBtn");
 let saveCat = document.querySelector("#saveCat");
 let popup = document.getElementById("popup");
 let inImage = document.querySelector(".portfolio1");
+
+// for report
+let reportBtn = document.querySelector(".reportBtn");
+let insideId = document.querySelector(".insideMuaID");
+
+outsideMua_id.hidden = true;
+nodeDescription.hidden = true;
 
 editDialog.hidden = true;
 
@@ -120,14 +130,18 @@ fetch(`/profile?id=${paramsName}`)
       submitContainer.hidden = true;
       descriptionBtn.hidden = true;
       doneBtn.hidden = true;
+      fakeDeleteBtn.hidden = true;
     }
     for (let work of json.works) {
       let node = portfolioBtn.cloneNode(true);
       let nodeContent = node.querySelector(".portfolio");
       let nodeDescription = node.querySelector(".outsideDescription");
+      let outsideMua_id = node.querySelector(".outsideMua_id");
       let photo = `/uploads/${work.mua_portfolio}`;
       nodeDescription.innerHTML = `${work.mua_description}`;
       nodeContent.src = photo;
+      outsideMua_id.innerHTML = `${json.user.muas_id}`;
+      outsideMua_id.hidden = true;
       nodeDescription.hidden = true;
       portfolioContainer.appendChild(node);
       portfolioBtn.remove();
@@ -158,7 +172,18 @@ fetch(`/profile?id=${paramsName}`)
     }
 
     iconNode.src = myIcon;
-    introContainer.appendChild(iconNode);
+    let parent = personalIcon.parentElement;
+    let container = document.createElement("div");
+    container.className = "personalIcon";
+    container.style.backgroundImage = `url(${iconNode.src})`;
+    // let personalIcon = document.querySelector("personalIcon");
+    // let src = personalIcon.getAttribute("src");
+    // console.log("this src", src);
+    // src = iconNode.src;
+    console.log("src", iconNode.src);
+    personalIcon.remove();
+    parent.appendChild(container);
+    // introContainer.appendChild(iconNode);
 
     // Rating system
 
@@ -277,6 +302,8 @@ document
   .getElementById("exampleModal")
   .addEventListener("show.bs.modal", async (event) => {
     // console.log(event);
+    outsideId = event.relatedTarget.querySelector(".outsideMua_id").innerHTML;
+    insideId = event.currentTarget.querySelector(".insideMuaID").innerHTML;
     outsideText = event.relatedTarget.querySelector(
       ".outsideDescription"
     ).innerHTML;
@@ -288,11 +315,14 @@ document
     insideImage = event.currentTarget.querySelector(".portfolio1").src;
     insideImage = outsideImage;
     insideText = outsideText;
+    insideId = outsideId;
     console.log(insideText);
     // console.log(event.currentTarget);
     event.currentTarget.querySelector(".portfolio1").src = insideImage;
     event.currentTarget.querySelector(".insideDescription").innerHTML =
       insideText;
+    event.currentTarget.querySelector(".insideMuaID").innerHTML = insideId;
+    event.currentTarget.querySelector(".insideMuaID").hidden = true;
   });
 
 descriptionBtn.addEventListener("click", async (event) => {
@@ -334,6 +364,26 @@ doneBtn.addEventListener("click", async (event) => {
   }
 });
 
+reportBtn.addEventListener("click", async (event) => {
+  let image = document.querySelector(".portfolio1");
+  console.log(insideId);
+  console.log(image.src);
+  console.log(insideDescription);
+  console.log(insideDescription.textContent);
+  let res = await fetch(`/reportPortfolio`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+    },
+    body: JSON.stringify({
+      mua_id: insideId,
+      content: insideDescription.textContent,
+      image: image.src,
+    }),
+  });
+  let json = await res.json();
+  console.log(json);
+});
 //for filter categories
 fetch(`/filter?id=${paramsName}`)
   .then((res) => res.json())

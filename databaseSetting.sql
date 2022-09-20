@@ -9,6 +9,7 @@ create table users (
     , profilePic varchar(255) 
     , nickname varchar(255)
     , password_hash varchar(255) not null
+    , isAdmin boolean default false
 );
 
 create table muas (
@@ -58,6 +59,13 @@ create table date_matches (
     , muas_id integer not null
     , foreign key (muas_id) references muas(muas_id)
     , unavailable_date date
+);
+
+create table reported (
+    id serial primary key
+    , muas_id integer not null
+    , muas_description varchar(255)
+    , muas_image varchar(255) not null 
 );
 
 
@@ -242,3 +250,4 @@ group by muas.muas_id, users.id;
 
 alter table muas add column comment_qty integer;
 alter table muas add column comment_qty_enough boolean;
+alter table users add column isAdmin boolean default false;

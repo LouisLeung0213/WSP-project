@@ -10,6 +10,7 @@ import "./session";
 import path from "path";
 import { profileRoutes } from "./profile";
 import { muaRoutes } from "./Muas";
+import { adminRoutes } from "./admin";
 
 let app = express();
 //logger
@@ -34,6 +35,7 @@ app.use(filterRoutes);
 app.use(userRoutes);
 app.use(profileRoutes);
 app.use(muaRoutes);
+app.use(adminRoutes);
 
 app.listen(env.PORT, () => {
   print(env.PORT);

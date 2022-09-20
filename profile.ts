@@ -84,7 +84,8 @@ profileRoutes.get("/profile", async (req, res) => {
   let result = await client.query(
     `
 select 
-  introduction 
+  muas_id
+, introduction 
 , nickname
 , profilepic
 from muas
@@ -227,6 +228,17 @@ profileRoutes.post("/comment", async (req, res) => {
   res.json(req.body.action);
 });
 
+profileRoutes.post("/reportPortfolio", async (req, res) => {
+  // console.log();
+  let report = await client.query(
+    `insert into reported (muas_id,muas_description,muas_image) values ('${
+      req.body.mua_id
+    }','${req.body.content}','${req.body.image.split("/").slice(4)}')`
+  );
+  res.json({ report });
+  // console.log("report");
+  // console.log(req.body);
+});
 // Rating System -- show comment qty
 
 profileRoutes.get("/score", async (req, res) => {
@@ -268,17 +280,15 @@ profileRoutes.get("/score", async (req, res) => {
     pageId,
   ]);
 
-  let commentQtyEnough = false
+  let commentQtyEnough = false;
 
   if (commentQty > 4) {
     await client.query(
       `update muas set "comment_qty_enough" = true where muas_id = $1 `,
       [pageId]
     );
-    commentQtyEnough = true
+    commentQtyEnough = true;
   }
-
-
 
   res.json({ totalScore, commentQty, avgScore, commentQtyEnough });
 });

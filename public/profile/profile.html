@@ -49,7 +49,9 @@
       <div class="about">
         <div class="introAndRating">
           <div class="introContainer">
-            <img src="" alt="icon" id="profileIcon" />
+            <div>
+              <img src="" alt="icon" id="profileIcon" class="personalIcon" />
+            </div>
             <div class="profileShowDiv"></div>
             <div class="username">Pikachu</div>
           </div>
@@ -191,6 +193,7 @@
         >
           <image class="portfolio" src="./image/pikachu.png" alt=""></image>
           <textarea class="outsideDescription"></textarea>
+          <textarea class="outsideMua_id"></textarea>
         </button>
       </div>
 
@@ -227,6 +230,7 @@
                 >
               </div>
               <div class="insideDescriptionDiv">
+                <p class="insideMuaID"></p>
                 <p class="insideDescription"></p>
               </div>
             </div>
@@ -238,12 +242,19 @@
               >
                 關閉
               </button>
+              <button type="button" class="btn btn-primary reportBtn">
+                檢舉
+              </button>
               <button type="button" class="btn btn-primary descriptionBtn">
                 編輯簡介</button
               ><button type="button" class="btn btn-primary doneBtn">
                 編輯完成
               </button>
-              <button type="button" class="btn btn-primary" onclick="show()">
+              <button
+                type="button"
+                class="btn btn-primary fakeDeleteBtn"
+                onclick="show()"
+              >
                 刪除
               </button>
             </div>
