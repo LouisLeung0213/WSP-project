@@ -117,8 +117,9 @@ body {
   height: 700px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+  margin-left: 10rem;
 }
 #saveCat {
   background-color: #ecbee1;
@@ -135,7 +136,7 @@ body {
 }
 
 .modal1 {
-  max-width: 100vw !important;
+  max-width: 75vw !important;
 }
 
 .portfolio {
@@ -149,8 +150,11 @@ body {
   font-size: 25px;
   padding: 10px 10px 10px 10px;
   /* text-align: center; */
-  margin-right: 25px;
-  width: 15vw;
+  margin-right: 35px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  width: 30vw;
 }
 
 /* .insidePorfolio {
@@ -280,4 +284,46 @@ body {
   flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
+}
+
+#popup {
+  width: 50vw;
+  height: 50vh;
+  display: None;
+  margin-top: 320px;
+  padding: 10px;
+  /* border: 2px Solid Red; */
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  text-size-adjust: center;
+  text-align: center;
+}
+
+#confirm {
+  width: 100px;
+  height: 30px;
+  font-size: 15px;
+  border-radius: 10%;
+  margin-right: 8px;
+}
+
+#confirm:hover {
+  box-shadow: 3px 3px 10px 3px #000000;
+}
+#cancel:hover {
+  box-shadow: 3px 3px 10px 3px #000000;
+}
+
+#cancel {
+  width: 100px;
+  height: 30px;
+  font-size: 15px;
+  border-radius: 10%;
+}
+
+#popupMessage {
+  font-size: 35px;
+  color: Red;
+  font-family: monospace;
 }

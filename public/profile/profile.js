@@ -31,6 +31,8 @@ let insideDescription = document.querySelector(".insideDescription");
 let descriptionBtn = document.querySelector(".descriptionBtn");
 let doneBtn = document.querySelector(".doneBtn");
 let saveCat = document.querySelector("#saveCat");
+let popup = document.getElementById("popup");
+let inImage = document.querySelector(".portfolio1");
 
 editDialog.hidden = true;
 
@@ -89,9 +91,19 @@ deleteBtn.addEventListener("click", async (event) => {
     headers: { "content-type": "application/json" },
     body: JSON.stringify({ insideImage }),
   });
+  console.log(res);
+
+  if (res.ok) {
+    Swal.fire({
+      icon: "success",
+      title: `作品已成功刪除`,
+      showConfirmButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) window.location.reload();
+    });
+  }
   let json = await res.json();
   console.log(json);
-  window.location.reload();
 });
 
 //for load profile page
@@ -206,7 +218,6 @@ fetch(`/profile?id=${paramsName}`)
           // Rating System -- show score
 
           if (result.commentQty > 4) {
-
             if (result.avgScore >= 90) {
               score.textContent = "評級: 壓倒性好評";
             } else if (result.avgScore >= 60) {
@@ -445,3 +456,16 @@ function showAvailableDate() {
     });
 }
 showAvailableDate();
+
+function show() {
+  popup.style.display = "Block";
+  inImage.style.display = "None";
+  // deleteBtn.style.display = "None";
+}
+
+function hide() {
+  popup.style.display = "None";
+  inImage.style.display = "Block";
+
+  // deleteBtn.style.display = "Block";
+}

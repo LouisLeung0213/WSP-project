@@ -154,6 +154,7 @@ from offers
 alter table muas add column total_score integer;
 alter table muas add column join_date date;
 alter table muas add column is_new boolean;
+alter table muas add column comment_qty integer;
 
 update muas set is_new = true where muas_id = 6;
 -----------------------------------------------------------------------------beeno version

@@ -75,6 +75,7 @@ profileRoutes.delete("/deletePortfolio", async (req, res) => {
   await client.query(
     `delete from portfolio where mua_portfolio = '${mua_portfolio}'`
   );
+  res.json({});
 });
 
 profileRoutes.get("/profile", async (req, res) => {
@@ -121,7 +122,7 @@ where muas_id = $1
 profileRoutes.patch("/editDescription", async (req, res) => {
   //console.log("here?");
 
-  //console.log(req.body);
+  console.log(req.body);
   // console.log(req.query.id);
   let newContent = req.body.content;
   let muas_image = req.body.image.split("/").slice("4");
@@ -130,6 +131,7 @@ profileRoutes.patch("/editDescription", async (req, res) => {
   let result = await client.query(
     `update portfolio set mua_description = '${newContent}' where mua_portfolio = '${muas_image}'`
   );
+  console.log(result);
   res.json(result);
 });
 
