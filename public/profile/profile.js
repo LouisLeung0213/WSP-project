@@ -31,7 +31,8 @@ let insideDescription = document.querySelector(".insideDescription");
 let descriptionBtn = document.querySelector(".descriptionBtn");
 let doneBtn = document.querySelector(".doneBtn");
 let saveCat = document.querySelector("#saveCat");
-
+let nodeDescription = document.querySelector(".outsideDescription");
+let contactForm = document.querySelector("#contact-form");
 editDialog.hidden = true;
 
 editBtn.addEventListener("click", () => {
@@ -44,7 +45,6 @@ diaCancelBtn.addEventListener("click", () => {
 
 let change = true;
 
-// console.log("Current params: ", paramsName);
 
 submitBtn.addEventListener("click", async (event) => {
   event.preventDefault();
@@ -112,7 +112,6 @@ fetch(`/profile?id=${paramsName}`)
     for (let work of json.works) {
       let node = portfolioBtn.cloneNode(true);
       let nodeContent = node.querySelector(".portfolio");
-      let nodeDescription = node.querySelector(".outsideDescription");
       let photo = `/uploads/${work.mua_portfolio}`;
       nodeDescription.innerHTML = `${work.mua_description}`;
       nodeContent.src = photo;
@@ -156,7 +155,7 @@ fetch(`/profile?id=${paramsName}`)
     let dislikeBtn = document.querySelector(".dislikeBtn");
 
     if (json.currentUser == paramsName) {
-      console.log(json.currentUser, paramsName);
+      // console.log(json.currentUser, paramsName);
       // likeBtn.hidden = true;
       // dislikeBtn.hidden = true;
     }
@@ -206,7 +205,6 @@ fetch(`/profile?id=${paramsName}`)
           // Rating System -- show score
 
           if (result.commentQtyEnough) {
-
             if (result.avgScore >= 90) {
               score.textContent = "評級: 壓倒性好評";
             } else if (result.avgScore >= 60) {
@@ -425,23 +423,23 @@ saveCat.addEventListener("submit", (event) => {
 });
 
 function showAvailableDate() {
-      // console.log("selectedDatesMua: ", selectedDatesMua);
-      let dates = document.querySelectorAll(".selectable");
-      for (let date of dates) {
-        if (selectedDatesMua.length !== 0) {
-          for (let unavailable_date of selectedDatesMua) {
-            if (date.id == unavailable_date) {
-              if (date.classList.contains("selected")) {
-                date.classList.remove("selected");
-              }
-              break;
-            }
-            date.classList.add("selected");
+  // console.log("selectedDatesMua: ", selectedDatesMua);
+  let dates = document.querySelectorAll(".selectable");
+  for (let date of dates) {
+    if (selectedDatesMua.length !== 0) {
+      for (let unavailable_date of selectedDatesMua) {
+        if (date.id == unavailable_date) {
+          if (date.classList.contains("selected")) {
+            date.classList.remove("selected");
           }
-        } else {
-          date.classList.add("selected");
+          break;
         }
+        date.classList.add("selected");
       }
+    } else {
+      date.classList.add("selected");
+    }
+  }
 }
 
 fetch(`/selectedDatesMua?id=${paramsName}`)
@@ -453,5 +451,8 @@ fetch(`/selectedDatesMua?id=${paramsName}`)
     showAvailableDate();
   });
 
-//for calendar
-
+//for uploader
+const uploader = new Uploader({
+  // Get production API keys from Upload.io
+  apiKey: "free",
+});

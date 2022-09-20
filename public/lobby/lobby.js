@@ -2,6 +2,7 @@ let main = document.querySelector("#main");
 let subMain = document.querySelector("#subMain");
 let muaAbstract = main.querySelector(".muaAbstract");
 let muaHref = main.querySelector(".muaHref");
+let filterChoices = main.querySelector("#filterOption")
 
 fetch(`/filter?id=${paramsName}`)
   .then((res) => res.json())
@@ -61,10 +62,10 @@ function showMua() {
   fetch("/showMua")
     .then((res) => res.json())
     .then((muas) => {
-      console.log(muas);
+      // console.log(muas);
       for (const mua of muas) {
         if (mua) {
-          console.log(mua);
+          // console.log(mua);
           muaAbstract.hidden = false;
           let node = muaAbstract.cloneNode(true);
 
@@ -303,3 +304,4 @@ becomeMua.addEventListener("click", async (event) => {
     });
   }
 });
+

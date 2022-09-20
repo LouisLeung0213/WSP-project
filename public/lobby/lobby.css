@@ -176,7 +176,6 @@ body {
   height: 400vh;
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
   align-items: center;
 }
 
@@ -276,4 +275,19 @@ body {
   border-radius: 40px;
   font-weight: bold;
   background-color: #ecc3e2;
+}
+
+.filterOptionBar {
+  display: flex;
+  width: 80%;
+  margin-top: 2rem;
+  font-size: 2rem;
+  justify-content: space-between;
+}
+
+.filterOption {
+  text-align: center;
+  border: 2px solid black;
+  border-radius: 40px;
+  padding: 0 2rem;
 }

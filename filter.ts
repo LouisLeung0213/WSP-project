@@ -141,7 +141,6 @@ filterRoutes.post("/saveCat", async (req, res) => {
   }
 });
 
-
 filterRoutes.get("/selectedDatesMua", async (req, res) => {
   let pageId = req.query.id;
 
