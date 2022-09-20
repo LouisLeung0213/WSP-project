@@ -190,14 +190,41 @@ fetch(`/profile?id=${paramsName}`)
         });
     }
 
-    likeBtn.addEventListener("click", () => {
+    let liked = false;
+    let disliked = false;
+
+    likeBtn.addEventListener("click", (event) => {
       comment(1);
       showScore();
+      if (liked == false) {
+        liked = true;
+        disliked = false;
+        dislikeBtn.style.backgroundColor = "#ffffff";
+        dislikeBtn.style.color = "#ff0000";
+        event.target.style.backgroundColor = "#008000";
+        event.target.style.color = "#ffffff";
+      } else {
+        liked = false;
+        event.target.style.backgroundColor = "#ffffff";
+        event.target.style.color = "#008000";
+      }
     });
 
-    dislikeBtn.addEventListener("click", () => {
+    dislikeBtn.addEventListener("click", (event) => {
       comment(-1);
       showScore();
+      if (disliked == false) {
+        disliked = true;
+        liked = false;
+        likeBtn.style.backgroundColor = "#ffffff";
+        likeBtn.style.color = "#008000";
+        event.target.style.backgroundColor = "#ff0000";
+        event.target.style.color = "#ffffff";
+      } else {
+        disliked = false;
+        event.target.style.backgroundColor = "#ffffff";
+        event.target.style.color = "#ff0000";
+      }
     });
 
     // Rating System -- show comment qty / show score

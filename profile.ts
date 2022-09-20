@@ -167,9 +167,7 @@ profileRoutes.post("/profileUpdate", async (req, res) => {
       let oldIcon = await client.query(
         `select profilepic from users where users.id = ${currentId}`
       );
-      image_filename = oldIcon;
-      res.json();
-      return;
+      image_filename = oldIcon.rows[0].profilepic;
     } else {
       let image = files.newIcon;
       let imageFile = Array.isArray(image) ? image[0] : image;
@@ -190,15 +188,16 @@ profileRoutes.post("/profileUpdate", async (req, res) => {
     //   /*sql*/ `update muas set introduction = $1 where muas_id = $2`,
     //   [newDescriptionForm, currentId]
     // );
-    const updateFinish = await client.query(
-      /*sql*/ `update users set nickname = $1, password_hash = $2, profilepic = $3 where users.id= $4`,
-      [newNicknameAtForm, hashedPassword, image_filename, currentId]
-    );
+    console.log("123123211312321323", image_filename);
     const updateDescription = await client.query(
-      /*sql*/ `update muas set introduction = $1 where muas_id = $2`,
+      /*sql*/ "update muas set introduction = $1 where muas_id = $2",
       [newDescriptionForm, currentId]
     );
-    console.log(updateFinish);
+    const updateFinish = await client.query(
+      /*sql*/ "update users set nickname = $1, password_hash = $2, profilepic = $3 where users.id= $4",
+      [newNicknameAtForm, hashedPassword, image_filename, currentId]
+    );
+
     res.json({ message: "Success" });
   });
 });
@@ -268,17 +267,15 @@ profileRoutes.get("/score", async (req, res) => {
     pageId,
   ]);
 
-  let commentQtyEnough = false
+  let commentQtyEnough = false;
 
   if (commentQty > 4) {
     await client.query(
       `update muas set "comment_qty_enough" = true where muas_id = $1 `,
       [pageId]
     );
-    commentQtyEnough = true
+    commentQtyEnough = true;
   }
-
-
 
   res.json({ totalScore, commentQty, avgScore, commentQtyEnough });
 });

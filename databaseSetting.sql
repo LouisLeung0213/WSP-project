@@ -71,7 +71,7 @@ insert into categories (categories_name) values ('風格');
 insert into categories (categories_name,parent_id) values ('西式','7');
 insert into categories (categories_name,parent_id) values ('中式','7');
 insert into categories (categories_name,parent_id) values ('台式','7');
-insert into categories (categories_name,parent_id) values ('中式','7');
+insert into categories (categories_name,parent_id) values ('日式','7');
 insert into categories (categories_name,parent_id) values ('韓式','7');
 insert into categories (categories_name) values ('服務');
 insert into categories (categories_name,parent_id) values ('婚禮','13');
