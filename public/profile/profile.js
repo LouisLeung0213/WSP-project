@@ -200,18 +200,8 @@ fetch(`/profile?id=${paramsName}`)
     }
 
     iconNode.src = myIcon;
-    let parent = personalIcon.parentElement;
-    let container = document.createElement("div");
-    container.className = "personalIcon";
-    container.style.backgroundImage = `url(${iconNode.src})`;
-    // let personalIcon = document.querySelector("personalIcon");
-    // let src = personalIcon.getAttribute("src");
-    // console.log("this src", src);
-    // src = iconNode.src;
-    console.log("src", iconNode.src);
-    personalIcon.remove();
-    parent.appendChild(container);
-    // introContainer.appendChild(iconNode);
+
+    introContainer.appendChild(iconNode);
 
     // Rating system
 
