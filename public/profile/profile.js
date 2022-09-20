@@ -24,6 +24,9 @@ let dialogDetail = diaDiv.querySelector("[name=dialogDetail]");
 let fakeDeleteBtn = document.querySelector(".fakeDeleteBtn");
 let nodeDescription = document.querySelector(".outsideDescription");
 let outsideMua_id = document.querySelector(".outsideMua_id");
+//like button and dislike button
+let likeBtn = document.querySelector(".likeBtn");
+let dislikeBtn = document.querySelector(".dislikeBtn");
 //for upload
 let uploadPhoto = document.getElementById("choosePhoto");
 let profileTemplate = document.querySelector(".profileTemplate");
@@ -116,7 +119,31 @@ deleteBtn.addEventListener("click", async (event) => {
   console.log(json);
 });
 
+//check liked or not
+async function likedOrNot(id, target_id) {
+  console.log({ id, target_id });
+
+  let result = await fetch(`/checkLike?id=${id}&target_id=${target_id}`);
+  let relationship = await result.json();
+  console.log(relationship);
+  if (relationship == 1) {
+    likeBtn.style.backgroundColor = "#008000";
+    likeBtn.style.color = "#ffffff";
+    liked = true;
+    dislikeBtn.style.backgroundColor = "#ffffff";
+    dislikeBtn.style.color = "#ff0000";
+  } else if (relationship == -1) {
+    likeBtn.style.backgroundColor = "#ffffff";
+    likeBtn.style.color = "#008000";
+    liked = true;
+    dislikeBtn.style.backgroundColor = "#ff0000";
+    dislikeBtn.style.color = "#ffffff";
+  }
+}
+
 //for load profile page
+let liked = false;
+let disliked = false;
 fetch(`/profile?id=${paramsName}`)
   .then((res) => res.json())
   .then((json) => {
@@ -131,6 +158,7 @@ fetch(`/profile?id=${paramsName}`)
       descriptionBtn.hidden = true;
       doneBtn.hidden = true;
       fakeDeleteBtn.hidden = true;
+      likedOrNot(json.currentUser, +paramsName);
     }
     for (let work of json.works) {
       let node = portfolioBtn.cloneNode(true);
@@ -189,15 +217,13 @@ fetch(`/profile?id=${paramsName}`)
 
     // Rating system -- comment
 
-    let likeBtn = document.querySelector(".likeBtn");
-    let dislikeBtn = document.querySelector(".dislikeBtn");
-
     if (json.currentUser == paramsName) {
       console.log(json.currentUser, paramsName);
       // likeBtn.hidden = true;
       // dislikeBtn.hidden = true;
     }
 
+    //
     function comment(action) {
       let comment = { from: json.currentUser, to: +paramsName, action };
       fetch(`/comment`, {
@@ -215,14 +241,38 @@ fetch(`/profile?id=${paramsName}`)
         });
     }
 
-    likeBtn.addEventListener("click", () => {
+    likeBtn.addEventListener("click", (event) => {
       comment(1);
       showScore();
+      if (liked == false) {
+        liked = true;
+        disliked = false;
+        dislikeBtn.style.backgroundColor = "#ffffff";
+        dislikeBtn.style.color = "#ff0000";
+        event.target.style.backgroundColor = "#008000";
+        event.target.style.color = "#ffffff";
+      } else {
+        liked = false;
+        event.target.style.backgroundColor = "#ffffff";
+        event.target.style.color = "#008000";
+      }
     });
 
-    dislikeBtn.addEventListener("click", () => {
+    dislikeBtn.addEventListener("click", (event) => {
       comment(-1);
       showScore();
+      if (disliked == false) {
+        disliked = true;
+        liked = false;
+        likeBtn.style.backgroundColor = "#ffffff";
+        likeBtn.style.color = "#008000";
+        event.target.style.backgroundColor = "#ff0000";
+        event.target.style.color = "#ffffff";
+      } else {
+        disliked = false;
+        event.target.style.backgroundColor = "#ffffff";
+        event.target.style.color = "#ff0000";
+      }
     });
 
     // Rating System -- show comment qty / show score

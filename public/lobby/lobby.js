@@ -190,12 +190,12 @@ searchFilter.addEventListener("submit", (event) => {
         let node = muaAbstract.cloneNode(true);
 
         let muaName = mua.username;
-        let muaId = mua.id;
+        let muaId = mua.mua_id;
         let avg_score = mua.avg_score;
-
         //aTag in portfolioBlock
         let aTag = node.querySelector(".muaHref");
         aTag.href = `/profile/profile.html?id=${muaId}`;
+
         // nickname in portfolioBlock
         let nickname = mua.nickname;
         // console.log(muaName);

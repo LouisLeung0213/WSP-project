@@ -78,6 +78,26 @@ profileRoutes.delete("/deletePortfolio", async (req, res) => {
   res.json({});
 });
 
+profileRoutes.get("/checkLike", async (req, res) => {
+  let id = req.query.id;
+  let target_id = req.query.target_id;
+  let score = 0;
+  console.log({ id, target_id });
+
+  let relationships = await client.query(
+    "select * from ratings where users_id = $1",
+    [id]
+  );
+  for (let relationship of relationships.rows) {
+    console.log("relationship", relationship);
+    if (relationship.muas_id == target_id) {
+      score = relationship.score;
+    }
+  }
+
+  res.json(score);
+});
+
 profileRoutes.get("/profile", async (req, res) => {
   let muas_id = req.query.id;
   console.log(muas_id);
@@ -108,17 +128,6 @@ where muas_id = $1
   console.log({ user, works, currentUser });
   res.json({ user, works, currentUser });
 });
-
-// profileRoutes.patch("/editIntro", async (req, res) => {
-//   console.log(req.body);
-//   console.log(req.query.id);
-//   let newContent = req.body.content;
-//   let muas_id = req.query.id;
-//   let result = await client.query(
-//     `update muas set introduction = '${newContent}' where muas_id = '${muas_id}'`
-//   );
-//   res.json(result);
-// });
 
 profileRoutes.patch("/editDescription", async (req, res) => {
   //console.log("here?");
@@ -168,9 +177,7 @@ profileRoutes.post("/profileUpdate", async (req, res) => {
       let oldIcon = await client.query(
         `select profilepic from users where users.id = ${currentId}`
       );
-      image_filename = oldIcon;
-      res.json();
-      return;
+      image_filename = oldIcon.rows[0].profilepic;
     } else {
       let image = files.newIcon;
       let imageFile = Array.isArray(image) ? image[0] : image;
@@ -191,15 +198,16 @@ profileRoutes.post("/profileUpdate", async (req, res) => {
     //   /*sql*/ `update muas set introduction = $1 where muas_id = $2`,
     //   [newDescriptionForm, currentId]
     // );
-    const updateFinish = await client.query(
-      /*sql*/ `update users set nickname = $1, password_hash = $2, profilepic = $3 where users.id= $4`,
-      [newNicknameAtForm, hashedPassword, image_filename, currentId]
-    );
+    console.log("123123211312321323", image_filename);
     const updateDescription = await client.query(
-      /*sql*/ `update muas set introduction = $1 where muas_id = $2`,
+      /*sql*/ "update muas set introduction = $1 where muas_id = $2",
       [newDescriptionForm, currentId]
     );
-    console.log(updateFinish);
+    const updateFinish = await client.query(
+      /*sql*/ "update users set nickname = $1, password_hash = $2, profilepic = $3 where users.id= $4",
+      [newNicknameAtForm, hashedPassword, image_filename, currentId]
+    );
+
     res.json({ message: "Success" });
   });
 });
