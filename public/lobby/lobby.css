@@ -77,6 +77,8 @@ body {
   width: 5rem;
   height: 5rem;
   border-radius: 50%;
+  object-fit: contain;
+  border: 1px solid black;
 }
 
 /* filter */
@@ -220,6 +222,7 @@ body {
   border: 2px black solid;
   margin: 10px;
   padding: 0px;
+  object-fit: contain;
 }
 
 #subMain .nickname {
@@ -236,9 +239,10 @@ body {
 #subMain .portfolioPhoto {
   width: 100px;
   height: 100px;
-  border: 2px black solid;
+  border: 1px darkblue dashed;
   padding: 0px;
   margin: 0px, 5px, 0px, 5px;
+  object-fit: contain;
 }
 
 .muaAbstract {

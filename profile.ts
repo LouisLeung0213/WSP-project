@@ -78,6 +78,26 @@ profileRoutes.delete("/deletePortfolio", async (req, res) => {
   res.json({});
 });
 
+profileRoutes.get("/checkLike", async (req, res) => {
+  let id = req.query.id;
+  let target_id = req.query.target_id;
+  let score = 0;
+  console.log({ id, target_id });
+
+  let relationships = await client.query(
+    "select * from ratings where users_id = $1",
+    [id]
+  );
+  for (let relationship of relationships.rows) {
+    console.log("relationship", relationship);
+    if (relationship.muas_id == target_id) {
+      score = relationship.score;
+    }
+  }
+
+  res.json(score);
+});
+
 profileRoutes.get("/profile", async (req, res) => {
   let muas_id = req.query.id;
   console.log(muas_id);
@@ -107,17 +127,6 @@ where muas_id = $1
   console.log({ user, works, currentUser });
   res.json({ user, works, currentUser });
 });
-
-// profileRoutes.patch("/editIntro", async (req, res) => {
-//   console.log(req.body);
-//   console.log(req.query.id);
-//   let newContent = req.body.content;
-//   let muas_id = req.query.id;
-//   let result = await client.query(
-//     `update muas set introduction = '${newContent}' where muas_id = '${muas_id}'`
-//   );
-//   res.json(result);
-// });
 
 profileRoutes.patch("/editDescription", async (req, res) => {
   //console.log("here?");

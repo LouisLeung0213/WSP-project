@@ -50,6 +50,7 @@ body {
   height: 300px;
   border-radius: 100px;
   border: 2px solid black;
+  object-fit: contain;
 }
 
 .name {

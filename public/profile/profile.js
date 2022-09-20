@@ -22,6 +22,9 @@ let updatePassword = diaDiv.querySelector("[name=updatePassword]");
 let updateIcon = diaDiv.querySelector("[name=updateIcon]");
 let dialogDetail = diaDiv.querySelector("[name=dialogDetail]");
 
+//like button and dislike button
+let likeBtn = document.querySelector(".likeBtn");
+let dislikeBtn = document.querySelector(".dislikeBtn");
 //for upload
 let uploadPhoto = document.getElementById("choosePhoto");
 let profileTemplate = document.querySelector(".profileTemplate");
@@ -106,7 +109,31 @@ deleteBtn.addEventListener("click", async (event) => {
   console.log(json);
 });
 
+//check liked or not
+async function likedOrNot(id, target_id) {
+  console.log({ id, target_id });
+
+  let result = await fetch(`/checkLike?id=${id}&target_id=${target_id}`);
+  let relationship = await result.json();
+  console.log(relationship);
+  if (relationship == 1) {
+    likeBtn.style.backgroundColor = "#008000";
+    likeBtn.style.color = "#ffffff";
+    liked = true;
+    dislikeBtn.style.backgroundColor = "#ffffff";
+    dislikeBtn.style.color = "#ff0000";
+  } else if (relationship == -1) {
+    likeBtn.style.backgroundColor = "#ffffff";
+    likeBtn.style.color = "#008000";
+    liked = true;
+    dislikeBtn.style.backgroundColor = "#ff0000";
+    dislikeBtn.style.color = "#ffffff";
+  }
+}
+
 //for load profile page
+let liked = false;
+let disliked = false;
 fetch(`/profile?id=${paramsName}`)
   .then((res) => res.json())
   .then((json) => {
@@ -120,6 +147,7 @@ fetch(`/profile?id=${paramsName}`)
       submitContainer.hidden = true;
       descriptionBtn.hidden = true;
       doneBtn.hidden = true;
+      likedOrNot(json.currentUser, +paramsName);
     }
     for (let work of json.works) {
       let node = portfolioBtn.cloneNode(true);
@@ -164,15 +192,13 @@ fetch(`/profile?id=${paramsName}`)
 
     // Rating system -- comment
 
-    let likeBtn = document.querySelector(".likeBtn");
-    let dislikeBtn = document.querySelector(".dislikeBtn");
-
     if (json.currentUser == paramsName) {
       console.log(json.currentUser, paramsName);
       // likeBtn.hidden = true;
       // dislikeBtn.hidden = true;
     }
 
+    //
     function comment(action) {
       let comment = { from: json.currentUser, to: +paramsName, action };
       fetch(`/comment`, {
@@ -189,9 +215,6 @@ fetch(`/profile?id=${paramsName}`)
           console.log(message);
         });
     }
-
-    let liked = false;
-    let disliked = false;
 
     likeBtn.addEventListener("click", (event) => {
       comment(1);
