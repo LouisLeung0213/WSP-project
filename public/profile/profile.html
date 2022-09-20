@@ -49,7 +49,9 @@
       <div class="about">
         <div class="introAndRating">
           <div class="introContainer">
-            <img src="" alt="icon" id="profileIcon" />
+            <div>
+              <img src="" alt="icon" id="profileIcon" class="personalIcon" />
+            </div>
             <div class="profileShowDiv"></div>
             <div class="username">Pikachu</div>
           </div>
@@ -191,6 +193,7 @@
         >
           <image class="portfolio" src="./image/pikachu.png" alt=""></image>
           <textarea class="outsideDescription"></textarea>
+          <textarea class="outsideMua_id"></textarea>
         </button>
       </div>
 
@@ -217,9 +220,17 @@
             <!-- <div class="insidePorfolio"> -->
             <div class="insideContainer">
               <div class="modal-body portfolioContainer">
-                <image class="portfolio1" src="1" alt=""></image>
+                <image class="portfolio1" src="1" alt=""
+                  ><div id="popup">
+                    <span id="popupMessage"><b>你確定要刪除此作品嗎？</b></span
+                    ><br />
+                    <button id="confirm" class="deleteBtn">確認</button>
+                    <button id="cancel" onclick="hide()">取消</button>
+                  </div></image
+                >
               </div>
               <div class="insideDescriptionDiv">
+                <p class="insideMuaID"></p>
                 <p class="insideDescription"></p>
               </div>
             </div>
@@ -231,12 +242,19 @@
               >
                 關閉
               </button>
+              <button type="button" class="btn btn-primary reportBtn">
+                檢舉
+              </button>
               <button type="button" class="btn btn-primary descriptionBtn">
                 編輯簡介</button
               ><button type="button" class="btn btn-primary doneBtn">
                 編輯完成
               </button>
-              <button type="button" class="btn btn-primary deleteBtn">
+              <button
+                type="button"
+                class="btn btn-primary fakeDeleteBtn"
+                onclick="show()"
+              >
                 刪除
               </button>
             </div>

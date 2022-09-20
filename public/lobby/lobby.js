@@ -2,7 +2,7 @@ let main = document.querySelector("#main");
 let subMain = document.querySelector("#subMain");
 let muaAbstract = main.querySelector(".muaAbstract");
 let muaHref = main.querySelector(".muaHref");
-let filterChoices = main.querySelector("#filterOption")
+let adminLink = document.querySelector(".adminLink");
 
 fetch(`/filter?id=${paramsName}`)
   .then((res) => res.json())
@@ -86,7 +86,7 @@ function showMua() {
           } else {
             pDiv.textContent = `${muaName}`;
           }
-          
+
           // average score
           let avgScore = node.querySelector(".avgScore");
           if (mua.comment_qty_enough) {
@@ -108,11 +108,10 @@ function showMua() {
           } else {
             avgScore.textContent = `評級: 數據不足`;
           }
-          
-          
+
           // new member
           let newMem = node.querySelector(".newMember");
-          if ((mua.is_new !== true)) {
+          if (mua.is_new !== true) {
             newMem.hidden = true;
           }
 
@@ -191,12 +190,12 @@ searchFilter.addEventListener("submit", (event) => {
         let node = muaAbstract.cloneNode(true);
 
         let muaName = mua.username;
-        let muaId = mua.id;
+        let muaId = mua.mua_id;
         let avg_score = mua.avg_score;
-
         //aTag in portfolioBlock
         let aTag = node.querySelector(".muaHref");
         aTag.href = `/profile/profile.html?id=${muaId}`;
+
         // nickname in portfolioBlock
         let nickname = mua.nickname;
         // console.log(muaName);
@@ -305,3 +304,11 @@ becomeMua.addEventListener("click", async (event) => {
   }
 });
 
+fetch("/checkIsAdmin")
+  .then((res) => res.json())
+  .then((id) => {
+    // console.log(id.isAdmin);
+    if (id.isAdmin.isadmin == false) {
+      adminLink.hidden = true;
+    }
+  });

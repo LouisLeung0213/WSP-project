@@ -21,18 +21,33 @@ let updateNickname = diaDiv.querySelector("[name=updateNickname]");
 let updatePassword = diaDiv.querySelector("[name=updatePassword]");
 let updateIcon = diaDiv.querySelector("[name=updateIcon]");
 let dialogDetail = diaDiv.querySelector("[name=dialogDetail]");
-
+let fakeDeleteBtn = document.querySelector(".fakeDeleteBtn");
+let nodeDescription = document.querySelector(".outsideDescription");
+let outsideMua_id = document.querySelector(".outsideMua_id");
+//like button and dislike button
+let likeBtn = document.querySelector(".likeBtn");
+let dislikeBtn = document.querySelector(".dislikeBtn");
 //for upload
 let uploadPhoto = document.getElementById("choosePhoto");
 let profileTemplate = document.querySelector(".profileTemplate");
 let profileIcon = document.querySelector("#profileIcon");
+let personalIcon = document.querySelector(".personalIcon");
 let deleteBtn = document.querySelector(".deleteBtn");
 let insideDescription = document.querySelector(".insideDescription");
 let descriptionBtn = document.querySelector(".descriptionBtn");
 let doneBtn = document.querySelector(".doneBtn");
 let saveCat = document.querySelector("#saveCat");
-let nodeDescription = document.querySelector(".outsideDescription");
 let contactForm = document.querySelector("#contact-form");
+let popup = document.getElementById("popup");
+let inImage = document.querySelector(".portfolio1");
+
+// for report
+let reportBtn = document.querySelector(".reportBtn");
+let insideId = document.querySelector(".insideMuaID");
+
+outsideMua_id.hidden = true;
+nodeDescription.hidden = true;
+
 editDialog.hidden = true;
 
 editBtn.addEventListener("click", () => {
@@ -89,12 +104,46 @@ deleteBtn.addEventListener("click", async (event) => {
     headers: { "content-type": "application/json" },
     body: JSON.stringify({ insideImage }),
   });
+  console.log(res);
+
+  if (res.ok) {
+    Swal.fire({
+      icon: "success",
+      title: `作品已成功刪除`,
+      showConfirmButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) window.location.reload();
+    });
+  }
   let json = await res.json();
   console.log(json);
-  window.location.reload();
 });
 
+//check liked or not
+async function likedOrNot(id, target_id) {
+  console.log({ id, target_id });
+
+  let result = await fetch(`/checkLike?id=${id}&target_id=${target_id}`);
+  let relationship = await result.json();
+  console.log(relationship);
+  if (relationship == 1) {
+    likeBtn.style.backgroundColor = "#008000";
+    likeBtn.style.color = "#ffffff";
+    liked = true;
+    dislikeBtn.style.backgroundColor = "#ffffff";
+    dislikeBtn.style.color = "#ff0000";
+  } else if (relationship == -1) {
+    likeBtn.style.backgroundColor = "#ffffff";
+    likeBtn.style.color = "#008000";
+    liked = true;
+    dislikeBtn.style.backgroundColor = "#ff0000";
+    dislikeBtn.style.color = "#ffffff";
+  }
+}
+
 //for load profile page
+let liked = false;
+let disliked = false;
 fetch(`/profile?id=${paramsName}`)
   .then((res) => res.json())
   .then((json) => {
@@ -108,13 +157,22 @@ fetch(`/profile?id=${paramsName}`)
       submitContainer.hidden = true;
       descriptionBtn.hidden = true;
       doneBtn.hidden = true;
+      fakeDeleteBtn.hidden = true;
+      likedOrNot(json.currentUser, +paramsName);
     }
     for (let work of json.works) {
       let node = portfolioBtn.cloneNode(true);
       let nodeContent = node.querySelector(".portfolio");
+<<<<<<< HEAD
+=======
+      let nodeDescription = node.querySelector(".outsideDescription");
+      let outsideMua_id = node.querySelector(".outsideMua_id");
+>>>>>>> c7e712b4b8710e26df99b4ce1c649fcb566f7b14
       let photo = `/uploads/${work.mua_portfolio}`;
       nodeDescription.innerHTML = `${work.mua_description}`;
       nodeContent.src = photo;
+      outsideMua_id.innerHTML = `${json.user.muas_id}`;
+      outsideMua_id.hidden = true;
       nodeDescription.hidden = true;
       portfolioContainer.appendChild(node);
       portfolioBtn.remove();
@@ -145,14 +203,12 @@ fetch(`/profile?id=${paramsName}`)
     }
 
     iconNode.src = myIcon;
+
     introContainer.appendChild(iconNode);
 
     // Rating system
 
     // Rating system -- comment
-
-    let likeBtn = document.querySelector(".likeBtn");
-    let dislikeBtn = document.querySelector(".dislikeBtn");
 
     if (json.currentUser == paramsName) {
       // console.log(json.currentUser, paramsName);
@@ -160,6 +216,7 @@ fetch(`/profile?id=${paramsName}`)
       // dislikeBtn.hidden = true;
     }
 
+    //
     function comment(action) {
       let comment = { from: json.currentUser, to: +paramsName, action };
       fetch(`/comment`, {
@@ -177,14 +234,38 @@ fetch(`/profile?id=${paramsName}`)
         });
     }
 
-    likeBtn.addEventListener("click", () => {
+    likeBtn.addEventListener("click", (event) => {
       comment(1);
       showScore();
+      if (liked == false) {
+        liked = true;
+        disliked = false;
+        dislikeBtn.style.backgroundColor = "#ffffff";
+        dislikeBtn.style.color = "#ff0000";
+        event.target.style.backgroundColor = "#008000";
+        event.target.style.color = "#ffffff";
+      } else {
+        liked = false;
+        event.target.style.backgroundColor = "#ffffff";
+        event.target.style.color = "#008000";
+      }
     });
 
-    dislikeBtn.addEventListener("click", () => {
+    dislikeBtn.addEventListener("click", (event) => {
       comment(-1);
       showScore();
+      if (disliked == false) {
+        disliked = true;
+        liked = false;
+        likeBtn.style.backgroundColor = "#ffffff";
+        likeBtn.style.color = "#008000";
+        event.target.style.backgroundColor = "#ff0000";
+        event.target.style.color = "#ffffff";
+      } else {
+        disliked = false;
+        event.target.style.backgroundColor = "#ffffff";
+        event.target.style.color = "#ff0000";
+      }
     });
 
     // Rating System -- show comment qty / show score
@@ -264,6 +345,8 @@ document
   .getElementById("exampleModal")
   .addEventListener("show.bs.modal", async (event) => {
     // console.log(event);
+    outsideId = event.relatedTarget.querySelector(".outsideMua_id").innerHTML;
+    insideId = event.currentTarget.querySelector(".insideMuaID").innerHTML;
     outsideText = event.relatedTarget.querySelector(
       ".outsideDescription"
     ).innerHTML;
@@ -275,11 +358,14 @@ document
     insideImage = event.currentTarget.querySelector(".portfolio1").src;
     insideImage = outsideImage;
     insideText = outsideText;
+    insideId = outsideId;
     console.log(insideText);
     // console.log(event.currentTarget);
     event.currentTarget.querySelector(".portfolio1").src = insideImage;
     event.currentTarget.querySelector(".insideDescription").innerHTML =
       insideText;
+    event.currentTarget.querySelector(".insideMuaID").innerHTML = insideId;
+    event.currentTarget.querySelector(".insideMuaID").hidden = true;
   });
 
 descriptionBtn.addEventListener("click", async (event) => {
@@ -321,6 +407,26 @@ doneBtn.addEventListener("click", async (event) => {
   }
 });
 
+reportBtn.addEventListener("click", async (event) => {
+  let image = document.querySelector(".portfolio1");
+  console.log(insideId);
+  console.log(image.src);
+  console.log(insideDescription);
+  console.log(insideDescription.textContent);
+  let res = await fetch(`/reportPortfolio`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+    },
+    body: JSON.stringify({
+      mua_id: insideId,
+      content: insideDescription.textContent,
+      image: image.src,
+    }),
+  });
+  let json = await res.json();
+  console.log(json);
+});
 //for filter categories
 fetch(`/filter?id=${paramsName}`)
   .then((res) => res.json())
@@ -421,6 +527,13 @@ saveCat.addEventListener("submit", (event) => {
       console.log(message);
     });
 });
+fetch(`/selectedDatesMua?id=${paramsName}`)
+  .then((res) => res.json())
+  .then((unavailable_dates) => {
+    for (let unavailable_date of unavailable_dates) {
+      selectedDatesMua.push(unavailable_date.date);
+    }
+  });
 
 function showAvailableDate() {
   // console.log("selectedDatesMua: ", selectedDatesMua);
@@ -451,8 +564,17 @@ fetch(`/selectedDatesMua?id=${paramsName}`)
     showAvailableDate();
   });
 
-//for uploader
-const uploader = new Uploader({
-  // Get production API keys from Upload.io
-  apiKey: "free",
-});
+//for calendar
+
+function show() {
+  popup.style.display = "Block";
+  inImage.style.display = "None";
+  // deleteBtn.style.display = "None";
+}
+
+function hide() {
+  popup.style.display = "None";
+  inImage.style.display = "Block";
+
+  // deleteBtn.style.display = "Block";
+}

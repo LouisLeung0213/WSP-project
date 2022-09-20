@@ -9,6 +9,7 @@ create table users (
     , profilePic varchar(255) 
     , nickname varchar(255)
     , password_hash varchar(255) not null
+    , isAdmin boolean default false
 );
 
 create table muas (
@@ -60,6 +61,13 @@ create table date_matches (
     , unavailable_date date
 );
 
+create table reported (
+    id serial primary key
+    , muas_id integer not null
+    , muas_description varchar(255)
+    , muas_image varchar(255) not null 
+);
+
 
 insert into categories (categories_name) values ('時間');
 insert into categories (categories_name,parent_id) values ('沒有偏好','1');
@@ -71,7 +79,7 @@ insert into categories (categories_name) values ('風格');
 insert into categories (categories_name,parent_id) values ('西式','7');
 insert into categories (categories_name,parent_id) values ('中式','7');
 insert into categories (categories_name,parent_id) values ('台式','7');
-insert into categories (categories_name,parent_id) values ('中式','7');
+insert into categories (categories_name,parent_id) values ('日式','7');
 insert into categories (categories_name,parent_id) values ('韓式','7');
 insert into categories (categories_name) values ('服務');
 insert into categories (categories_name,parent_id) values ('婚禮','13');
@@ -242,3 +250,4 @@ group by muas.muas_id, users.id;
 
 alter table muas add column comment_qty integer;
 alter table muas add column comment_qty_enough boolean;
+alter table users add column isAdmin boolean default false;

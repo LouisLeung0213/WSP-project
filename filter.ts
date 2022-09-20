@@ -149,3 +149,13 @@ filterRoutes.get("/selectedDatesMua", async (req, res) => {
   let unavailable_dates = result.rows;
   res.json(unavailable_dates);
 });
+
+filterRoutes.get("/checkIsAdmin", async (req, res) => {
+  let adminID = await client.query(
+    `
+select id, isAdmin from users where users.id = ${req.session.user!.id}   
+    `
+  );
+  let isAdmin = adminID.rows[0];
+  res.json({ isAdmin });
+});
