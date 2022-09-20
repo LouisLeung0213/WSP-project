@@ -96,6 +96,18 @@ body {
   border: 2px solid black;
   padding: 10px;
 }
+.introLabel {
+  margin: 10px;
+}
+
+#edit333 {
+  width: 500px;
+  height: 250px;
+  background-color: #f7b0bb;
+  border-radius: 30px;
+  border: 2px solid black;
+  padding: 10px;
+}
 
 .portfolio {
   width: 240px;
