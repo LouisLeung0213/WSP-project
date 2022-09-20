@@ -28,7 +28,7 @@ fetch(`/filter?id=${paramsName}`)
 
     let catList = document.querySelector(".cat-list");
     let catTemplate = catList.querySelector(".cat");
-
+    let catCount = 0;
     function showCats(catsTree, catList) {
       catList.textContent = "";
       for (const cat of catsTree) {
@@ -37,7 +37,13 @@ fetch(`/filter?id=${paramsName}`)
         let checkbox = node.querySelector("input");
         if (cat.children.length > 0) {
           checkbox.hidden = true;
+          node.classList.add(`rootCat${catCount}`);
+          node.classList.add(`rootnode`);
+          catCount++;
+        } else {
+          node.classList.add("leafCat");
         }
+
         checkbox.value = cat.id;
         catList.appendChild(node);
         node.querySelector(".cat-name").textContent = cat.name;
@@ -79,6 +85,36 @@ function showMua() {
           } else {
             pDiv.textContent = `${muaName}`;
           }
+          
+          // average score
+          let avgScore = node.querySelector(".avgScore");
+          if (mua.comment_qty_enough) {
+            if (mua.avg_score >= 90) {
+              avgScore.textContent = "評級: 壓倒性好評";
+            } else if (mua.avg_score >= 60) {
+              avgScore.textContent = "評級: 極度好評";
+            } else if (mua.avg_score >= 30) {
+              avgScore.textContent = "評級: 大多好評";
+            } else if (mua.avg_score == 0) {
+              avgScore.textContent = "評級: 褒貶不一";
+            } else if (mua.avg_score <= -90) {
+              avgScore.textContent = "評級: 壓倒性負評";
+            } else if (mua.avg_score <= -60) {
+              avgScore.textContent = "評級: 極度負評";
+            } else if (mua.avg_score <= -30) {
+              avgScore.textContent = "評級: 大多負評";
+            }
+          } else {
+            avgScore.textContent = `評級: 數據不足`;
+          }
+          
+          
+          // new member
+          let newMem = node.querySelector(".newMember");
+          if ((mua.is_new !== true)) {
+            newMem.hidden = true;
+          }
+
           // icon in portfolioBlock
           let icon = mua.profilepic;
           let iconImage = node.querySelector(".icon");

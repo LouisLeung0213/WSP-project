@@ -161,9 +161,22 @@ profileRoutes.post("/profileUpdate", async (req, res) => {
     let newDescriptionForm = fields.newDescription;
     console.log({ err, fields, files });
     // console.log(hashedPassword);
-    let image = files.newIcon;
-    let imageFile = Array.isArray(image) ? image[0] : image;
-    let image_filename = imageFile?.newFilename;
+    let image_filename;
+    if (!files.newIcon) {
+      // get from db
+      let oldIcon = await client.query(
+        `select profilepic from users where users.id = ${currentId}`
+      );
+      image_filename = oldIcon;
+      res.json();
+      return;
+    } else {
+      let image = files.newIcon;
+      let imageFile = Array.isArray(image) ? image[0] : image;
+
+      image_filename = imageFile?.newFilename;
+    }
+
     if (Array.isArray(fields.data)) {
       res.status(402);
       res.json({
@@ -234,7 +247,7 @@ profileRoutes.get("/score", async (req, res) => {
     commentQty++;
   }
 
-  let avgScore = Math.round((totalScore / commentQty) * 100);
+  let avgScore = Math.round((totalScore / commentQty) * 100) || 0;
 
   // console.log("totalScore: ", totalScore);
   // console.log("commentQty: ", commentQty);
@@ -250,5 +263,22 @@ profileRoutes.get("/score", async (req, res) => {
     pageId,
   ]);
 
-  res.json({ totalScore, commentQty, avgScore });
+  await client.query(`update muas set "comment_qty" = $1 where muas_id = $2 `, [
+    commentQty,
+    pageId,
+  ]);
+
+  let commentQtyEnough = false
+
+  if (commentQty > 4) {
+    await client.query(
+      `update muas set "comment_qty_enough" = true where muas_id = $1 `,
+      [pageId]
+    );
+    commentQtyEnough = true
+  }
+
+
+
+  res.json({ totalScore, commentQty, avgScore, commentQtyEnough });
 });

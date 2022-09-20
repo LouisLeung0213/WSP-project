@@ -217,7 +217,7 @@ fetch(`/profile?id=${paramsName}`)
 
           // Rating System -- show score
 
-          if (result.commentQty > 4) {
+          if (result.commentQtyEnough) {
             if (result.avgScore >= 90) {
               score.textContent = "評級: 壓倒性好評";
             } else if (result.avgScore >= 60) {
@@ -372,6 +372,9 @@ fetch(`/filter?id=${paramsName}`)
         let checkbox = node.querySelector("input");
         if (cat.children.length > 0) {
           checkbox.hidden = true;
+          node.classList.add("rootCat");
+        } else {
+          node.classList.add("leafCat");
         }
         checkbox.value = cat.id;
         if (categories.muaCats.filter((word) => word == cat.id).length > 0) {
@@ -416,10 +419,18 @@ saveCat.addEventListener("submit", (event) => {
     body: JSON.stringify(tags),
   })
     .then((res) => {
+      if (res.ok) {
+        Swal.fire({
+          icon: "success",
+          title: `preference updated`,
+          showConfirmButton: true,
+        }).then((result) => {
+          if (result.isConfirmed) window.location.reload();
+        });
+      }
       return res.json();
     })
     .then((message) => {
-      alert(message);
       console.log(message);
     });
 });
@@ -431,31 +442,36 @@ fetch(`/selectedDatesMua?id=${paramsName}`)
     }
   });
 
-//for calendar
 function showAvailableDate() {
-  fetch(`/showAvailableDate?id=${paramsName}`)
-    .then((res) => res.json())
-    .then((unavailable_dates) => {
-      // console.log("unavailable_dates: ", unavailable_dates);
-      let dates = document.querySelectorAll(".selectable");
-      for (let date of dates) {
-        if (selectedDatesMua.length !== 0) {
-          for (let unavailable_date of selectedDatesMua) {
-            if (date.id == unavailable_date) {
-              if (date.classList.contains("selected")) {
-                date.classList.remove("selected");
-              }
-              break;
-            }
-            date.classList.add("selected");
+  // console.log("selectedDatesMua: ", selectedDatesMua);
+  let dates = document.querySelectorAll(".selectable");
+  for (let date of dates) {
+    if (selectedDatesMua.length !== 0) {
+      for (let unavailable_date of selectedDatesMua) {
+        if (date.id == unavailable_date) {
+          if (date.classList.contains("selected")) {
+            date.classList.remove("selected");
           }
-        } else {
-          date.classList.add("selected");
+          break;
         }
+        date.classList.add("selected");
       }
-    });
+    } else {
+      date.classList.add("selected");
+    }
+  }
 }
-showAvailableDate();
+
+fetch(`/selectedDatesMua?id=${paramsName}`)
+  .then((res) => res.json())
+  .then((unavailable_dates) => {
+    for (let unavailable_date of unavailable_dates) {
+      selectedDatesMua.push(unavailable_date.date);
+    }
+    showAvailableDate();
+  });
+
+//for calendar
 
 function show() {
   popup.style.display = "Block";

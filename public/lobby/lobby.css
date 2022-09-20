@@ -14,6 +14,7 @@ body {
 }
 
 .navBar {
+  z-index: 1;
   height: 100px;
   width: 100%;
   background-color: #f7b0bb;
@@ -86,17 +87,83 @@ body {
 }
 
 #searchFilter {
-  background-color: rgba(209, 108, 204, 0.336);
-  width: 95vw;
-  height: 20vh;
+  background-color: #f7b0bb;
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  /* align-items: center; */
+  justify-content: space-around;
+  font-size: 2rem;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.searchFilterSubmit {
+  width: 10rem;
+  height: 3rem;
+  background-color: #f78fb0;
+  border: #f78fb0;
+  margin: 8px;
+}
+
+.searchFilterSubmit:hover {
+  box-shadow: 3px 3px 10px 3px rgba(48, 13, 13, 0.9);
+}
+
+#saveCat {
+  background-color: #f7b0bb;
+  width: 45vw;
+  height: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: start;
+  /* font-size: 30px; */
 }
 
 .cat-list {
   display: flex;
   flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: left;
+  width: 100%;
+  max-height: 100%;
+}
+
+.rootCat0 {
+  width: 50%;
+}
+.rootCat1 {
+  width: 50%;
+}
+
+.rootnode {
+  border: 1px dashed #b3394b;
+  padding: 5px;
+}
+
+.rootnode .cat-name {
+  border: 1px solid #f7b0bb;
+  background-color: rgba(243, 60, 105, 0.61);
+  padding: 0px 8px;
+}
+.rootCat > .cat-name {
+  background-color: rgba(243, 60, 105, 0.61);
+  /* display: flex;
+  flex-direction: column;
+  font-size: 1.75rem; */
+}
+
+.rootCat .rootCat .cat-name {
+  font-size: 1.5rem;
+}
+
+.leafCat .cat-name {
+  font-size: 1.5rem;
+  background-color: #f7b0bb;
+}
+
+.cat-list {
+  background-color: #f7b0bb;
 }
 
 /* main body CSS */
@@ -113,6 +180,10 @@ body {
   flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
+}
+
+.animate__fadeIn {
+  animation-duration: 3s;
 }
 
 @media only screen and (max-width: 768px) {
@@ -139,6 +210,7 @@ body {
 
 .iconAndNickname {
   display: flex;
+  align-items: center;
 }
 
 #subMain .icon {
@@ -152,8 +224,9 @@ body {
 
 #subMain .nickname {
   font-size: 20px;
-  margin-top: 18px;
   color: black;
+  margin: 0 20px;
+  text-decoration: underline;
 }
 
 .muaHref {
@@ -188,3 +261,36 @@ body {
   height: 60px;
   border: 2px black solid;
 } */
+
+.newMember {
+  border: 2px solid red;
+  color: red;
+  height: fit-content;
+  width: fit-content;
+  padding: 5px;
+  border-radius: 40px;
+  font-weight: bold;
+  background-color: #ecc3e2;
+  margin: 0 20px;
+}
+
+.avgScore {
+  border: 2px solid blue;
+  color: blue;
+  height: fit-content;
+  width: fit-content;
+  padding: 5px;
+  border-radius: 40px;
+  font-weight: bold;
+  background-color: #ecc3e2;
+}
+
+.footer {
+  width: 100%;
+  height: 100px;
+  border-top: 3px solid #b3394b;
+  background-color: #f3779c42;
+  text-align: center;
+  padding-top: 20px;
+  font-size: 30px;
+}

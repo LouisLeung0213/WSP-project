@@ -238,3 +238,7 @@ left join portfolio on portfolio.muas_id = muas.muas_id
 where muas.muas_id in (select muas_id from whitelist)
   and muas.muas_id not in (select muas_id from blacklist) 
 group by muas.muas_id, users.id;
+
+
+alter table muas add column comment_qty integer;
+alter table muas add column comment_qty_enough boolean;
