@@ -13,6 +13,8 @@ let pageBarSelect = document.querySelector(".pageBarSelect");
 let pageBtn = document.querySelector(".pageBtn");
 let pageBtnText = pageBtn.querySelector(".pageBtnText");
 pageBtn.remove();
+let searchFilterToggle = false;
+let muasQty = document.querySelector(".muasQty")
 
 try {
   fetch(`/filter?id=${paramsName}`)
@@ -73,7 +75,7 @@ try {
 }
 
 function showMua(pageBtnCreated) {
-  // console.log(pageCount);
+  console.log("pageCount.currentPage: ", pageCount.currentPage);
   fetch("/showMua", {
     method: "post",
     headers: {
@@ -83,8 +85,10 @@ function showMua(pageBtnCreated) {
   })
     .then((res) => res.json())
     .then((result) => {
-      // console.log(result);
       subMain.textContent = "";
+
+      muasQty.textContent = `搜索結果: 共 ${result.muasTotal} 位化妝師符合要求`
+
       for (const mua of result.muas) {
         if (mua) {
           // console.log(mua);
@@ -173,43 +177,12 @@ function showMua(pageBtnCreated) {
           subMain.appendChild(node);
         }
       }
-      // Change page in show mua
 
-      if (!prevPage.classList.contains("forShowMua")) {
-        prevPage.classList.remove("forSearchFilter");
-        nextPage.classList.remove("forSearchFilter");
-        prevPage.classList.add("forShowMua");
-        nextPage.classList.add("forShowMua");
-      }
-
-      prevPage.addEventListener("click", () => {
-        if (prevPage.classList.contains("forShowMua")) {
-          if (pageCount.currentPage > 1) {
-            pageCount.currentPage -= 1;
-            showMua(true);
-          } else {
-            console.log("You are in the first page");
-          }
-        }
-      });
-
-      nextPage.addEventListener("click", () => {
-        if (prevPage.classList.contains("forShowMua")) {
-          if (pageCount.currentPage < result.maxPage) {
-            pageCount.currentPage += 1;
-            showMua(true);
-          } else {
-            console.log("You are in the final page");
-          }
-        }
-      });
-
-      // Select page in show mua
+      console.log("pageBtnCreated is ", pageBtnCreated, " now");
 
       if (pageBtnCreated == false) {
+        // Clone button
         for (let i = 1; i <= result.maxPage; i++) {
-          // Clone button
-
           let node = pageBtn.cloneNode(true);
           let nodeText = node.querySelector(".pageBtnText");
           nodeText.textContent = i;
@@ -227,6 +200,46 @@ function showMua(pageBtnCreated) {
             }
           });
         }
+      }
+
+      // Change page in show mua
+
+      if (!prevPage.classList.contains("forShowMua")) {
+        if (prevPage.classList.contains("forSearchFilter")) {
+          pageBtnCreated = true;
+        }
+        prevPage.classList.remove("forSearchFilter");
+        nextPage.classList.remove("forSearchFilter");
+        prevPage.classList.add("forShowMua");
+        nextPage.classList.add("forShowMua");
+      } else {
+        pageBtnCreated = true;
+      }
+
+      // Select page in show mua
+
+      if (pageBtnCreated == false) {
+        prevPage.addEventListener("click", () => {
+          if (prevPage.classList.contains("forShowMua")) {
+            if (pageCount.currentPage > 1) {
+              pageCount.currentPage -= 1;
+              showMua(true);
+            } else {
+              console.log("You are in the first page");
+            }
+          }
+        });
+
+        nextPage.addEventListener("click", () => {
+          if (prevPage.classList.contains("forShowMua")) {
+            if (pageCount.currentPage < result.maxPage) {
+              pageCount.currentPage += 1;
+              showMua(true);
+            } else {
+              console.log("You are in the final page");
+            }
+          }
+        });
       }
 
       // Light up selected button
@@ -257,7 +270,7 @@ searchFilter.addEventListener("submit", (event) => {
     for (let cat of form) {
       if (cat.checked) {
         filterOptions.cats.push(+cat.value);
-        console.log("cat selected: ", cat);
+        // console.log("cat selected: ", cat);
       }
     }
     // console.log(params);
@@ -286,10 +299,10 @@ searchFilter.addEventListener("submit", (event) => {
           console.log(result);
           return;
         }
-        // console.log(result);
         subMain.textContent = "";
 
-        // console.log(muas);
+        muasQty.textContent = `搜索結果: 共 ${result.muasTotal} 位化妝師符合要求`
+
         for (const mua of result.muasUnique) {
           muaAbstract.hidden = false;
           let node = muaAbstract.cloneNode(true);
@@ -377,54 +390,18 @@ searchFilter.addEventListener("submit", (event) => {
           subMain.appendChild(node);
         }
 
-        // Change page in search filter
-        if (!prevPage.classList.contains("forSearchFilter")) {
-          prevPage.classList.remove("forShowMua");
-          nextPage.classList.remove("forShowMua");
-          prevPage.classList.add("forSearchFilter");
-          nextPage.classList.add("forSearchFilter");
-        }
-
-        prevPage.addEventListener("click", () => {
-          if (prevPage.classList.contains("forSearchFilter")) {
-            if (pageCount.currentPage > 1) {
-              pageCount.currentPage -= 1;
-              searchFilter(true);
-            } else {
-              console.log("You are in the first page");
-            }
-          }
-        });
-
-        nextPage.addEventListener("click", () => {
-          if (prevPage.classList.contains("forSearchFilter")) {
-            if (pageCount.currentPage < result.maxPage) {
-              pageCount.currentPage += 1;
-              searchFilter(true);
-            } else {
-              console.log("You are in the final page");
-            }
-          }
-        });
-
         if (pageBtnCreated == false) {
           let pageBtns1 = document.querySelectorAll(".pageBtn");
           for (let pageBtn of pageBtns1) {
             pageBtn.remove();
           }
+          // Clone button
           for (let i = 1; i <= result.maxPage; i++) {
-            // Clone button
-
             let node = pageBtn.cloneNode(true);
             let nodeText = node.querySelector(".pageBtnText");
             nodeText.textContent = i;
+            console.log(node);
             pageBarSelect.appendChild(node);
-
-            // Light up selected button
-
-            // if (pageCount.currentPage == i){
-            //  node.classList.add("pageBtnSelected");
-            // }
 
             // Add click event listener
 
@@ -439,6 +416,38 @@ searchFilter.addEventListener("submit", (event) => {
             });
           }
         }
+        // Change page in search filter
+        if (!prevPage.classList.contains("forSearchFilter")) {
+          prevPage.classList.remove("forShowMua");
+          nextPage.classList.remove("forShowMua");
+          prevPage.classList.add("forSearchFilter");
+          nextPage.classList.add("forSearchFilter");
+        }
+        console.log("pageBtnCreated: ", pageBtnCreated);
+        if (searchFilterToggle == false) {
+          prevPage.addEventListener("click", () => {
+            if (prevPage.classList.contains("forSearchFilter")) {
+              if (pageCount.currentPage > 1) {
+                pageCount.currentPage -= 1;
+                searchFilter(true);
+              } else {
+                console.log("You are in the first page");
+              }
+            }
+          });
+
+          nextPage.addEventListener("click", () => {
+            if (prevPage.classList.contains("forSearchFilter")) {
+              if (pageCount.currentPage < result.maxPage) {
+                pageCount.currentPage += 1;
+                searchFilter(true);
+              } else {
+                console.log("You are in the final page");
+              }
+            }
+          });
+          searchFilterToggle = true;
+        }
 
         let pageBtns2 = document.querySelectorAll(".pageBtn");
 
@@ -450,24 +459,9 @@ searchFilter.addEventListener("submit", (event) => {
             pageBtns2[i - 1].classList.add("pageBtnSelected");
           }
         }
-
-        // for (let i = 1; i <= pageBtns.length; i++) {
-        //   pageBtns[i - 1].addEventListener("click", () => {
-        //     if (
-        //       pageCount.currentPage != i &&
-        //       prevPage.classList.contains("forSearchFilter")
-        //     ) {
-        //       pageCount.currentPage = i;
-        //       searchFilter();
-        //     }
-        //   });
-        //   pageBtns[i - 1].classList.remove("pageBtnSelected");
-        //   if (pageCount.currentPage == i) {
-        //     pageBtns[i - 1].classList.add("pageBtnSelected");
-        //   }
-        // }
       });
   }
+
   searchFilter(false);
 });
 

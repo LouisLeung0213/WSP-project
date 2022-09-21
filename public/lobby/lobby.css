@@ -15,7 +15,7 @@ body {
 
 .navBar {
   z-index: 1;
-  height: 100px;
+  height: 80px;
   width: 100%;
   background-color: #f7b0bb;
   position: sticky;
@@ -184,7 +184,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 30px;
 }
 
 .animate__fadeIn {
@@ -211,7 +210,6 @@ body {
 #subMain {
   width: 90%;
   height: fit-content;
-  margin-bottom: 30px;
 }
 
 .iconAndNickname {
@@ -300,12 +298,14 @@ body {
 
 .footer {
   width: 100%;
-  height: 100px;
+  height: 50px;
   border-top: 3px solid #b3394b;
   background-color: #f7b0bb;
   text-align: center;
-  padding-top: 20px;
-  font-size: 30px;
+  padding-top: 10px;
+  font-size: 15px;
+  position: fixed;
+  bottom: 0px
 }
 
 .pageBar {
@@ -315,9 +315,10 @@ body {
   padding: 2rem 10rem 0;
 }
 
-.muas {
+.muasQty {
   font-size: 2rem;
   font-weight: bold;
+  border: 2px solid rgba(0,0,0,0);
 }
 
 .changePage {
@@ -371,7 +372,8 @@ body {
   align-items: center;
   width: 100%;
   height: 50px;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
+  margin-top: 15px;
   padding: 0 30%;
 }
 
