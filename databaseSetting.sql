@@ -80,8 +80,8 @@ create table deleted_portfolio(
 create table ban(
   id serial primary key
   , muas_id integer not null
-  , muas_nickname varchar(255) not null
-  , muas_icon varchar(255)
+  , muas_username varchar(255) not null
+  , muas_id varchar(255)
 );
 
 insert into categories (categories_name) values ('時間');
