@@ -39,6 +39,7 @@ muaRoutes.get("/isMua", async (req, res) => {
       [req.session.user!.id]
     );
     // console.log(result.rows[0]);
+
     if (result.rows.length > 0) {
       res.status(200);
       res.json({ id: req.session.user!.id, pic: result.rows[0].profilepic });

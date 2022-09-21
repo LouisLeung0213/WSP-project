@@ -268,3 +268,33 @@ alter table muas add column comment_qty_enough boolean;
 alter table users add column isAdmin boolean default false;
 alter table reported add column users_id integer not null;
 alter table reported add column reason text;
+
+    with
+  blacklist as (
+  select
+    distinct date_matches.muas_id
+  from date_matches
+  where date_matches.unavailable_date = '2022/09/02'
+)
+, whitelist as (
+  select
+    distinct offers.muas_id
+  from offers
+  where offers.categories_id = 2
+)
+
+select
+  muas.muas_id as mua_id
+, muas.avg_score
+, users.profilepic
+, users.nickname
+, array_agg(portfolio.mua_portfolio) as mua_portfolio
+, muas.is_new
+, muas.comment_qty_enough
+from muas
+inner join users on users.id = muas.muas_id
+left join portfolio on portfolio.muas_id = muas.muas_id
+where muas.muas_id in (select muas_id from whitelist)
+  and muas.muas_id not in (select muas_id from blacklist) 
+group by muas.muas_id, users.id
+order by muas.is_new, muas.comment_qty_enough, avg_score desc;
