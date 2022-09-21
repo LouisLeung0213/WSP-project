@@ -104,7 +104,7 @@ body {
   width: 10rem;
   height: 3rem;
   background-color: #f78fb0;
-  border: #f78fb0;
+  border: black;
   margin: 8px;
 }
 
@@ -296,4 +296,47 @@ body {
   text-align: center;
   padding-top: 20px;
   font-size: 30px;
+}
+
+.pageBar {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding: 2rem 10rem 0;
+}
+
+.muas {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.changePage {
+  display: flex;
+  width: 25rem;
+  justify-content: space-between;
+}
+
+.prevPage {
+  font-size: 2rem;
+  border: 2px solid black;
+  border-radius: 30px;
+  padding: 0 2rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.nextPage {
+  font-size: 2rem;
+  border: 2px solid black;
+  border-radius: 30px;
+  padding: 0 2rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.prevPage:hover {
+  box-shadow: 3px 3px 10px 3px rgba(48, 13, 13, 0.9);
+}
+.nextPage:hover {
+  box-shadow: 3px 3px 10px 3px rgba(48, 13, 13, 0.9);
 }

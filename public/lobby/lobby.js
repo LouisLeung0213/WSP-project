@@ -3,6 +3,10 @@ let subMain = document.querySelector("#subMain");
 let muaAbstract = main.querySelector(".muaAbstract");
 let muaHref = main.querySelector(".muaHref");
 let adminLink = document.querySelector(".adminLink");
+let prevPage = document.querySelector(".prevPage");
+let nextPage = document.querySelector(".nextPage");
+let pageCount = { currentPage: 1 };
+
 
 fetch(`/filter?id=${paramsName}`)
   .then((res) => res.json())
@@ -59,11 +63,19 @@ fetch(`/filter?id=${paramsName}`)
   });
 
 function showMua() {
-  fetch("/showMua")
+  // console.log(pageCount);
+  fetch("/showMua", {
+    method: "post",
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify(pageCount),
+  })
     .then((res) => res.json())
-    .then((muas) => {
-      // console.log(muas);
-      for (const mua of muas) {
+    .then((result) => {
+      // console.log(result);
+      subMain.textContent = "";
+      for (const mua of result.muas) {
         if (mua) {
           // console.log(mua);
           muaAbstract.hidden = false;
@@ -71,7 +83,6 @@ function showMua() {
 
           let muaName = mua.username;
           let muaId = mua.id;
-          let avg_score = mua.avg_score;
 
           //aTag in portfolioBlock
           let aTag = node.querySelector(".muaHref");
@@ -146,6 +157,36 @@ function showMua() {
           subMain.appendChild(node);
         }
       }
+      // Change page in show mua
+
+      if (!prevPage.classList.contains("forShowMua")){
+        prevPage.classList.remove("forSearchFilter");
+        nextPage.classList.remove("forSearchFilter");
+        prevPage.classList.add("forShowMua");
+        nextPage.classList.add("forShowMua");
+      }
+
+      prevPage.addEventListener("click", () => {
+        if (prevPage.classList.contains("forShowMua")) {
+          if (pageCount.currentPage > 1) {
+            pageCount.currentPage -= 1;
+            showMua();
+          } else {
+            console.log("You are in the first page");
+        }
+        }
+      });
+
+      nextPage.addEventListener("click", () => {
+        if (prevPage.classList.contains("forShowMua")) {
+          if (pageCount.currentPage < result.maxPage) {
+            pageCount.currentPage += 1;
+            showMua();
+          } else {
+            console.log("You are in the final page")
+          }
+        }
+      });
     });
 }
 showMua();
@@ -154,8 +195,11 @@ let searchFilter = document.querySelector("#searchFilter");
 
 searchFilter.addEventListener("submit", (event) => {
   event.preventDefault();
-  let form = event.target;
-  let filterOptions = { cats: [], dates: [] };
+  pageCount.currentPage = 1
+  function searchFilter(){
+  let form = document.querySelector("form");
+  // console.log(form);
+  let filterOptions = { cats: [], dates: [], currentPage: pageCount.currentPage };
   for (let cat of form) {
     if (cat.checked) {
       filterOptions.cats.push(+cat.value);
@@ -165,6 +209,7 @@ searchFilter.addEventListener("submit", (event) => {
   // console.log(selectedDates);
   // console.log(selectedDatesStr);
   filterOptions.dates = selectedDatesStr;
+  
   fetch(`/searchFilter`, {
     method: "post",
     headers: {
@@ -175,17 +220,17 @@ searchFilter.addEventListener("submit", (event) => {
     .then((res) => {
       return res.json();
     })
-    .then((muas) => {
-      if (muas == "Err: empty filter") {
+    .then((result) => {
+      if (result == "Err: empty filter") {
         subMain.textContent = "";
         showMua();
         return;
       }
-      console.log(muas);
+      // console.log(result);
       subMain.textContent = "";
 
       // console.log(muas);
-      for (const mua of muas) {
+      for (const mua of result.muasUnique) {
         muaAbstract.hidden = false;
         let node = muaAbstract.cloneNode(true);
 
@@ -205,6 +250,35 @@ searchFilter.addEventListener("submit", (event) => {
         } else {
           pDiv.textContent = `${muaName}`;
         }
+
+          // average score
+          let avgScore = node.querySelector(".avgScore");
+          if (mua.comment_qty_enough) {
+            if (mua.avg_score >= 90) {
+              avgScore.textContent = "評級: 壓倒性好評";
+            } else if (mua.avg_score >= 60) {
+              avgScore.textContent = "評級: 極度好評";
+            } else if (mua.avg_score >= 30) {
+              avgScore.textContent = "評級: 大多好評";
+            } else if (mua.avg_score == 0) {
+              avgScore.textContent = "評級: 褒貶不一";
+            } else if (mua.avg_score <= -90) {
+              avgScore.textContent = "評級: 壓倒性負評";
+            } else if (mua.avg_score <= -60) {
+              avgScore.textContent = "評級: 極度負評";
+            } else if (mua.avg_score <= -30) {
+              avgScore.textContent = "評級: 大多負評";
+            }
+          } else {
+            avgScore.textContent = `評級: 數據不足`;
+          }
+
+          // new member
+          let newMem = node.querySelector(".newMember");
+          if (mua.is_new !== true) {
+            newMem.hidden = true;
+          }
+
         // icon in portfolioBlock
         let icon = mua.profilepic;
         let iconImage = node.querySelector(".icon");
@@ -236,8 +310,41 @@ searchFilter.addEventListener("submit", (event) => {
         // nodeContent.textContent = muaName;
         subMain.appendChild(node);
       }
+
+      // Change page in search filter
+      if (!prevPage.classList.contains("forSearchFilter")){
+        prevPage.classList.remove("forShowMua");
+        nextPage.classList.remove("forShowMua");
+        prevPage.classList.add("forSearchFilter");
+        nextPage.classList.add("forSearchFilter");
+      }
+
+      prevPage.addEventListener("click", () => {
+        if (prevPage.classList.contains("forSearchFilter")) {
+          if (pageCount.currentPage > 1) {
+            pageCount.currentPage -= 1;
+            searchFilter();
+          } else {
+            console.log("You are in the first page");
+          }
+        }
+      });
+
+      nextPage.addEventListener("click", () => {
+        if (prevPage.classList.contains("forSearchFilter")) {
+          if (pageCount.currentPage < result.maxPage) {
+            pageCount.currentPage += 1;
+            searchFilter();
+          } else {
+            console.log("You are in the final page");
+          }
+        }
+      });
     });
+  }
+  searchFilter()
 });
+
 
 let logout = document.querySelector("#logoutBtn");
 let becomeMua = document.querySelector("#becomeMua");
@@ -263,6 +370,7 @@ window.onload = async () => {
     becomeMua.hidden = true;
 
     let json = await res.json();
+
     // console.log(json);
     //show profile node
     // let node = profileTemplate.cloneNode(true);

@@ -60,7 +60,6 @@ diaCancelBtn.addEventListener("click", () => {
 
 let change = true;
 
-
 submitBtn.addEventListener("click", async (event) => {
   event.preventDefault();
   console.log(event.target);
@@ -163,11 +162,8 @@ fetch(`/profile?id=${paramsName}`)
     for (let work of json.works) {
       let node = portfolioBtn.cloneNode(true);
       let nodeContent = node.querySelector(".portfolio");
-<<<<<<< HEAD
-=======
       let nodeDescription = node.querySelector(".outsideDescription");
       let outsideMua_id = node.querySelector(".outsideMua_id");
->>>>>>> c7e712b4b8710e26df99b4ce1c649fcb566f7b14
       let photo = `/uploads/${work.mua_portfolio}`;
       nodeDescription.innerHTML = `${work.mua_description}`;
       nodeContent.src = photo;
