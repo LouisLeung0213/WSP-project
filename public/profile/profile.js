@@ -161,6 +161,9 @@ try {
         doneBtn.remove();
         fakeDeleteBtn.remove();
         likedOrNot(json.currentUser, +paramsName);
+      } else {
+        likeBtn.remove()
+        dislikeBtn.remove()
       }
       for (let work of json.works) {
         let node = portfolioBtn.cloneNode(true);
