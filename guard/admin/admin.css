@@ -51,6 +51,12 @@
   margin-top: 1rem;
 }
 
+.usersIcon {
+  max-width: 100px;
+  max-height: 100px;
+  object-fit: contain;
+}
+
 .adminTitle {
   display: flex;
   flex-direction: row;
@@ -66,4 +72,39 @@
 .reportTitle {
   font-size: 1.5rem;
   color: red;
+}
+
+.users {
+  width: 150px;
+  height: 150px;
+}
+
+.usersContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.reportContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bannedUsersContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bannedUsers {
+  width: 150px;
+  height: 150px;
+}
+
+.bannedUsersIcon {
+  max-width: 100px;
+  max-height: 100px;
+  object-fit: contain;
 }

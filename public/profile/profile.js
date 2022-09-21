@@ -152,14 +152,14 @@ try {
       // console.log(json);
       // console.log("other:" + paramsName);
       if (json.currentUser != paramsName) {
-        submitBtn.hidden = true;
-        editBtn.hidden = true;
-        uploadPhoto.hidden = true;
-        deleteBtn.hidden = true;
-        submitContainer.hidden = true;
-        descriptionBtn.hidden = true;
-        doneBtn.hidden = true;
-        fakeDeleteBtn.hidden = true;
+        submitBtn.remove();
+        editBtn.remove();
+        uploadPhoto.remove();
+        deleteBtn.remove();
+        submitContainer.remove();
+        descriptionBtn.remove();
+        doneBtn.remove();
+        fakeDeleteBtn.remove();
         likedOrNot(json.currentUser, +paramsName);
       }
       for (let work of json.works) {

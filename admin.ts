@@ -22,6 +22,12 @@ adminRoutes.get("/userInfo", async (req, res) => {
   res.json({ json });
 });
 
+adminRoutes.get("/bannedUser", async (req, res) => {
+  let result = await client.query(`select * from ban`);
+  let json = result.rows;
+  res.json({ json });
+});
+
 adminRoutes.get("/adminProfile", async (req, res) => {
   let usersId = req.query.id;
   let result = await client.query(
@@ -65,21 +71,23 @@ export async function checkIsAdmin(
   }
 }
 
-// export async function checkIsBanned(
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) {
-//   let checking = await client.query(
-//     `select muas_id from ban where muas_id = ${req.session.user?.id}`
-//   );
-//   let isBanned = checking.rows;
-//   if (isBanned.length > 0) {
-//     res.json("此帳號已被永久Banned");
-//   } else {
-//     next();
-//   }
-// }
+export async function checkIsBanned(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  let checking = await client.query(
+    `select muas_id from ban where muas_id = ${req.session.user?.id}`
+  );
+  let isBanned = checking.rows;
+  if (isBanned.length > 0) {
+    // req.session.destroy;
+    res.json("此帳號已被永久Banned");
+    // res.redirect("/");
+  } else {
+    next();
+  }
+}
 
 adminRoutes.delete("/adminDelete", async (req, res) => {
   let mua_portfolio = req.body.insideImage;
@@ -105,6 +113,12 @@ adminRoutes.delete("/adminCancel", async (req, res) => {
   await client.query(
     `delete from reported where muas_image = '${mua_portfolio}'`
   );
+  res.json({});
+});
+
+adminRoutes.delete("/unBan", async (req, res) => {
+  let mua_username = req.body.bannedUsername;
+  await client.query(`delete from ban where muas_username = '${mua_username}'`);
   res.json({});
 });
 
