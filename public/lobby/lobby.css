@@ -305,7 +305,7 @@ body {
   padding-top: 10px;
   font-size: 15px;
   position: fixed;
-  bottom: 0px
+  bottom: 0px;
 }
 
 .pageBar {
@@ -318,7 +318,7 @@ body {
 .muasQty {
   font-size: 2rem;
   font-weight: bold;
-  border: 2px solid rgba(0,0,0,0);
+  border: 2px solid rgba(0, 0, 0, 0);
 }
 
 .changePage {

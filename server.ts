@@ -1,18 +1,23 @@
-import express from "express";
+import express, { Request, Response, NextFunction, Router } from "express";
 import { userRoutes } from "./user";
 import { filterRoutes } from "./filter";
 import { sessionMiddleware } from "./session";
-import { client } from "./database";
 import { env } from "./env";
 import { print } from "listening-on";
-import cookieParser from "cookie-parser";
 import "./session";
-import path from "path";
 import { profileRoutes } from "./profile";
 import { muaRoutes } from "./Muas";
+import http from "http";
+import { Server as SocketIO } from "socket.io";
+import { client } from "./database";
+import { getChatroomRoutes } from "./chatroom";
 import { adminRoutes, checkIsAdmin } from "./admin";
 
 let app = express();
+const server = http.createServer(app);
+const io = new SocketIO(server);
+app.use(express.static("public"));
+
 //logger
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -37,8 +42,9 @@ app.use(userRoutes);
 app.use(profileRoutes);
 app.use(muaRoutes);
 app.use(adminRoutes);
+app.use(getChatroomRoutes(io));
 app.use(checkIsAdmin, express.static("guard"));
 
-app.listen(env.PORT, () => {
+server.listen(env.PORT, () => {
   print(env.PORT);
 });

@@ -161,6 +161,9 @@ try {
         doneBtn.remove();
         fakeDeleteBtn.remove();
         likedOrNot(json.currentUser, +paramsName);
+      } else {
+        likeBtn.remove()
+        dislikeBtn.remove()
       }
       for (let work of json.works) {
         let node = portfolioBtn.cloneNode(true);
@@ -603,6 +606,9 @@ function hide() {
   // deleteBtn.style.display = "Block";
 }
 
+function openChat() {
+  location.href = "/chatroom/chat.html" + location.search;
+}
 function showReport() {
   popupReport.style.display = "Block";
   inImage.style.display = "None";
