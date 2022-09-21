@@ -29,8 +29,8 @@ filterRoutes.get("/filter", async (req, res) => {
 
 filterRoutes.post("/showMua", async (req, res) => {
   let currentPage = req.body.currentPage;
-  let showMuaQty = 5;
-  console.log("countPage: ", currentPage);
+  let showMuaQty = 3;
+  // console.log("countPage: ", currentPage);
 
   let today = new Date();
   await client.query(
@@ -56,7 +56,7 @@ filterRoutes.post("/showMua", async (req, res) => {
   );
 
   let maxPage = Math.ceil((+maxPageResult.rows[0].muasqty)/showMuaQty);
-  console.log("maxPage: ", maxPage);
+  // console.log("maxPage: ", maxPage);
 
   res.json({ muas, maxPage });
 });
@@ -64,10 +64,7 @@ filterRoutes.post("/showMua", async (req, res) => {
 filterRoutes.post("/searchFilter", async (req, res) => {
   let filterOptions = req.body;
   let currentPage = req.body.currentPage
-  let showMuaQty = 5;
-
-  console.log("currentPage: ",currentPage);
-  
+  let showMuaQty = 3;
 
   // console.log("req.", req.body);
   if (filterOptions.cats.length == 0 && filterOptions.dates.length == 0) {
@@ -157,9 +154,13 @@ order by muas.is_new, muas.comment_qty_enough, avg_score desc;`
     filterOptions.dates,
     filterOptions.cats
   ])
+  console.log("maxPageResult.rows: ", maxPageResult.rows);
+  console.log("filterOptions.dates: ", filterOptions.dates);
+  console.log("filterOptions.cats: ", filterOptions.cats);
+  
     
   let maxPage = Math.ceil((maxPageResult.rows.length)/showMuaQty);
-  console.log(`Total muas qty: ${maxPageResult.rows.length}, so the max page is ${maxPage}`);
+  // console.log(`Total muas qty: ${maxPageResult.rows.length}, so the max page is ${maxPage}`);
 
     res.json({muasUnique, maxPage});
   }
