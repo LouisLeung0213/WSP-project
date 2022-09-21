@@ -68,6 +68,13 @@ create table reported (
     , muas_image varchar(255) not null 
 );
 
+create table chatroom (
+  id serial primary key
+  , user_id integer 
+  , foreign key(user_id) references users(id)
+  , Toadmin boolean
+  , content text not null
+);
 
 insert into categories (categories_name) values ('時間');
 insert into categories (categories_name,parent_id) values ('沒有偏好','1');

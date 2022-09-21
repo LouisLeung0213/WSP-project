@@ -46,6 +46,7 @@ loginForm.addEventListener("submit", async (event) => {
 window.onload = async () => {
   const res = await fetch("/currentUser");
   const user = await res.json();
+  console.log(user);
   if (user) {
     window.location.href = "/lobby/lobby.html";
   }

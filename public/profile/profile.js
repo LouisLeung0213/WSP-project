@@ -575,3 +575,7 @@ function hide() {
 
   // deleteBtn.style.display = "Block";
 }
+
+function openChat() {
+  location.href = "/chatroom/chat.html" + location.search;
+}
