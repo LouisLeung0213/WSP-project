@@ -353,6 +353,20 @@ body {
   text-align: center;
 }
 
+#reportPopup {
+  width: 50vw;
+  height: 50vh;
+  display: None;
+  margin-top: 320px;
+  padding: 10px;
+  /* border: 2px Solid Red; */
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  text-size-adjust: center;
+  text-align: center;
+}
+
 #confirm {
   width: 100px;
   height: 30px;

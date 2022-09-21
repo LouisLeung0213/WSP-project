@@ -39,6 +39,7 @@ let doneBtn = document.querySelector(".doneBtn");
 let saveCat = document.querySelector("#saveCat");
 let contactForm = document.querySelector("#contact-form");
 let popup = document.getElementById("popup");
+let popupReport = document.getElementById("reportPopup");
 let inImage = document.querySelector(".portfolio1");
 
 // for report
@@ -409,6 +410,7 @@ doneBtn.addEventListener("click", async (event) => {
 });
 
 reportBtn.addEventListener("click", async (event) => {
+  let reportReason = event.path[3].querySelector(".reportMessage").value;
   let image = document.querySelector(".portfolio1");
   console.log(insideId);
   console.log(image.src);
@@ -423,14 +425,24 @@ reportBtn.addEventListener("click", async (event) => {
       mua_id: insideId,
       content: insideDescription.textContent,
       image: image.src,
+      reason: reportReason,
     }),
   });
   let json = await res.json();
   console.log(json);
-  if (res.ok) {
+  console.log(json.message);
+  if (json.message) {
+    Swal.fire({
+      icon: "info",
+      title: `你的檢舉正在處理中，請耐心等候管理員處理`,
+      showConfirmButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) window.location.reload();
+    });
+  } else {
     Swal.fire({
       icon: "success",
-      title: `已檢舉相片，請耐心等候管理員處理`,
+      title: `已成功檢舉相片`,
       showConfirmButton: true,
     }).then((result) => {
       if (result.isConfirmed) window.location.reload();
@@ -579,6 +591,8 @@ fetch(`/selectedDatesMua?id=${paramsName}`)
 function show() {
   popup.style.display = "Block";
   inImage.style.display = "None";
+  popupReport.style.display = "None";
+
   // deleteBtn.style.display = "None";
 }
 
@@ -587,4 +601,15 @@ function hide() {
   inImage.style.display = "Block";
 
   // deleteBtn.style.display = "Block";
+}
+
+function showReport() {
+  popupReport.style.display = "Block";
+  inImage.style.display = "None";
+  popup.style.display = "None";
+}
+
+function hideReport() {
+  popupReport.style.display = "None";
+  inImage.style.display = "Block";
 }

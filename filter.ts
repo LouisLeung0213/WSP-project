@@ -153,7 +153,7 @@ filterRoutes.get("/selectedDatesMua", async (req, res) => {
 filterRoutes.get("/checkIsAdmin", async (req, res) => {
   let adminID = await client.query(
     `
-select id, isAdmin from users where users.id = ${req.session.user!.id}   
+select id, isAdmin from users where users.id = ${req.session.user?.id}   
     `
   );
   let isAdmin = adminID.rows[0];

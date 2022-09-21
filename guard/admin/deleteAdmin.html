@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deleted portfolio</title>
+    <link rel="stylesheet" href="./admin.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"
+      integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js"
+      integrity="sha384-ODmDIVzN+pFdexxHEHFBQH3/9/vQ9uori45z4JjnFsRydbmQbmL5t1tQ0culUzyK"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://kit.fontawesome.com/4f57507a93.js"
+      crossorigin="anonymous"
+    ></script>
+    
+  </head>
+  <body>
+    <div class="btnContainer">
+        <button
+          type="button"
+          class="btn btn-primary imageBtn"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+        >
+          <image class="portfolio" src="./image/pikachu.png" alt=""></image>
+          <textarea class="outsideDescription"></textarea>
+          <textarea class="outsideMua_id"></textarea>
+          <!-- <textarea class="reportReason"></textarea> -->
+        </button>
+      </div>
+
+      <!-- Modal -->
+      <div
+        class="modal fade modalContainer"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div
+          class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal1"
+        >
+          <div class="modal-content theBox">
+            <!-- <div class="modal-header">
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div> -->
+            <!-- <div class="insidePorfolio"> -->
+            <div class="insideContainer">
+              <div class="modal-body portfolioContainer">
+                <image class="portfolio1" src="1" alt=""
+                  ><div id="popup">
+                    <span id="popupMessage"><b>你確定要刪除此作品嗎？</b></span
+                    ><br />
+                    <button id="confirm" class="permanentDeleteBtn">永久刪除</button>
+                    <!-- <button id="cancel" onclick="hide()">取消</button> -->
+                    <button type="button" class="restBtn">還原</button>
+                  </div></image
+                >
+              </div>
+              <div class="insideDescriptionDiv">
+                <p class="insideDescription"></p>
+                <p class="insideMuaID"></p>
+                <p class="insideReason"></p>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                關閉
+              </button>
+
+              <!-- 編輯簡介
+           <button type="button" class="btn btn-primary doneBtn">
+              編輯完成
+            </button>
+            <button type="button" class="btn btn-primary" onclick="show()">
+              刪除
+            </button>-->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="homeBtn"><a href="/lobby/lobby.html">返回主頁</a></div>
+    </div>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./deleteAdmin.js"></script>
+  </body>
+</html>

@@ -42,7 +42,24 @@
     ></script>
   </head>
   <body>
+    <text class="adminTitle"
+      ><b><i>銀河管理員</i></b></text
+    >
+    <div class="usersContainer">
+      <button class="users">
+        <image class="usersIcon" src=""></image>
+        <textarea class="usersUsername"></textarea>
+        <textarea class="usersID"></textarea>
+        <!-- <div id="userPopup">
+          <span id="userPopupMessage"><b>你確定要永BAN此用戶？</b></span
+          ><br />
+          <button id="confirm" class="banBtn">確認</button>
+          <button type="button" class="noBanBtn">取消</button>
+        </div> -->
+      </button>
+    </div>
     <div id="admin">
+      <text class="reportTitle">被檢舉的絕命化妝師</text>
       <div class="btnContainer">
         <button
           type="button"
@@ -53,6 +70,7 @@
           <image class="portfolio" src="./image/pikachu.png" alt=""></image>
           <textarea class="outsideDescription"></textarea>
           <textarea class="outsideMua_id"></textarea>
+          <textarea class="reportReason"></textarea>
         </button>
       </div>
 
@@ -84,13 +102,15 @@
                     <span id="popupMessage"><b>你確定要刪除此作品嗎？</b></span
                     ><br />
                     <button id="confirm" class="deleteBtn">確認</button>
-                    <button id="cancel" onclick="hide()">取消</button>
-                    <button type="button" class="descriptionBtn">不處理</button>
+                    <!-- <button id="cancel" onclick="hide()">取消</button> -->
+                    <button type="button" class="cancelBtn">不處理</button>
                   </div></image
                 >
               </div>
               <div class="insideDescriptionDiv">
                 <p class="insideDescription"></p>
+                <p class="insideMuaID"></p>
+                <p class="insideReason"></p>
               </div>
             </div>
             <div class="modal-footer">
@@ -113,8 +133,10 @@
           </div>
         </div>
       </div>
-      <div class="homeBtn"><a href="/lobby/lobby.html">Lobby</a></div>
+      <div class="homeBtn"><a href="/lobby/lobby.html">返回主頁</a></div>
+      <a href="./deleteAdmin.html"><i class="fa-solid fa-trash"></i></a>
     </div>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="./admin.js"></script>
   </body>
 </html>

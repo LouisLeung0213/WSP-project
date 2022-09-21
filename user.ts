@@ -27,7 +27,6 @@ const grantExpress = grant.express({
 });
 
 userRoutes.use(grantExpress as RequestHandler);
-
 userRoutes.get("/login/google", loginGoogle);
 
 async function loginGoogle(req: Request, res: Response) {
@@ -93,9 +92,21 @@ type User = {
 userRoutes.post("/login", async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
+  // console.log(username, password);
   const users = await client.query(`select * from users where username= $1`, [
     username,
   ]);
+  const userBanned = await client.query(
+    `select * from  ban where muas_username = $1`,
+    [username]
+  );
+  if (userBanned.rows.length > 0) {
+    res.status(401);
+    res.json({
+      error: "this user has been banned",
+    });
+    return;
+  }
   if (users.rows.length == 0) {
     res.status(404);
     res.json({
@@ -104,7 +115,7 @@ userRoutes.post("/login", async (req, res) => {
     return;
   }
   const user = users.rows[0];
-  // console.log(user);
+  console.log(user);
 
   const check = await checkPassword(password, user.password_hash);
   if (!check) {

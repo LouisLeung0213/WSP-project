@@ -238,12 +238,24 @@ profileRoutes.post("/comment", async (req, res) => {
 
 profileRoutes.post("/reportPortfolio", async (req, res) => {
   // console.log();
-  let report = await client.query(
-    `insert into reported (muas_id,muas_description,muas_image) values ('${
-      req.body.mua_id
-    }','${req.body.content}','${req.body.image.split("/").slice(4)}')`
+  let checkreported = await client.query(
+    `select users_id, muas_image from reported where users_id = ${
+      req.session.user!.id
+    } and muas_image = '${req.body.image.split("/").slice(4)}'`
   );
-  res.json({ report });
+  console.log(checkreported.rows.length);
+  if (checkreported.rows.length == 0) {
+    let report = await client.query(
+      `insert into reported (muas_id,muas_description,muas_image,users_id,reason) values ('${
+        req.body.mua_id
+      }','${req.body.content}','${req.body.image.split("/").slice(4)}','${
+        req.session.user!.id
+      }','${req.body.reason}')`
+    );
+    res.json({ report });
+  } else {
+    res.json({ message: "already reported" });
+  }
   // console.log("report");
   // console.log(req.body);
 });

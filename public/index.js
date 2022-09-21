@@ -30,6 +30,12 @@ loginForm.addEventListener("submit", async (event) => {
         title: "Oops...",
         text: "Wrong username or password",
       });
+    } else if (res.status == 401) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "此帳號被永久封鎖",
+      });
     }
   } else {
     Swal.fire({

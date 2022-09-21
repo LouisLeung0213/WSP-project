@@ -10,7 +10,7 @@ import "./session";
 import path from "path";
 import { profileRoutes } from "./profile";
 import { muaRoutes } from "./Muas";
-import { adminRoutes } from "./admin";
+import { adminRoutes, checkIsAdmin } from "./admin";
 
 let app = express();
 //logger
@@ -25,6 +25,7 @@ app.use((req: express.Request, res, next) => {
 });
 
 app.use(express.static("public"));
+
 app.use("/uploads", express.static("uploads"));
 app.get("/currentUser", (req, res) => {
   res.json(req.session.user);
@@ -36,6 +37,7 @@ app.use(userRoutes);
 app.use(profileRoutes);
 app.use(muaRoutes);
 app.use(adminRoutes);
+app.use(checkIsAdmin, express.static("guard"));
 
 app.listen(env.PORT, () => {
   print(env.PORT);

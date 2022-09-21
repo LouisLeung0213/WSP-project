@@ -66,8 +66,23 @@ create table reported (
     , muas_id integer not null
     , muas_description varchar(255)
     , muas_image varchar(255) not null 
+    , users_id integer not null
+    ,reason text 
 );
 
+create table deleted_portfolio(
+  id serial primary key
+  , muas_id integer not null
+  , muas_description varchar(255)
+  , muas_image varchar(255) not null;
+);
+
+create table ban(
+  id serial primary key
+  , muas_id integer not null
+  , muas_nickname varchar(255) not null
+  , muas_icon varchar(255)
+);
 
 insert into categories (categories_name) values ('時間');
 insert into categories (categories_name,parent_id) values ('沒有偏好','1');
@@ -251,3 +266,5 @@ group by muas.muas_id, users.id;
 alter table muas add column comment_qty integer;
 alter table muas add column comment_qty_enough boolean;
 alter table users add column isAdmin boolean default false;
+alter table reported add column users_id integer not null;
+alter table reported add column reason text;
