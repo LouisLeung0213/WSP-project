@@ -77,6 +77,8 @@
 .users {
   width: 150px;
   height: 150px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .usersContainer {
@@ -84,12 +86,14 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  margin-bottom: 10rem;
 }
 
 .reportContainer {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 10rem;
 }
 
 .bannedUsersContainer {
@@ -101,6 +105,8 @@
 .bannedUsers {
   width: 150px;
   height: 150px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .bannedUsersIcon {
