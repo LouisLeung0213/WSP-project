@@ -304,6 +304,7 @@ body {
   border-top: 3px solid #b3394b;
   background-color: #f7b0bb;
   text-align: center;
+  margin-top: 15rem;
   padding-top: 20px;
   font-size: 30px;
 }
@@ -378,7 +379,7 @@ body {
 .pageBtn {
   width: 40px;
   height: 40px;
-    display: flex;
+  display: flex;
   justify-content: center;
   align-items: center;
   border: 2px solid black;

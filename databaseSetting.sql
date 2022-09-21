@@ -81,7 +81,6 @@ create table ban(
   id serial primary key
   , muas_id integer not null
   , muas_username varchar(255) not null
-  , muas_id varchar(255)
 );
 
 insert into categories (categories_name) values ('時間');
