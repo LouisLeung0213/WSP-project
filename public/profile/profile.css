@@ -96,6 +96,18 @@ body {
   border: 2px solid black;
   padding: 10px;
 }
+.introLabel {
+  margin: 10px;
+}
+
+#edit333 {
+  width: 500px;
+  height: 250px;
+  background-color: #f7b0bb;
+  border-radius: 30px;
+  border: 2px solid black;
+  padding: 10px;
+}
 
 .portfolio {
   width: 240px;
@@ -328,6 +340,20 @@ body {
 }
 
 #popup {
+  width: 50vw;
+  height: 50vh;
+  display: None;
+  margin-top: 320px;
+  padding: 10px;
+  /* border: 2px Solid Red; */
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  text-size-adjust: center;
+  text-align: center;
+}
+
+#reportPopup {
   width: 50vw;
   height: 50vh;
   display: None;

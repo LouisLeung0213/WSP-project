@@ -38,7 +38,7 @@
     ></script>
     <link rel="stylesheet" href="/lobby/lobby.css" />
     <link rel="stylesheet" href="/calendar.css" />
-    <link rel="stylesheet" href="../admin/admin.js" />
+    <!-- <link rel="stylesheet" href="../admin/admin.js" /> -->
 
     <title>主頁</title>
   </head>
@@ -47,11 +47,11 @@
     <div class="navBar">
       <div class="logoutDiv">
         <button id="logoutBtn">登出</button>
-        <button id="becomeMua">成為化妝師</button>
+        <button id="becomeMua">絕命化妝師</button>
       </div>
 
       <div class="logoContainer">
-        <a href="/" class="logo"><p>MUA</p></a>
+        <a href="/" class="logo"><p>絕命化妝師</p></a>
       </div>
       <a class="adminLink" href="/admin/admin.html">ADMIN Page</a>
 
@@ -83,7 +83,6 @@
       <!-- condition filter -->
       <div class="row filterDiv">
         <form id="searchFilter" method="get" action="/searchFilter">
-          <input class="searchFilterSubmit" type="submit" value="搜索" />
           <div class="cat-list">
             <div class="cat">
               <input class="filterCheckbox" type="checkbox" name="cat_id" />
@@ -91,6 +90,7 @@
               <div class="cat-list"></div>
             </div>
           </div>
+          <input class="searchFilterSubmit" type="submit" value="搜索" />
         </form>
       </div>
 
@@ -119,6 +119,13 @@
 
         <!-- right -->
         <div id="main" class="animate__animated animate__fadeIn">
+          <div class="pageBar">
+            <div class="muasQty"></div>
+            <div class="changePage">
+              <div class="prevPage">上一頁</div>
+              <div class="nextPage">下一頁</div>
+            </div>
+          </div>
           <div class="muaAbstract">
             <a class="muaHref" href="">
               <div class="iconAndNickname">
@@ -133,6 +140,11 @@
             </a>
           </div>
           <div id="subMain"></div>
+          <div class="pageBarSelect">
+            <div class="pageBtn">
+              <div class="pageBtnText"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -27,7 +27,11 @@ filterRoutes.get("/filter", async (req, res) => {
   res.json(categories);
 });
 
-filterRoutes.get("/showMua", async (req, res) => {
+filterRoutes.post("/showMua", async (req, res) => {
+  let currentPage = req.body.currentPage;
+  let showMuaQty = 3;
+  // console.log("countPage: ", currentPage);
+
   let today = new Date();
   await client.query(
     `update muas set is_new = false where $1 - join_date > 7`,
@@ -37,16 +41,32 @@ filterRoutes.get("/showMua", async (req, res) => {
   let sql = `SELECT username, users.id, users.nickname, users.profilepic, muas.avg_score, json_agg(mua_portfolio) as mua_portfolio, muas.is_new, muas.comment_qty_enough
   from muas join users on muas_id = users.id 
     left join portfolio on portfolio.muas_id= users.id group by users.id, muas.muas_id
-    order by muas.is_new, muas.comment_qty_enough, avg_score desc;`;
-  let result = await client.query(sql);
+    order by muas.is_new, muas.comment_qty_enough, avg_score desc
+    offset $1 limit $2;`;
+  let result = await client.query(sql, [
+    showMuaQty * (currentPage - 1),
+    showMuaQty,
+  ]);
+
   let muas = result.rows;
   // console.log("All the muas: ", muas);
 
-  res.json(muas);
+  let maxPageResult = await client.query(
+    `select count(muas_id) as muasQty from muas;`
+  );
+
+  let muasTotal = +maxPageResult.rows[0].muasqty ;
+  let maxPage = Math.ceil(muasTotal / showMuaQty);
+  // console.log("maxPage: ", maxPage);
+    
+  res.json({ muas, maxPage, muasTotal });
 });
 
 filterRoutes.post("/searchFilter", async (req, res) => {
   let filterOptions = req.body;
+  let currentPage = req.body.currentPage;
+  let showMuaQty = 3;
+
   // console.log("req.", req.body);
   if (filterOptions.cats.length == 0 && filterOptions.dates.length == 0) {
     res.json("Err: empty filter");
@@ -80,11 +100,14 @@ left join portfolio on portfolio.muas_id = muas.muas_id
 where muas.muas_id in (select muas_id from whitelist)
   and muas.muas_id not in (select muas_id from blacklist) 
 group by muas.muas_id, users.id
-order by muas.is_new, muas.comment_qty_enough, avg_score desc`;
+order by muas.is_new, muas.comment_qty_enough, avg_score desc
+offset $3 limit $4;`;
 
     let result = await client.query(sql, [
       filterOptions.dates,
       filterOptions.cats,
+      showMuaQty * (currentPage - 1),
+      showMuaQty,
     ]);
     // console.log("Filtered muas: ", result.rows);
     let muas = new Set();
@@ -96,9 +119,51 @@ order by muas.is_new, muas.comment_qty_enough, avg_score desc`;
         muasUnique.push(mua);
       }
     }
-    // console.log("Unique muas: ", muasUnique);
 
-    res.json(muasUnique);
+    let sqlAll = `
+    with
+  blacklist as (
+  select
+    distinct date_matches.muas_id
+  from date_matches
+  where date_matches.unavailable_date = any($1)
+)
+, whitelist as (
+  select
+    distinct offers.muas_id
+  from offers
+  where offers.categories_id = all($2::int[])
+)
+
+select
+  muas.muas_id as mua_id
+, muas.avg_score
+, users.profilepic
+, users.nickname
+, array_agg(portfolio.mua_portfolio) as mua_portfolio
+, muas.is_new
+, muas.comment_qty_enough
+from muas
+inner join users on users.id = muas.muas_id
+left join portfolio on portfolio.muas_id = muas.muas_id
+where muas.muas_id in (select muas_id from whitelist)
+  and muas.muas_id not in (select muas_id from blacklist) 
+group by muas.muas_id, users.id
+order by muas.is_new, muas.comment_qty_enough, avg_score desc;`;
+
+    let maxPageResult = await client.query(sqlAll, [
+      filterOptions.dates,
+      filterOptions.cats,
+    ]);
+    console.log("maxPageResult.rows: ", maxPageResult.rows);
+    console.log("filterOptions.dates: ", filterOptions.dates);
+    console.log("filterOptions.cats: ", filterOptions.cats);
+
+    let muasTotal = maxPageResult.rows.length
+    let maxPage = Math.ceil(muasTotal / showMuaQty);
+    // console.log(`Total muas qty: ${maxPageResult.rows.length}, so the max page is ${maxPage}`);
+
+    res.json({ muasUnique, maxPage, muasTotal });
   }
 });
 
@@ -153,7 +218,7 @@ filterRoutes.get("/selectedDatesMua", async (req, res) => {
 filterRoutes.get("/checkIsAdmin", async (req, res) => {
   let adminID = await client.query(
     `
-select id, isAdmin from users where users.id = ${req.session.user!.id}   
+select id, isAdmin from users where users.id = ${req.session.user?.id}   
     `
   );
   let isAdmin = adminID.rows[0];

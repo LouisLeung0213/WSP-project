@@ -7,11 +7,11 @@ import { print } from "listening-on";
 import "./session";
 import { profileRoutes } from "./profile";
 import { muaRoutes } from "./Muas";
-import { adminRoutes } from "./admin";
 import http from "http";
 import { Server as SocketIO } from "socket.io";
 import { client } from "./database";
 import { getChatroomRoutes } from "./chatroom";
+import { adminRoutes, checkIsAdmin } from "./admin";
 
 let app = express();
 const server = http.createServer(app);
@@ -29,6 +29,8 @@ app.use((req: express.Request, res, next) => {
   next();
 });
 
+app.use(express.static("public"));
+
 app.use("/uploads", express.static("uploads"));
 app.get("/currentUser", (req, res) => {
   res.json(req.session.user);
@@ -41,6 +43,7 @@ app.use(profileRoutes);
 app.use(muaRoutes);
 app.use(adminRoutes);
 app.use(getChatroomRoutes(io));
+app.use(checkIsAdmin, express.static("guard"));
 
 server.listen(env.PORT, () => {
   print(env.PORT);

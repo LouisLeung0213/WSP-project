@@ -66,6 +66,8 @@ create table reported (
     , muas_id integer not null
     , muas_description varchar(255)
     , muas_image varchar(255) not null 
+    , users_id integer not null
+    ,reason text 
 );
 
 create table chatroom (
@@ -74,6 +76,19 @@ create table chatroom (
   , foreign key(user_id) references users(id)
   , Toadmin boolean
   , content text not null
+);
+
+create table deleted_portfolio(
+  id serial primary key
+  , muas_id integer not null
+  , muas_description varchar(255)
+  , muas_image varchar(255) not null;
+);
+
+create table ban(
+  id serial primary key
+  , muas_id integer not null
+  , muas_username varchar(255) not null
 );
 
 insert into categories (categories_name) values ('時間');
@@ -258,3 +273,35 @@ group by muas.muas_id, users.id;
 alter table muas add column comment_qty integer;
 alter table muas add column comment_qty_enough boolean;
 alter table users add column isAdmin boolean default false;
+alter table reported add column users_id integer not null;
+alter table reported add column reason text;
+
+    with
+  blacklist as (
+  select
+    distinct date_matches.muas_id
+  from date_matches
+  where date_matches.unavailable_date = '2022/09/02'
+)
+, whitelist as (
+  select
+    distinct offers.muas_id
+  from offers
+  where offers.categories_id = 2
+)
+
+select
+  muas.muas_id as mua_id
+, muas.avg_score
+, users.profilepic
+, users.nickname
+, array_agg(portfolio.mua_portfolio) as mua_portfolio
+, muas.is_new
+, muas.comment_qty_enough
+from muas
+inner join users on users.id = muas.muas_id
+left join portfolio on portfolio.muas_id = muas.muas_id
+where muas.muas_id in (select muas_id from whitelist)
+  and muas.muas_id not in (select muas_id from blacklist) 
+group by muas.muas_id, users.id
+order by muas.is_new, muas.comment_qty_enough, avg_score desc;

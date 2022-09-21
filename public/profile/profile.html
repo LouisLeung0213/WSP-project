@@ -43,7 +43,7 @@
   </head>
   <body>
     <div class="navBar">
-      <a href="/lobby/lobby.html" class="homepageBtn"> MUA </a>
+      <a href="/lobby/lobby.html" class="homepageBtn"> 絕命化妝師 </a>
     </div>
     <div class="container">
       <div class="about">
@@ -115,7 +115,8 @@
             <label>上傳新頭像</label>
             <input type="file" name="updateIcon" id="updateIcon" />
             <br />
-            <label>更改你的個人簡介:</label>
+            <div class="introLabel"><label>更改你的個人簡介:</label></div>
+
             <textarea
               class="detail"
               id="edit333"
@@ -227,6 +228,14 @@
                     ><br />
                     <button id="confirm" class="deleteBtn">確認</button>
                     <button id="cancel" onclick="hide()">取消</button>
+                  </div>
+                  <div id="reportPopup">
+                    <span id="popupMessage"
+                      ><b>請說明檢舉原因，如沒有原因很大機會檢舉失敗</b></span
+                    >
+                    <textarea class="reportMessage"></textarea><br />
+                    <button id="confirm" class="reportBtn">確認檢舉</button>
+                    <button id="cancel" onclick="hideReport()">取消</button>
                   </div></image
                 >
               </div>
@@ -243,7 +252,11 @@
               >
                 關閉
               </button>
-              <button type="button" class="btn btn-primary reportBtn">
+              <button
+                type="button"
+                class="btn btn-primary fakeReportBtn"
+                onclick="showReport()"
+              >
                 檢舉
               </button>
               <button type="button" class="btn btn-primary descriptionBtn">

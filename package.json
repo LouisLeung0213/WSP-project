@@ -21,6 +21,7 @@
     "cookie-parser": "^1.4.6",
     "cross-fetch": "^3.1.5",
     "dotenv": "^16.0.2",
+    "drag-drop": "^7.2.0",
     "express-session": "^1.17.3",
     "formidable": "^2.0.1",
     "grant": "^5.4.21",
