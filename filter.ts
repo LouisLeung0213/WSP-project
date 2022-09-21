@@ -55,10 +55,10 @@ filterRoutes.post("/showMua", async (req, res) => {
     `select count(muas_id) as muasQty from muas;`
   );
 
-  let muasTotal = +maxPageResult.rows[0].muasqty ;
+  let muasTotal = +maxPageResult.rows[0].muasqty;
   let maxPage = Math.ceil(muasTotal / showMuaQty);
   // console.log("maxPage: ", maxPage);
-    
+
   res.json({ muas, maxPage, muasTotal });
 });
 
@@ -159,7 +159,7 @@ order by muas.is_new, muas.comment_qty_enough, avg_score desc;`;
     console.log("filterOptions.dates: ", filterOptions.dates);
     console.log("filterOptions.cats: ", filterOptions.cats);
 
-    let muasTotal = maxPageResult.rows.length
+    let muasTotal = maxPageResult.rows.length;
     let maxPage = Math.ceil(muasTotal / showMuaQty);
     // console.log(`Total muas qty: ${maxPageResult.rows.length}, so the max page is ${maxPage}`);
 

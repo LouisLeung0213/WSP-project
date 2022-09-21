@@ -74,7 +74,7 @@ create table deleted_portfolio(
   id serial primary key
   , muas_id integer not null
   , muas_description varchar(255)
-  , muas_image varchar(255) not null;
+  , muas_image varchar(255) not null
 );
 
 create table ban(
