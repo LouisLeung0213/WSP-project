@@ -67,6 +67,7 @@
 .btnContainer {
   display: flex;
   flex-direction: row;
+  /* background-color: #f7b0bb; */
 }
 
 .reportTitle {
@@ -87,6 +88,20 @@
   justify-content: center;
   align-items: center;
   margin-bottom: 10rem;
+  /* background-color: #f7b0bb; */
+}
+
+.blockMUA {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10rem;
+}
+
+.blockedMUA {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .reportContainer {
