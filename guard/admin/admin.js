@@ -3,8 +3,10 @@ let portfolioBtn = portfolioContainer.querySelector(".imageBtn");
 let deleteBtn = document.querySelector(".deleteBtn");
 let cancelBtn = document.querySelector(".cancelBtn");
 let userBtn = document.querySelector(".users");
+let bannedUserBtn = document.querySelector(".bannedUsers");
 // let userBanBtn;
 let usersContainer = document.querySelector(".usersContainer");
+let bannedUsersContainer = document.querySelector(".bannedUsersContainer");
 let params = new URL(document.location).searchParams;
 let paramsName = params.get("id");
 
@@ -77,6 +79,44 @@ fetch("/userInfo")
       userBtn.remove();
     }
     // userBanBtn = node.querySelector(".users");
+  });
+
+fetch("/bannedUser")
+  .then((res) => res.json())
+  .then((bannedUsers) => {
+    console.log(bannedUsers);
+    for (let bannedUser of bannedUsers.json) {
+      let node = bannedUserBtn.cloneNode(true);
+      node.addEventListener("click", async (event) => {
+        let bannedUsername =
+          event.currentTarget.querySelector(".bannedUsername").textContent;
+        let bannedUsersId =
+          event.currentTarget.querySelector(".bannedUserId").textContent;
+        console.log(bannedUsername, bannedUsersId);
+        let res = await fetch("/unBan", {
+          method: "DELETE",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ bannedUsername, bannedUsersId }),
+        });
+        if (res.ok) {
+          Swal.fire({
+            icon: "success",
+            title: `已解除封鎖`,
+            showConfirmButton: true,
+          }).then((result) => {
+            if (result.isConfirmed) window.location.reload();
+          });
+        }
+      });
+      let nodeBannedUsername = node.querySelector(".bannedUsername");
+      // let nodeBannedIcon = node.querySelector(".bannedUsersIcon");
+      let nodeBannedId = node.querySelector(".bannedUserId");
+      nodeBannedUsername.innerHTML = `${bannedUser.muas_username}`;
+      // nodeIcon.src = `/uploads/${bannedUser.profilepic}`;
+      nodeBannedId.innerHTML = `${bannedUser.muas_id}`;
+      bannedUsersContainer.appendChild(node);
+      bannedUserBtn.remove();
+    }
   });
 
 cancelBtn.addEventListener("click", async (event) => {
