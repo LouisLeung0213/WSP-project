@@ -182,128 +182,171 @@ fetch(`/profile?id=${paramsName}`)
     detail = detailContainer.querySelector(".detail");
     dialogDetail.textContent = intro;
 
-    let nickname = json.user.nickname;
-    let nickNameNode = username.cloneNode(true);
-    nickNameNode.textContent = nickname;
-    username.hidden = true;
-    introContainer.appendChild(nickNameNode);
-
-    let icon = json.user.profilepic;
-    let iconNode = profileIcon.cloneNode(true);
-    profileIcon.hidden = true;
-    let myIcon;
-    if (json.user.profilepic) {
-      myIcon = `/uploads/${icon}`;
-    } else {
-      myIcon = `/uploads/default_profile_pic.jpg`;
-    }
-
-    iconNode.src = myIcon;
-
-    introContainer.appendChild(iconNode);
-
-    // Rating system
-
-    // Rating system -- comment
-
-    if (json.currentUser == paramsName) {
-      // console.log(json.currentUser, paramsName);
-      // likeBtn.hidden = true;
-      // dislikeBtn.hidden = true;
-    }
-
-    //
-    function comment(action) {
-      let comment = { from: json.currentUser, to: +paramsName, action };
-      fetch(`/comment`, {
-        method: "post",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(comment),
-      })
-        .then((res) => {
-          return res.json();
-        })
-        .then((message) => {
-          console.log(message);
-        });
-    }
-
-    likeBtn.addEventListener("click", (event) => {
-      comment(1);
-      showScore();
-      if (liked == false) {
-        liked = true;
-        disliked = false;
-        dislikeBtn.style.backgroundColor = "#ffffff";
-        dislikeBtn.style.color = "#ff0000";
-        event.target.style.backgroundColor = "#008000";
-        event.target.style.color = "#ffffff";
-      } else {
-        liked = false;
-        event.target.style.backgroundColor = "#ffffff";
-        event.target.style.color = "#008000";
+try {
+  fetch(`/profile?id=${paramsName}`)
+    .then((res) => res.json())
+    .then((json) => {
+      // console.log(json);
+      // console.log("other:" + paramsName);
+      if (json.currentUser != paramsName) {
+        submitBtn.hidden = true;
+        editBtn.hidden = true;
+        uploadPhoto.hidden = true;
+        deleteBtn.hidden = true;
+        submitContainer.hidden = true;
+        descriptionBtn.hidden = true;
+        doneBtn.hidden = true;
+        fakeDeleteBtn.hidden = true;
+        likedOrNot(json.currentUser, +paramsName);
       }
-    });
-
-    dislikeBtn.addEventListener("click", (event) => {
-      comment(-1);
-      showScore();
-      if (disliked == false) {
-        disliked = true;
-        liked = false;
-        likeBtn.style.backgroundColor = "#ffffff";
-        likeBtn.style.color = "#008000";
-        event.target.style.backgroundColor = "#ff0000";
-        event.target.style.color = "#ffffff";
-      } else {
-        disliked = false;
-        event.target.style.backgroundColor = "#ffffff";
-        event.target.style.color = "#ff0000";
+      for (let work of json.works) {
+        let node = portfolioBtn.cloneNode(true);
+        let nodeContent = node.querySelector(".portfolio");
+        let nodeDescription = node.querySelector(".outsideDescription");
+        let outsideMua_id = node.querySelector(".outsideMua_id");
+        let photo = `/uploads/${work.mua_portfolio}`;
+        nodeDescription.innerHTML = `${work.mua_description}`;
+        nodeContent.src = photo;
+        outsideMua_id.innerHTML = `${json.user.muas_id}`;
+        outsideMua_id.hidden = true;
+        nodeDescription.hidden = true;
+        portfolioContainer.appendChild(node);
+        portfolioBtn.remove();
       }
-    });
+      let intro = json.user.introduction;
+      //console.log(json);
+      let introNode = detail.cloneNode(true);
+      introNode.textContent = intro;
+      detailContainer.appendChild(introNode);
+      detail.remove();
+      detail = detailContainer.querySelector(".detail");
+      dialogDetail.textContent = intro;
 
-    // Rating System -- show comment qty / show score
+      let nickname = json.user.nickname;
+      let nickNameNode = username.cloneNode(true);
+      nickNameNode.textContent = nickname;
+      username.hidden = true;
+      introContainer.appendChild(nickNameNode);
 
-    let commentQty = document.querySelector(".commentQty");
-    let score = document.querySelector(".score");
+      let icon = json.user.profilepic;
+      let iconNode = profileIcon.cloneNode(true);
+      profileIcon.hidden = true;
+      let myIcon;
+      if (json.user.profilepic) {
+        myIcon = `/uploads/${icon}`;
+      } else {
+        myIcon = `/uploads/default_profile_pic.jpg`;
+      }
 
-    function showScore() {
-      fetch(`/score?id=${paramsName}`)
-        .then((res) => {
-          return res.json();
+      iconNode.src = myIcon;
+
+      introContainer.appendChild(iconNode);
+
+      // Rating system
+
+      // Rating system -- comment
+
+      if (json.currentUser == paramsName) {
+        // console.log(json.currentUser, paramsName);
+        // likeBtn.hidden = true;
+        // dislikeBtn.hidden = true;
+      }
+
+      //
+      function comment(action) {
+        let comment = { from: json.currentUser, to: +paramsName, action };
+        fetch(`/comment`, {
+          method: "post",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(comment),
         })
-        .then((result) => {
-          // Rating System -- show comment qty
+          .then((res) => {
+            return res.json();
+          })
+          .then((message) => {
+            console.log(message);
+          });
+      }
 
-          commentQty.textContent = "評級人數: " + result.commentQty;
+      likeBtn.addEventListener("click", (event) => {
+        comment(1);
+        showScore();
+        if (liked == false) {
+          liked = true;
+          disliked = false;
+          dislikeBtn.style.backgroundColor = "#ffffff";
+          dislikeBtn.style.color = "#ff0000";
+          event.target.style.backgroundColor = "#008000";
+          event.target.style.color = "#ffffff";
+        } else {
+          liked = false;
+          event.target.style.backgroundColor = "#ffffff";
+          event.target.style.color = "#008000";
+        }
+      });
 
-          // Rating System -- show score
+      dislikeBtn.addEventListener("click", (event) => {
+        comment(-1);
+        showScore();
+        if (disliked == false) {
+          disliked = true;
+          liked = false;
+          likeBtn.style.backgroundColor = "#ffffff";
+          likeBtn.style.color = "#008000";
+          event.target.style.backgroundColor = "#ff0000";
+          event.target.style.color = "#ffffff";
+        } else {
+          disliked = false;
+          event.target.style.backgroundColor = "#ffffff";
+          event.target.style.color = "#ff0000";
+        }
+      });
 
-          if (result.commentQtyEnough) {
-            if (result.avgScore >= 90) {
-              score.textContent = "評級: 壓倒性好評";
-            } else if (result.avgScore >= 60) {
-              score.textContent = "評級: 極度好評";
-            } else if (result.avgScore >= 30) {
-              score.textContent = "評級: 大多好評";
-            } else if (result.avgScore == 0) {
-              score.textContent = "評級: 褒貶不一";
-            } else if (result.avgScore <= -90) {
-              score.textContent = "評級: 壓倒性負評";
-            } else if (result.avgScore <= -60) {
-              score.textContent = "評級: 極度負評";
-            } else if (result.avgScore <= -30) {
-              score.textContent = "評級: 大多負評";
+      // Rating System -- show comment qty / show score
+
+      let commentQty = document.querySelector(".commentQty");
+      let score = document.querySelector(".score");
+
+      function showScore() {
+        fetch(`/score?id=${paramsName}`)
+          .then((res) => {
+            return res.json();
+          })
+          .then((result) => {
+            // Rating System -- show comment qty
+
+            commentQty.textContent = "評級人數: " + result.commentQty;
+
+            // Rating System -- show score
+
+            if (result.commentQtyEnough) {
+              if (result.avgScore >= 90) {
+                score.textContent = "評級: 壓倒性好評";
+              } else if (result.avgScore >= 60) {
+                score.textContent = "評級: 極度好評";
+              } else if (result.avgScore >= 30) {
+                score.textContent = "評級: 大多好評";
+              } else if (result.avgScore == 0) {
+                score.textContent = "評級: 褒貶不一";
+              } else if (result.avgScore <= -90) {
+                score.textContent = "評級: 壓倒性負評";
+              } else if (result.avgScore <= -60) {
+                score.textContent = "評級: 極度負評";
+              } else if (result.avgScore <= -30) {
+                score.textContent = "評級: 大多負評";
+              }
+            } else {
+              score.textContent = "評級: 數據不足";
             }
-          } else {
-            score.textContent = "評級: 數據不足";
-          }
-        });
-    }
-    showScore();
-  });
+          });
+      }
+      showScore();
+    });
+} catch (error) {
+  console.log(error);
+}
 //-------------------------------------------------''
 
 updateProfileForm.addEventListener("submit", async (event) => {
@@ -422,6 +465,15 @@ reportBtn.addEventListener("click", async (event) => {
   });
   let json = await res.json();
   console.log(json);
+  if (res.ok) {
+    Swal.fire({
+      icon: "success",
+      title: `已檢舉相片，請耐心等候管理員處理`,
+      showConfirmButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) window.location.reload();
+    });
+  }
 });
 //for filter categories
 fetch(`/filter?id=${paramsName}`)

@@ -7,60 +7,63 @@ let prevPage = document.querySelector(".prevPage");
 let nextPage = document.querySelector(".nextPage");
 let pageCount = { currentPage: 1 };
 
+try {
+  fetch(`/filter?id=${paramsName}`)
+    .then((res) => res.json())
+    .then((categories) => {
+      // console.log(categories.allCats);
+      let catMap = new Map();
+      let catsTree = [];
 
-fetch(`/filter?id=${paramsName}`)
-  .then((res) => res.json())
-  .then((categories) => {
-    // console.log(categories.allCats);
-    let catMap = new Map();
-    let catsTree = [];
-
-    for (const catRow of categories.allCats) {
-      let catNode = {
-        id: catRow.id,
-        name: catRow.categories_name,
-        children: [],
-      };
-      catMap.set(catRow.id, catNode);
-      if (catRow.parent_id == null) {
-        catsTree.push(catNode);
-      } else {
-        let parent = catMap.get(catRow.parent_id);
-        parent.children.push(catNode);
-      }
-    }
-    // console.dir(catsTree, { depth: 20 });
-
-    let catList = document.querySelector(".cat-list");
-    let catTemplate = catList.querySelector(".cat");
-    let catCount = 0;
-    function showCats(catsTree, catList) {
-      catList.textContent = "";
-      for (const cat of catsTree) {
-        // console.log(cat.name);
-        let node = catTemplate.cloneNode(true);
-        let checkbox = node.querySelector("input");
-        if (cat.children.length > 0) {
-          checkbox.hidden = true;
-          node.classList.add(`rootCat${catCount}`);
-          node.classList.add(`rootnode`);
-          catCount++;
+      for (const catRow of categories.allCats) {
+        let catNode = {
+          id: catRow.id,
+          name: catRow.categories_name,
+          children: [],
+        };
+        catMap.set(catRow.id, catNode);
+        if (catRow.parent_id == null) {
+          catsTree.push(catNode);
         } else {
-          node.classList.add("leafCat");
+          let parent = catMap.get(catRow.parent_id);
+          parent.children.push(catNode);
         }
-
-        checkbox.value = cat.id;
-        catList.appendChild(node);
-        node.querySelector(".cat-name").textContent = cat.name;
-        let subCatList = node.querySelector(".cat-list");
-        // console.log(subCatList);
-
-        showCats(cat.children, subCatList);
       }
-    }
+      // console.dir(catsTree, { depth: 20 });
 
-    showCats(catsTree, catList);
-  });
+      let catList = document.querySelector(".cat-list");
+      let catTemplate = catList.querySelector(".cat");
+      let catCount = 0;
+      function showCats(catsTree, catList) {
+        catList.textContent = "";
+        for (const cat of catsTree) {
+          // console.log(cat.name);
+          let node = catTemplate.cloneNode(true);
+          let checkbox = node.querySelector("input");
+          if (cat.children.length > 0) {
+            checkbox.hidden = true;
+            node.classList.add(`rootCat${catCount}`);
+            node.classList.add(`rootnode`);
+            catCount++;
+          } else {
+            node.classList.add("leafCat");
+          }
+
+          checkbox.value = cat.id;
+          catList.appendChild(node);
+          node.querySelector(".cat-name").textContent = cat.name;
+          let subCatList = node.querySelector(".cat-list");
+          // console.log(subCatList);
+
+          showCats(cat.children, subCatList);
+        }
+      }
+
+      showCats(catsTree, catList);
+    });
+} catch (error) {
+  console.log(err);
+}
 
 function showMua() {
   // console.log(pageCount);

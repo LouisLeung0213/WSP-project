@@ -22,3 +22,22 @@
   align-items: center;
   margin: 10px 10px 10px 10px;
 }
+
+.homeBtn {
+  width: 400px;
+  height: 100px;
+  background-color: cadetblue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 50px;
+}
+
+#admin {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
