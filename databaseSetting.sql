@@ -70,6 +70,14 @@ create table reported (
     ,reason text 
 );
 
+create table chatroom (
+  id serial primary key
+  , user_id integer 
+  , foreign key(user_id) references users(id)
+  , Toadmin boolean
+  , content text not null
+);
+
 create table deleted_portfolio(
   id serial primary key
   , muas_id integer not null
