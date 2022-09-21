@@ -143,44 +143,6 @@ async function likedOrNot(id, target_id) {
 //for load profile page
 let liked = false;
 let disliked = false;
-fetch(`/profile?id=${paramsName}`)
-  .then((res) => res.json())
-  .then((json) => {
-    // console.log(json);
-    // console.log("other:" + paramsName);
-    if (json.currentUser != paramsName) {
-      submitBtn.hidden = true;
-      editBtn.hidden = true;
-      uploadPhoto.hidden = true;
-      deleteBtn.hidden = true;
-      submitContainer.hidden = true;
-      descriptionBtn.hidden = true;
-      doneBtn.hidden = true;
-      fakeDeleteBtn.hidden = true;
-      likedOrNot(json.currentUser, +paramsName);
-    }
-    for (let work of json.works) {
-      let node = portfolioBtn.cloneNode(true);
-      let nodeContent = node.querySelector(".portfolio");
-      let nodeDescription = node.querySelector(".outsideDescription");
-      let outsideMua_id = node.querySelector(".outsideMua_id");
-      let photo = `/uploads/${work.mua_portfolio}`;
-      nodeDescription.innerHTML = `${work.mua_description}`;
-      nodeContent.src = photo;
-      outsideMua_id.innerHTML = `${json.user.muas_id}`;
-      outsideMua_id.hidden = true;
-      nodeDescription.hidden = true;
-      portfolioContainer.appendChild(node);
-      portfolioBtn.remove();
-    }
-    let intro = json.user.introduction;
-    //console.log(json);
-    let introNode = detail.cloneNode(true);
-    introNode.textContent = intro;
-    detailContainer.appendChild(introNode);
-    detail.remove();
-    detail = detailContainer.querySelector(".detail");
-    dialogDetail.textContent = intro;
 
 try {
   fetch(`/profile?id=${paramsName}`)

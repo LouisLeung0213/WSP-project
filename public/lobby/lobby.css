@@ -177,10 +177,11 @@ body {
 #main {
   background-color: #f7b0bb71;
   width: 780px;
-  height: 400vh;
+  height: fit-content;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 30px;
 }
 
 .animate__fadeIn {
@@ -206,7 +207,8 @@ body {
 
 #subMain {
   width: 90%;
-  height: 400vh;
+  height: fit-content;
+  margin-bottom: 50px;
 }
 
 .iconAndNickname {
@@ -255,7 +257,7 @@ body {
 .portfolioDiv {
   width: 100%;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-around;
   padding: 0px 10px 0px 10px;
 }
 
@@ -292,7 +294,7 @@ body {
   width: 100%;
   height: 100px;
   border-top: 3px solid #b3394b;
-  background-color: #f3779c42;
+  background-color: #f7b0bb;
   text-align: center;
   padding-top: 20px;
   font-size: 30px;
@@ -339,4 +341,18 @@ body {
 }
 .nextPage:hover {
   box-shadow: 3px 3px 10px 3px rgba(48, 13, 13, 0.9);
+}
+
+.moreDiv {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+}
+
+.moreDiv div {
+  text-align: center;
+  color: blue;
+  font-size: 15px;
+  font-weight: bold;
 }

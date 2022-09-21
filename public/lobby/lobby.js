@@ -143,12 +143,18 @@ function showMua() {
           let portfolioImage = node.querySelector(".portfolioPhoto");
 
           if (portfolio.length > 0 && portfolio[0] != null) {
-            for (let photo of portfolio) {
+            for (let i = 0; i < 5 ; i++) {
               // console.log(photo);
               let clonePortfolio = portfolioImage.cloneNode(true);
               portfolioDiv.appendChild(clonePortfolio);
-              clonePortfolio.src = `/uploads/${photo}`;
+              clonePortfolio.src = `/uploads/${portfolio[i]}`;
             }
+            let moreDiv = document.createElement("div")
+            let more = document.createElement("div")
+            moreDiv.classList.add("moreDiv")
+            more.textContent = "查看更多..."
+            moreDiv.appendChild(more)
+            portfolioDiv.appendChild(moreDiv);
           } else {
             // portfolioImage.src = `/uploads/default_profile_pic.jpg`;
             portfolioImage.hidden = true;
