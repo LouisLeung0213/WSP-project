@@ -609,6 +609,7 @@ function hide() {
 function openChat() {
   location.href = "/chatroom/chat.html" + location.search;
 }
+
 function showReport() {
   popupReport.style.display = "Block";
   inImage.style.display = "None";
