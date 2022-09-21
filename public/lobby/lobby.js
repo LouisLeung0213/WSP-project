@@ -5,7 +5,10 @@ let muaHref = main.querySelector(".muaHref");
 let adminLink = document.querySelector(".adminLink");
 let prevPage = document.querySelector(".prevPage");
 let nextPage = document.querySelector(".nextPage");
+let searchFilter = document.querySelector("#searchFilter")
 let pageCount = { currentPage: 1 };
+let rootCatList = document.querySelector("#searchFilter > cat-list")
+let searchFilterSubmit = document.querySelector(".searchFilterSubmit")
 
 try {
   fetch(`/filter?id=${paramsName}`)
@@ -60,6 +63,7 @@ try {
       }
 
       showCats(catsTree, catList);
+    
     });
 } catch (error) {
   console.log(err);
@@ -200,7 +204,6 @@ function showMua() {
 }
 showMua();
 
-let searchFilter = document.querySelector("#searchFilter");
 
 searchFilter.addEventListener("submit", (event) => {
   event.preventDefault();

@@ -26,6 +26,10 @@ body {
   margin-bottom: 2rem;
 }
 
+.logoContainer {
+  width: 500px;
+}
+
 .logoutDiv {
   width: 300px;
   display: flex;
@@ -97,14 +101,13 @@ body {
   justify-content: space-around;
   font-size: 2rem;
   flex-wrap: wrap;
-  margin-bottom: 10px;
+  padding: 20px 20px 10px;
 }
 
 .searchFilterSubmit {
   width: 10rem;
   height: 3rem;
   background-color: #f78fb0;
-  border: black;
   margin: 8px;
 }
 
@@ -252,6 +255,11 @@ body {
   margin-top: 20px;
   background-color: #ecbee1;
   text-align: center;
+  outline: 2px solid black;
+}
+
+.muaAbstract:hover {
+  box-shadow: 3px 3px 10px 3px rgba(48, 13, 13, 0.9);
 }
 
 .portfolioDiv {
