@@ -6,8 +6,11 @@ import fs from "fs";
 import { client } from "./database";
 import "./session";
 import { hashPassword } from "./hash";
+import { checkIsBanned } from "./admin";
 
 export let profileRoutes = Router();
+
+profileRoutes.use(checkIsBanned);
 
 const uploadDir = "./uploads";
 fs.mkdirSync(uploadDir, { recursive: true });
@@ -198,7 +201,7 @@ profileRoutes.post("/profileUpdate", async (req, res) => {
     //   /*sql*/ `update muas set introduction = $1 where muas_id = $2`,
     //   [newDescriptionForm, currentId]
     // );
-    console.log("123123211312321323", image_filename);
+    // console.log("123123211312321323", image_filename);
     const updateDescription = await client.query(
       /*sql*/ "update muas set introduction = $1 where muas_id = $2",
       [newDescriptionForm, currentId]
