@@ -81,8 +81,9 @@ export async function checkIsBanned(
   );
   let isBanned = checking.rows;
   if (isBanned.length > 0) {
+    // req.session.destroy;
     res.json("此帳號已被永久Banned");
-    res.redirect("/");
+    // res.redirect("/");
   } else {
     next();
   }
