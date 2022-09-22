@@ -14,7 +14,7 @@ let pageBtn = document.querySelector(".pageBtn");
 let pageBtnText = pageBtn.querySelector(".pageBtnText");
 pageBtn.remove();
 let searchFilterToggle = false;
-let muasQty = document.querySelector(".muasQty")
+let muasQty = document.querySelector(".muasQty");
 
 try {
   fetch(`/filter?id=${paramsName}`)
@@ -87,7 +87,7 @@ function showMua(pageBtnCreated) {
     .then((result) => {
       subMain.textContent = "";
 
-      muasQty.textContent = `搜索結果: 共 ${result.muasTotal} 位化妝師符合要求`
+      muasQty.textContent = `搜索結果: 共 ${result.muasTotal} 位化妝師符合要求`;
 
       for (const mua of result.muas) {
         if (mua) {
@@ -156,9 +156,11 @@ function showMua(pageBtnCreated) {
           if (portfolio.length > 0 && portfolio[0] != null) {
             for (let i = 0; i < 5; i++) {
               // console.log(photo);
-              let clonePortfolio = portfolioImage.cloneNode(true);
-              portfolioDiv.appendChild(clonePortfolio);
-              clonePortfolio.src = `/uploads/${portfolio[i]}`;
+              if (portfolio[i]) {
+                let clonePortfolio = portfolioImage.cloneNode(true);
+                portfolioDiv.appendChild(clonePortfolio);
+                clonePortfolio.src = `/uploads/${portfolio[i]}`;
+              }
             }
             let moreDiv = document.createElement("div");
             let more = document.createElement("div");
@@ -301,7 +303,7 @@ searchFilter.addEventListener("submit", (event) => {
         }
         subMain.textContent = "";
 
-        muasQty.textContent = `搜索結果: 共 ${result.muasTotal} 位化妝師符合要求`
+        muasQty.textContent = `搜索結果: 共 ${result.muasTotal} 位化妝師符合要求`;
 
         for (const mua of result.muasUnique) {
           muaAbstract.hidden = false;
@@ -368,10 +370,12 @@ searchFilter.addEventListener("submit", (event) => {
 
           if (portfolio.length > 0 && portfolio[0] != null) {
             for (let i = 0; i < 5; i++) {
-              // console.log(photo);
-              let clonePortfolio = portfolioImage.cloneNode(true);
-              portfolioDiv.appendChild(clonePortfolio);
-              clonePortfolio.src = `/uploads/${portfolio[i]}`;
+              if (portfolio[i]) {
+                // console.log(photo);
+                let clonePortfolio = portfolioImage.cloneNode(true);
+                portfolioDiv.appendChild(clonePortfolio);
+                clonePortfolio.src = `/uploads/${portfolio[i]}`;
+              }
             }
             let moreDiv = document.createElement("div");
             let more = document.createElement("div");
