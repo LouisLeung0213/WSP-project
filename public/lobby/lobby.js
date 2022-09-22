@@ -154,20 +154,25 @@ function showMua(pageBtnCreated) {
           let portfolioImage = node.querySelector(".portfolioPhoto");
 
           if (portfolio.length > 0 && portfolio[0] != null) {
+            let notEnoughPhoto = false;
             for (let i = 0; i < 5; i++) {
               // console.log(photo);
               if (portfolio[i]) {
                 let clonePortfolio = portfolioImage.cloneNode(true);
                 portfolioDiv.appendChild(clonePortfolio);
                 clonePortfolio.src = `/uploads/${portfolio[i]}`;
+              } else {
+                notEnoughPhoto = true;
               }
             }
-            let moreDiv = document.createElement("div");
-            let more = document.createElement("div");
-            moreDiv.classList.add("moreDiv");
-            more.textContent = "查看更多...";
-            moreDiv.appendChild(more);
-            portfolioDiv.appendChild(moreDiv);
+            if (notEnoughPhoto == false) {
+              let moreDiv = document.createElement("div");
+              let more = document.createElement("div");
+              moreDiv.classList.add("moreDiv");
+              more.textContent = "查看更多...";
+              moreDiv.appendChild(more);
+              portfolioDiv.appendChild(moreDiv);
+            }
           } else {
             // portfolioImage.src = `/uploads/default_profile_pic.jpg`;
             portfolioImage.hidden = true;
@@ -369,20 +374,25 @@ searchFilter.addEventListener("submit", (event) => {
           let portfolioImage = node.querySelector(".portfolioPhoto");
 
           if (portfolio.length > 0 && portfolio[0] != null) {
+            let notEnoughPhoto = false;
             for (let i = 0; i < 5; i++) {
               if (portfolio[i]) {
                 // console.log(photo);
                 let clonePortfolio = portfolioImage.cloneNode(true);
                 portfolioDiv.appendChild(clonePortfolio);
                 clonePortfolio.src = `/uploads/${portfolio[i]}`;
+              } else {
+                notEnoughPhoto = true;
               }
             }
-            let moreDiv = document.createElement("div");
-            let more = document.createElement("div");
-            moreDiv.classList.add("moreDiv");
-            more.textContent = "查看更多...";
-            moreDiv.appendChild(more);
-            portfolioDiv.appendChild(moreDiv);
+            if (notEnoughPhoto == false) {
+              let moreDiv = document.createElement("div");
+              let more = document.createElement("div");
+              moreDiv.classList.add("moreDiv");
+              more.textContent = "查看更多...";
+              moreDiv.appendChild(more);
+              portfolioDiv.appendChild(moreDiv);
+            }
           } else {
             // portfolioImage.src = `/uploads/default_profile_pic.jpg`;
             portfolioImage.hidden = true;
