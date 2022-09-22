@@ -19,6 +19,7 @@ body {
   font-size: 16px;
   background: var(--light-color);
   margin: 20px;
+  background-color: black;
 }
 
 ul {
@@ -56,6 +57,9 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background-color: #f12574;
+  border-bottom: #fff;
+  box-shadow: inset 0px 0px 15px 5px #ffffff;
 }
 
 .chat-main {
@@ -69,6 +73,8 @@ a {
   padding: 20px 20px 60px;
   overflow-y: scroll;
   height: 70vh;
+  background-color: #f12574;
+  border-bottom: #fff;
 }
 
 .chat-sidebar h2 {
@@ -118,7 +124,8 @@ a {
 
 .chat-form-container {
   padding: 20px 30px;
-  background-color: var(--dark-color-a);
+  background-color: #f12574;
+  border-bottom: #fff;
 }
 
 .chat-form-container form {
