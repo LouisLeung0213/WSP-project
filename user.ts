@@ -92,10 +92,11 @@ type User = {
 userRoutes.post("/login", async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
-  // console.log(username, password);
+  console.log(username, password);
   const users = await client.query(`select * from users where username= $1`, [
     username,
   ]);
+
   const userBanned = await client.query(
     `select * from  ban where muas_username = $1`,
     [username]
@@ -142,9 +143,10 @@ userRoutes.post("/logout", (req, res) => {
     if (err) {
       res.status(500);
       res.end("Failed to logout");
+      return;
     }
+    res.json({});
   });
-  res.json({});
 });
 
 //redirect to sign up page from login page
@@ -215,5 +217,3 @@ userRoutes.post("/signUp", (req, res) => {
     res.json({});
   });
 });
-
-

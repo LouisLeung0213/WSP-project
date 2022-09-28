@@ -29,7 +29,7 @@ adminRoutes.get("/bannedUser", async (req, res) => {
 });
 
 adminRoutes.get("/adminProfile", async (req, res) => {
-  let usersId = req.query.id;
+  let usersId = +req.query.id!;
   let result = await client.query(
     `
 select 
@@ -61,10 +61,11 @@ export async function checkIsAdmin(
   next: NextFunction
 ) {
   let checking = await client.query(
-    `select id, isAdmin from users where users.id =${req.session.user?.id}`
+    `select id, isAdmin from users where users.id =$1`,
+    [req.session.user?.id]
   );
-  let isAdmin = checking.rows[0];
-  if (isAdmin.isadmin == true) {
+  let user = checking.rows[0];
+  if (user?.isadmin) {
     next();
   } else {
     res.json("你的帳號沒有權限進入");
@@ -77,7 +78,8 @@ export async function checkIsBanned(
   next: NextFunction
 ) {
   let checking = await client.query(
-    `select muas_id from ban where muas_id = ${req.session.user?.id}`
+    `select muas_id, ban_time from ban where muas_id = $1`,
+    [req.session.user?.id]
   );
   let isBanned = checking.rows;
   if (isBanned.length > 0) {

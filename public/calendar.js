@@ -52,7 +52,8 @@ const renderCalendar = () => {
   document.querySelector(".date h1").textContent =
     date.getFullYear() + " 年" + " " + months[date.getMonth()];
 
-  document.querySelector(".date p").innerHTML = "今天: " + new Date().toDateString();
+  document.querySelector(".date p").innerHTML =
+    "今天: " + new Date().toDateString();
 
   let days = "";
 
@@ -170,4 +171,3 @@ function selectDate() {
 }
 
 selectDate();
-

@@ -75,21 +75,21 @@ profileRoutes.post("/addWork", (req, res) => {
 profileRoutes.delete("/deletePortfolio", async (req, res) => {
   let mua_portfolio = req.body.insideImage;
   console.log(mua_portfolio);
-  await client.query(
-    `delete from portfolio where mua_portfolio = '${mua_portfolio}'`
-  );
+  await client.query(`delete from portfolio where mua_portfolio = $1`, [
+    mua_portfolio,
+  ]);
   res.json({});
 });
 
 profileRoutes.get("/checkLike", async (req, res) => {
-  let id = req.query.id;
+  let user_id = +req.session?.user?.id! || 0;
   let target_id = req.query.target_id;
   let score = 0;
-  console.log({ id, target_id });
+  console.log({ id: user_id, target_id });
 
   let relationships = await client.query(
     "select * from ratings where users_id = $1",
-    [id]
+    [user_id]
   );
   for (let relationship of relationships.rows) {
     console.log("relationship", relationship);
@@ -102,7 +102,7 @@ profileRoutes.get("/checkLike", async (req, res) => {
 });
 
 profileRoutes.get("/profile", async (req, res) => {
-  let muas_id = req.query.id;
+  let muas_id = +req.query.id!;
   console.log(muas_id);
   let result = await client.query(
     `
@@ -136,11 +136,11 @@ profileRoutes.patch("/editDescription", async (req, res) => {
   //console.log("here?");
 
   console.log(req.body);
-  // console.log(req.query.id);
+  // console.log(+req.query.id!);
   let newContent = req.body.content;
   let muas_image = req.body.image.split("/").slice("4");
   console.log(muas_image);
-  // let muas_id = req.query.id;
+  // let muas_id = +req.query.id!;
   let result = await client.query(
     `update portfolio set mua_description = '${newContent}' where mua_portfolio = '${muas_image}'`
   );
@@ -150,7 +150,7 @@ profileRoutes.patch("/editDescription", async (req, res) => {
 
 //for update profile information
 profileRoutes.post("/profileUpdate", async (req, res) => {
-  let currentId = req.query.id;
+  let currentId = +req.query.id!;
   console.log("currentID" + currentId);
   form.parse(req, async (err, fields, files) => {
     let hashedPassword;
@@ -265,7 +265,7 @@ profileRoutes.post("/reportPortfolio", async (req, res) => {
 // Rating System -- show comment qty
 
 profileRoutes.get("/score", async (req, res) => {
-  let pageId = req.query.id;
+  let pageId = +req.query.id!;
 
   // See what is the total score and average score of the mua
 

@@ -1,18 +1,21 @@
 import { client } from "./database";
 import { Router, RequestHandler, Request, Response } from "express";
-import { markAsUntransferable } from "worker_threads";
 import { muaRoutes } from "./Muas";
+import { object, id } from "cast.ts";
 
 export const filterRoutes = Router();
 
 filterRoutes.get("/filter", async (req, res) => {
-  let resultAllCats = await client.query("SELECT * from categories");
-  let muaId = req.query.id;
+  let resultAllCats = await client.query(
+    "SELECT id, categories_name, parent_id from categories"
+  );
+  let muaId = +req.query.id!;
   let resultMuaCats;
   let muaCats = [];
   if (muaId) {
     resultMuaCats = await client.query(
-      `SELECT categories_id from offers where muas_id = ${muaId}`
+      `SELECT categories_id from offers where muas_id = $1`,
+      [muaId]
     );
     for (let resultMuaCat of resultMuaCats.rows) {
       muaCats.push(resultMuaCat.categories_id);
@@ -29,6 +32,7 @@ filterRoutes.get("/filter", async (req, res) => {
 
 filterRoutes.post("/showMua", async (req, res) => {
   let currentPage = req.body.currentPage;
+  console.log(req.body);
   let showMuaQty = 3;
   // console.log("countPage: ", currentPage);
 
@@ -207,7 +211,7 @@ filterRoutes.post("/saveCat", async (req, res) => {
 });
 
 filterRoutes.get("/selectedDatesMua", async (req, res) => {
-  let pageId = req.query.id;
+  let pageId = +req.query.id!;
 
   let sql = `SELECT to_char(unavailable_date, 'yyyy/mm/dd') as date from date_matches where muas_id = $1`;
   let result = await client.query(sql, [pageId]);
@@ -218,8 +222,9 @@ filterRoutes.get("/selectedDatesMua", async (req, res) => {
 filterRoutes.get("/checkIsAdmin", async (req, res) => {
   let adminID = await client.query(
     `
-select id, isAdmin from users where users.id = ${req.session.user?.id}   
-    `
+select id, isAdmin from users where users.id = $1   
+    `,
+    [req.session.user?.id]
   );
   let isAdmin = adminID.rows[0];
   res.json({ isAdmin });

@@ -7,6 +7,26 @@ import "./session";
 export function getChatroomRoutes(io: Server) {
   let chatroomRoutes = Router();
 
+  io.on("connection", async (socket) => {
+    let req = socket.request as Request;
+    let user_id = req.session?.user?.id;
+
+    let result = await client.query("select isadmin from users where id = $1", [
+      user_id,
+    ]);
+    let user = result.rows[0];
+    let is_admin = user?.isadmin;
+
+    socket.on("join_room", (room_user_id) => {
+      if (room_user_id == user_id || is_admin) {
+        socket.join("room:" + room_user_id);
+      }
+    });
+    socket.on("quit_room", (room_user_id) => {
+      socket.leave("room:" + room_user_id);
+    });
+  });
+
   console.log("New WS Connection.....");
   chatroomRoutes.post(
     "/chatroomMessage",
@@ -36,13 +56,18 @@ export function getChatroomRoutes(io: Server) {
         `insert into chatroom (user_id, content, toadmin) values ($1,$2,$3)`,
         [room_user_id, content, !isadmin]
       );
-      io.emit("message", { content, isadmin, room_user_id });
+      // io.emit("message", { content, isadmin, room_user_id });
+      io.to("room:" + room_user_id).emit("message", {
+        content,
+        isadmin,
+        room_user_id,
+      });
     }
   );
 
   chatroomRoutes.get("/chatroomMessage", async (req, res) => {
-    let userID = req.session.user?.id;
-    let room_user_id = req.query.id;
+    let userID = +req.session.user?.id!;
+    let room_user_id = +req.query.id!;
     console.log(req.query);
     let result = await client.query(`select isadmin from users where id=$1`, [
       userID,
@@ -67,6 +92,8 @@ export function getChatroomRoutes(io: Server) {
 
   io.on("connection", (socket) => {
     const botName = "MUA Bot";
+    let req = socket.request as Request;
+    let user_id = req.session?.user?.id;
 
     io.on("joinRoom", ({ username, room }: any) => {
       // welcome current user
@@ -75,7 +102,7 @@ export function getChatroomRoutes(io: Server) {
   });
   //   chatroomRoutes.get("/checkThirdParty", async (req, res) => {
   //     let current_visitor = req.session.user?.id;
-  //     let room_host = req.query.id;
+  //     let room_host = +req.query.id!;
 
   //     if (current_visitor === room_host) {
   //       res.json({ check: true });

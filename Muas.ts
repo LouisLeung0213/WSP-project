@@ -36,13 +36,13 @@ muaRoutes.get("/isMua", async (req, res) => {
   try {
     let result = await client.query(
       `select * from users join muas on muas_id = users.id where users.id = $1`,
-      [req.session.user!.id]
+      [req.session.user?.id]
     );
     // console.log(result.rows[0]);
 
     if (result.rows.length > 0) {
       res.status(200);
-      res.json({ id: req.session.user!.id, pic: result.rows[0].profilepic });
+      res.json({ id: req.session.user?.id, pic: result.rows[0].profilepic });
       return;
     }
   } catch (error) {
