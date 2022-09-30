@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MUA個人資料</title>
+    <link rel="stylesheet" href="profile.css" />
+    <link rel="stylesheet" href="../calendar.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"
+      integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js"
+      integrity="sha384-ODmDIVzN+pFdexxHEHFBQH3/9/vQ9uori45z4JjnFsRydbmQbmL5t1tQ0culUzyK"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://kit.fontawesome.com/4f57507a93.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div class="navBar">
+      <a href="/lobby/lobby.html" class="homepageBtn"> 絕命化妝師 </a>
+    </div>
+    <div class="container">
+      <div class="about">
+        <div class="introAndRating">
+          <div class="introContainer">
+            <div>
+              <img src="" alt="icon" id="profileIcon" class="personalIcon" />
+            </div>
+            <div class="profileShowDiv"></div>
+            <div class="username">Pikachu</div>
+          </div>
+          <div class="ratingContainer">
+            <div class="score"></div>
+            <div class="commentQty"></div>
+            <i class="fa-regular fa-thumbs-up fa-2x likeBtn"></i>
+            <i class="fa-regular fa-thumbs-down fa-2x dislikeBtn"></i>
+            <div class="chat"><button onclick="openChat()">Chat</button></div>
+          </div>
+        </div>
+        <div class="detailContainer">
+          <p class="detail" id="edit">
+            <!-- Pikachu is a fictional species in the Pokémon media franchise.
+            Designed by Atsuko Nishida and Ken Sugimori, Pikachu first appeared
+            in the 1996 Japanese video games Pokémon Red and Green created by
+            Game Freak and Nintendo, which were released outside of Japan in
+            1998 as Pokémon Red and Blue. Pikachu is a yellow, mouse-like
+            creature with electrical abilities. It is a major character in the
+            Pokémon franchise, serving as its mascot and as a major mascot for
+            Nintendo. -->
+          </p>
+        </div>
+        <button type="submit" id="edit-button">編輯</button>
+      </div>
+
+      <dialog id="editDialog">
+        <div class="diaDiv">
+          <label>更改個人資料: </label>
+          <br />
+          <form
+            action="/profileUpdate"
+            method="post"
+            enctype="multipart/form-data"
+            id="updateProfile"
+          >
+            <label>用戶名稱: </label>
+            <input
+              type="text"
+              name="updateNickname"
+              id="updateNickame"
+              placeholder="請輸入新用戶名稱"
+            />
+            <br />
+            <label>更改密碼: </label>
+            <input
+              type="password"
+              name="updatePassword"
+              id="updatePassword"
+              placeholder="輸入新密碼"
+            />
+            <br />
+            <label>請重新輸入密碼: </label>
+            <input
+              type="password"
+              name="updateRePassword"
+              id="updateRePassword"
+              placeholder="請重新輸入密碼"
+            />
+            <br />
+            <label>上傳新頭像</label>
+            <input type="file" name="updateIcon" id="updateIcon" />
+            <br />
+            <div class="introLabel"><label>更改你的個人簡介:</label></div>
+
+            <textarea
+              class="detail"
+              id="edit333"
+              name="dialogDetail"
+            ></textarea>
+            <br />
+            <input type="submit" value="確定" id="diaSubmitBtn" />
+          </form>
+
+          <button id="diaCancelBtn" value="cancel">取消</button>
+        </div>
+      </dialog>
+
+      <div class="section">~~~~~ 我的偏好 ~~~~~</div>
+      <div class="approach">
+        <div class="calendar">
+          <div class="month">
+            <i class="fas fa-angle-left prev"></i>
+            <div class="date">
+              <h1></h1>
+              <p></p>
+            </div>
+            <i class="fas fa-angle-right next"></i>
+          </div>
+          <div class="weekdays">
+            <div>日</div>
+            <div>一</div>
+            <div>二</div>
+            <div>三</div>
+            <div>四</div>
+            <div>五</div>
+            <div>六</div>
+          </div>
+          <div class="days"></div>
+        </div>
+        <div class="tags">
+          <div class="tag gender">
+            <form id="saveCat" method="get" action="/searchFilter">
+              <input id="saveCatSubmit" type="submit" value="儲存" />
+              <div class="cat-list">
+                <div class="cat">
+                  <input class="filterCheckbox" type="checkbox" name="cat_id" />
+                  <span class="cat-name">{cat}</span>
+                  <div class="cat-list"></div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="section">~~~~~ 我的作品 ~~~~~</div>
+      <!-- <div class="photo"> -->
+      <form
+        action="/addWork"
+        method="POST"
+        id="contact-form"
+        enctype="multipart/form-data"
+      >
+        <label class="submitContainer">
+          提交作品
+          <input type="file" name="mua_portfolio" id="choosePhoto" />
+          <textarea
+            class="workText"
+            placeholder="輸入作品簡介"
+            name="description"
+          ></textarea>
+          <input type="submit" value="Submit" id="submitBtn" />
+        </label>
+      </form>
+      <div class="btnContainer">
+        <button
+          type="button"
+          class="btn btn-primary imageBtn"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+        >
+          <image class="portfolio" src="./image/pikachu.png" alt=""></image>
+          <textarea class="outsideDescription"></textarea>
+          <textarea class="outsideMua_id"></textarea>
+        </button>
+      </div>
+
+      <!-- Modal -->
+      <div
+        class="modal fade modalContainer"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div
+          class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal1"
+        >
+          <div class="modal-content theBox">
+            <!-- <div class="modal-header">
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div> -->
+            <!-- <div class="insidePorfolio"> -->
+            <div class="insideContainer">
+              <div class="modal-body portfolioContainer">
+                <image class="portfolio1" src="1" alt=""
+                  ><div id="popup">
+                    <span id="popupMessage"><b>你確定要刪除此作品嗎？</b></span
+                    ><br />
+                    <button id="confirm" class="deleteBtn">確認</button>
+                    <button id="cancel" onclick="hide()">取消</button>
+                  </div>
+                  <div id="reportPopup">
+                    <span id="popupMessage"
+                      ><b>請說明檢舉原因，如沒有原因很大機會檢舉失敗</b></span
+                    >
+                    <textarea class="reportMessage"></textarea><br />
+                    <button id="confirm" class="reportBtn">確認檢舉</button>
+                    <button id="cancel" onclick="hideReport()">取消</button>
+                  </div></image
+                >
+              </div>
+              <div class="insideDescriptionDiv">
+                <p class="insideMuaID"></p>
+                <p class="insideDescription"></p>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                關閉
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary fakeReportBtn"
+                onclick="showReport()"
+              >
+                檢舉
+              </button>
+              <button type="button" class="btn btn-primary descriptionBtn">
+                編輯簡介</button
+              ><button type="button" class="btn btn-primary doneBtn">
+                編輯完成
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary fakeDeleteBtn"
+                onclick="show()"
+              >
+                刪除
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../calendar.js"></script>
+    <script src="./profile.js"></script>
+  </body>
+</html>
