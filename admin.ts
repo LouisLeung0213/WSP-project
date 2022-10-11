@@ -78,7 +78,7 @@ export async function checkIsBanned(
   next: NextFunction
 ) {
   let checking = await client.query(
-    `select muas_id, ban_time from ban where muas_id = $1`,
+    `select muas_id from ban where muas_id = $1`,
     [req.session.user?.id]
   );
   let isBanned = checking.rows;
