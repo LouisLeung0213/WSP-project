@@ -10,6 +10,7 @@ create table users (
     , nickname varchar(255)
     , password_hash varchar(255) not null
     , isAdmin boolean default false
+    , date_of_birth date
 );
 
 create table muas (
