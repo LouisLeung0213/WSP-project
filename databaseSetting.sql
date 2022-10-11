@@ -139,26 +139,26 @@ create table portfolio(
     ,mua_description varchar(255)
 )
 
-insert into users (username, email, password_hash) values ('Peter', '111', '111'), ('John', '222', '222');
-insert into muas (muas_id) values (2), (3);
+-- insert into users (username, email, password_hash) values ('Peter', '111', '111'), ('John', '222', '222');
+-- insert into muas (muas_id) values (2), (3);
 
 
-insert into offers (categories_id, muas_id) values (3, 2),(5, 3);
+-- insert into offers (categories_id, muas_id) values (3, 2),(5, 3);
 
-SELECT username, users.id, users.nickname, muas.icon, muas.avg_score, json_agg(mua_portfolio) as mua_portfolio
-  from muas join users on muas_id = users.id 
-    left join portfolio on portfolio.muas_id= users.id group by users.id, muas.icon, muas.avg_score;
+-- SELECT username, users.id, users.nickname, muas.icon, muas.avg_score, json_agg(mua_portfolio) as mua_portfolio
+--   from muas join users on muas_id = users.id 
+--     left join portfolio on portfolio.muas_id= users.id group by users.id, muas.icon, muas.avg_score;
 
     
 -- SELECT username, users.id from muas join users on muas.muas_id = users.id join offers on muas.muas_id = offers.muas_id;
 --------
 alter table portfolio add column mua_description varchar(255);
 
-DELETE FROM offers WHERE muas_id = ${sessionId};
-DELETE FROM date_matches WHERE muas_id = ${sessionId};
+-- DELETE FROM offers WHERE muas_id = ${sessionId};
+-- DELETE FROM date_matches WHERE muas_id = ${sessionId};
 
 
-DELETE FROM offers WHERE muas_id = ${sessionId} and categories_id != any(array${tags.cats}::integer[]);
+-- DELETE FROM offers WHERE muas_id = ${sessionId} and categories_id != any(array${tags.cats}::integer[]);
 
 
 ----------------set profilepic to unique for muas_icon to fk it-----------------
@@ -170,103 +170,103 @@ DELETE FROM offers WHERE muas_id = ${sessionId} and categories_id != any(array${
 alter table muas drop column icon;
 
 
-select  username, users.id, users.nickname, users.profilepic, muas.avg_score, json_agg(mua_portfolio) as mua_portfolio 
-from offers
-  left join portfolio on portfolio.muas_id =  offers.muas_id
-  left join muas on offers.muas_id = muas.muas_id
-  left join users on muas.muas_id = users.id  
-  left join date_matches on date_matches.muas_id = users.id
-  where (categories_id = 2
-   ) group by username, users.id, users.nickname, users.profilepic, muas.avg_score
-  order by users.id ;
+-- select  username, users.id, users.nickname, users.profilepic, muas.avg_score, json_agg(mua_portfolio) as mua_portfolio 
+-- from offers
+--   left join portfolio on portfolio.muas_id =  offers.muas_id
+--   left join muas on offers.muas_id = muas.muas_id
+--   left join users on muas.muas_id = users.id  
+--   left join date_matches on date_matches.muas_id = users.id
+--   where (categories_id = 2
+--    ) group by username, users.id, users.nickname, users.profilepic, muas.avg_score
+--   order by users.id ;
 
 alter table muas add column total_score integer;
 alter table muas add column join_date date;
 alter table muas add column is_new boolean;
 alter table muas add column comment_qty integer;
 
-update muas set is_new = true where muas_id = 6;
+-- update muas set is_new = true where muas_id = 6;
 -----------------------------------------------------------------------------beeno version
-  with
-  blacklist as (
-  select
-    distinct date_matches.muas_id
-  from date_matches
-  where date_matches.unavailable_date = any(:dates)
-)
-, whitelist as (
-  select
-    distinct offers.muas_id
-  from offers
-  where offers.categories_id = all(:cat_ids)
-)
+--   with
+--   blacklist as (
+--   select
+--     distinct date_matches.muas_id
+--   from date_matches
+--   where date_matches.unavailable_date = any(:dates)
+-- )
+-- , whitelist as (
+--   select
+--     distinct offers.muas_id
+--   from offers
+--   where offers.categories_id = all(:cat_ids)
+-- )
 
-select
-  muas.id as mua_id
-, muas.avg_score
-, users.profilepic
-, users.nickname
-, array_agg(portfolio.mua_portfolio)
-from muas
-inner join users on users.id = muas.users_id
-inner join portfolio on portfolio.id = muas.portfolio_id
-where muas.muas_id in (select muas_id from whitelist)
-  and muas.muas_id not in (select muas_id from blacklist)
-
-
+-- select
+--   muas.id as mua_id
+-- , muas.avg_score
+-- , users.profilepic
+-- , users.nickname
+-- , array_agg(portfolio.mua_portfolio)
+-- from muas
+-- inner join users on users.id = muas.users_id
+-- inner join portfolio on portfolio.id = muas.portfolio_id
+-- where muas.muas_id in (select muas_id from whitelist)
+--   and muas.muas_id not in (select muas_id from blacklist)
 
 
-   select
-    distinct offers.muas_id
-  from offers
-  where offers.categories_id = 2
-
-  select
-    distinct date_matches.muas_id
-  from date_matches
-  where date_matches.unavailable_date = '2022/09/04'
-
-  select
-  muas.muas_id as mua_id
-, muas.avg_score
-, users.profilepic
-, users.nickname
-
-from muas
-inner join users on users.id = muas.muas_id
 
 
-group by muas.muas_id, users.id
-, array_agg(portfolio.mua_portfolio)
-inner join portfolio on portfolio.id = muas.muas_id
+--    select
+--     distinct offers.muas_id
+--   from offers
+--   where offers.categories_id = 2
+
+--   select
+--     distinct date_matches.muas_id
+--   from date_matches
+--   where date_matches.unavailable_date = '2022/09/04'
+
+--   select
+--   muas.muas_id as mua_id
+-- , muas.avg_score
+-- , users.profilepic
+-- , users.nickname
+
+-- from muas
+-- inner join users on users.id = muas.muas_id
 
 
- with
-  blacklist as (
-  select
-    distinct date_matches.muas_id
-  from date_matches
-  where date_matches.unavailable_date ='2022/09/02'
-)
-, whitelist as (
-  select
-    distinct offers.muas_id
-  from offers
-  where offers.categories_id =  34
-)
+-- group by muas.muas_id, users.id
+-- , array_agg(portfolio.mua_portfolio)
+-- inner join portfolio on portfolio.id = muas.muas_id
 
-select
-  muas.muas_id as mua_id
-, muas.avg_score
-, users.profilepic
-, users.nickname
-, array_agg(portfolio.mua_portfolio) as mua_portfolio
-from muas
-inner join users on users.id = muas.muas_id
-left join portfolio on portfolio.muas_id = muas.muas_id
-where muas.muas_id in (select muas_id from whitelist)
-  and muas.muas_id not in (select muas_id from blacklist) 
-group by muas.muas_id, users.id;
+
+--  with
+--   blacklist as (
+--   select
+--     distinct date_matches.muas_id
+--   from date_matches
+--   where date_matches.unavailable_date ='2022/09/02'
+-- )
+-- , whitelist as (
+--   select
+--     distinct offers.muas_id
+--   from offers
+--   where offers.categories_id =  34
+-- )
+
+-- select
+--   muas.muas_id as mua_id
+-- , muas.avg_score
+-- , users.profilepic
+-- , users.nickname
+-- , array_agg(portfolio.mua_portfolio) as mua_portfolio
+-- from muas
+-- inner join users on users.id = muas.muas_id
+-- left join portfolio on portfolio.muas_id = muas.muas_id
+-- where muas.muas_id in (select muas_id from whitelist)
+--   and muas.muas_id not in (select muas_id from blacklist) 
+-- group by muas.muas_id, users.id;
 
 
 alter table muas add column comment_qty integer;
@@ -275,32 +275,32 @@ alter table users add column isAdmin boolean default false;
 alter table reported add column users_id integer not null;
 alter table reported add column reason text;
 
-    with
-  blacklist as (
-  select
-    distinct date_matches.muas_id
-  from date_matches
-  where date_matches.unavailable_date = '2022/09/02'
-)
-, whitelist as (
-  select
-    distinct offers.muas_id
-  from offers
-  where offers.categories_id = 2
-)
+--     with
+--   blacklist as (
+--   select
+--     distinct date_matches.muas_id
+--   from date_matches
+--   where date_matches.unavailable_date = '2022/09/02'
+-- )
+-- , whitelist as (
+--   select
+--     distinct offers.muas_id
+--   from offers
+--   where offers.categories_id = 2
+-- )
 
-select
-  muas.muas_id as mua_id
-, muas.avg_score
-, users.profilepic
-, users.nickname
-, array_agg(portfolio.mua_portfolio) as mua_portfolio
-, muas.is_new
-, muas.comment_qty_enough
-from muas
-inner join users on users.id = muas.muas_id
-left join portfolio on portfolio.muas_id = muas.muas_id
-where muas.muas_id in (select muas_id from whitelist)
-  and muas.muas_id not in (select muas_id from blacklist) 
-group by muas.muas_id, users.id
-order by muas.is_new, muas.comment_qty_enough, avg_score desc;
+-- select
+--   muas.muas_id as mua_id
+-- , muas.avg_score
+-- , users.profilepic
+-- , users.nickname
+-- , array_agg(portfolio.mua_portfolio) as mua_portfolio
+-- , muas.is_new
+-- , muas.comment_qty_enough
+-- from muas
+-- inner join users on users.id = muas.muas_id
+-- left join portfolio on portfolio.muas_id = muas.muas_id
+-- where muas.muas_id in (select muas_id from whitelist)
+--   and muas.muas_id not in (select muas_id from blacklist) 
+-- group by muas.muas_id, users.id
+-- order by muas.is_new, muas.comment_qty_enough, avg_score desc;
