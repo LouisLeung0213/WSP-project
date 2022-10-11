@@ -14,7 +14,7 @@ create table users (
 );
 
 create table muas (
-    muas_id integer unique
+    muas_id integer unique primary key
     , foreign key(muas_id) references users(id)
     , total_score integer
     , avg_score integer
