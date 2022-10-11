@@ -130,7 +130,7 @@ insert into categories (categories_name,parent_id) values ('九龍','33');
 insert into categories (categories_name,parent_id) values ('新界','33');
 
 
-``````````````````````````````````````````````````````````````````````````````````````````````````
+
 create table portfolio(
     id serial primary key
     ,muas_id integer not null
@@ -139,7 +139,6 @@ create table portfolio(
     ,mua_description varchar(255)
 )
 
-``````````````````````````````````````````````````````````````````````````````````````````````````
 insert into users (username, email, password_hash) values ('Peter', '111', '111'), ('John', '222', '222');
 insert into muas (muas_id) values (2), (3);
 
