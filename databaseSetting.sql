@@ -1,6 +1,6 @@
-create database "mua";
-create role "mua" with password 'mua' superuser;
-alter role "mua" with login;
+-- create database "mua";
+-- create role "mua" with password 'mua' superuser;
+-- alter role "mua" with login;
 
 create table users (
     id serial primary key
@@ -152,7 +152,7 @@ create table portfolio(
     
 -- SELECT username, users.id from muas join users on muas.muas_id = users.id join offers on muas.muas_id = offers.muas_id;
 --------
-alter table portfolio add column mua_description varchar(255);
+-- alter table portfolio add column mua_description varchar(255);
 
 -- DELETE FROM offers WHERE muas_id = ${sessionId};
 -- DELETE FROM date_matches WHERE muas_id = ${sessionId};
@@ -167,7 +167,7 @@ alter table portfolio add column mua_description varchar(255);
 -- alter table muas add foreign key(icon) references users(profilepic);
 
 ----drop muas icon----
-alter table muas drop column icon;
+-- alter table muas drop column icon;
 
 
 -- select  username, users.id, users.nickname, users.profilepic, muas.avg_score, json_agg(mua_portfolio) as mua_portfolio 
@@ -180,10 +180,10 @@ alter table muas drop column icon;
 --    ) group by username, users.id, users.nickname, users.profilepic, muas.avg_score
 --   order by users.id ;
 
-alter table muas add column total_score integer;
-alter table muas add column join_date date;
-alter table muas add column is_new boolean;
-alter table muas add column comment_qty integer;
+-- alter table muas add column total_score integer;
+-- alter table muas add column join_date date;
+-- alter table muas add column is_new boolean;
+-- alter table muas add column comment_qty integer;
 
 -- update muas set is_new = true where muas_id = 6;
 -----------------------------------------------------------------------------beeno version
@@ -269,11 +269,11 @@ alter table muas add column comment_qty integer;
 -- group by muas.muas_id, users.id;
 
 
-alter table muas add column comment_qty integer;
-alter table muas add column comment_qty_enough boolean;
-alter table users add column isAdmin boolean default false;
-alter table reported add column users_id integer not null;
-alter table reported add column reason text;
+-- alter table muas add column comment_qty integer;
+-- alter table muas add column comment_qty_enough boolean;
+-- alter table users add column isAdmin boolean default false;
+-- alter table reported add column users_id integer not null;
+-- alter table reported add column reason text;
 
 --     with
 --   blacklist as (
