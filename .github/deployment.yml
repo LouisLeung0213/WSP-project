@@ -5,12 +5,6 @@ on:
       - "*"
   workflow_dispatch:
 
-env:
-  POSTGRES_DB: mua-test
-  POSTGRES_USER:
-  POSTGRES_PASSWORD:
-  POSTGRES_HOST:
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
