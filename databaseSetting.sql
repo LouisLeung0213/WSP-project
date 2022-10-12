@@ -21,6 +21,8 @@ create table muas (
     , introduction text
     , join_date date
     , is_new boolean
+    , comment_qty integer
+    , comment_qty_enough boolean
 );
 
 create table categories (
