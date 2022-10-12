@@ -1,0 +1,29 @@
+name: deployment
+on:
+  push:
+    branches:
+      - "*"
+  workflow_dispatch:
+
+env:
+  POSTGRES_DB: mua-test
+  POSTGRES_USER:
+  POSTGRES_PASSWORD:
+  POSTGRES_HOST:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ssh to pull latest version
+        uses: fifsky/ssh-action@master
+        with:
+          command: |
+            cd mua_project
+            cd WSP-project
+            git pull
+            npm install
+            forever restart 0
+          host: louis21.me
+          user: ubuntu
+          key: ${{secrets.SSH_PRIVATE_KEY}}
